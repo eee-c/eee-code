@@ -1,0 +1,5 @@
+= EEE Code
+
+This is the source code for the yet to be released CouchDB based version of http://eeecooks.com - a personal recipe and blogging site.
+
+More info on this project can be found at: http://japhr.blogspot.com/2009/03/my-chain.html
