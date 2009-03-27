@@ -1,14 +1,4 @@
-ENV['RACK_ENV'] = 'test'
-
-require 'eee'
-require 'spec'
-require 'spec/interop/test'
-require 'sinatra/test'
-
-require 'webrat'
-Spec::Runner.configure do |config|
-  config.include Webrat::Matchers, :type => :views
-end
+require File.expand_path(File.dirname(__FILE__) + '/spec_helper' )
 
 describe 'GET /recipes/permalink' do
   include Sinatra::Test
