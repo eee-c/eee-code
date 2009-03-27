@@ -13,7 +13,7 @@ end
 
 get '/recipes/:permalink' do
   data = RestClient.get "#{@@db}/#{params[:permalink]}"
-  result = JSON.parse(data)
+  @recipe = JSON.parse(data)
 
-  "<h1>#{result['title']}</h1>"
+  haml :recipe
 end
