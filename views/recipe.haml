@@ -1,2 +1,8 @@
 %h1
   = @recipe['title']
+
+.preparations
+  - @recipe['preparations'].each do |preparation|
+    .ingredient
+      %span.name
+        = preparation['ingredient']['name']
