@@ -14,8 +14,8 @@ end
 
 # Renders the supplied template with Haml::Engine and assigns the
 # @response instance variable
-def render(template)
-  template = File.read(".#{template}")
+def render(template_path)
+  template = File.read("./#{template_path.sub(/^\//, '')}")
   engine = Haml::Engine.new(template)
   @response = engine.render(Object.new, assigns_for_template)
 end
