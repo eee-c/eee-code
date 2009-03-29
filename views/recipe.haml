@@ -13,5 +13,6 @@
           = preparation['ingredient']['kind']
         %span.name
           = preparation['ingredient']['name']
-        %span.brand
-          = preparation['brand']
+        - if preparation['brand']
+          %span.brand
+            = "(" + preparation['brand'] + ")"

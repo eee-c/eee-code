@@ -43,6 +43,10 @@ describe "recipe.haml" do
           should have_selector(".ingredient > .quantity", :content => '1')
       end
     end
+
+    it "should not render a brand" do
+      response.should_not have_selector(".ingredient > .brand")
+    end
   end
 
   context "a recipe with 1 cup of all-purpose, unbleached flour" do
@@ -105,6 +109,15 @@ describe "recipe.haml" do
           should have_selector(".ingredient > .brand",
                                :content => 'Nestle Tollhouse')
       end
+    end
+
+    it "should note the brand parenthetically after the name" do
+      response.should have_selector(".preparations") do |preparations|
+        preparations.
+          should have_selector(".ingredient > .name + .brand",
+                               :content => '(Nestle Tollhouse)')
+      end
+
     end
   end
 end
