@@ -5,5 +5,13 @@
   %ul.preparations
     - @recipe['preparations'].each do |preparation|
       %li.ingredient
+        %span.quantity
+          = preparation['quantity']
+        %span.unit
+          = preparation['unit']
         %span.name
           = preparation['ingredient']['name']
+        %span.kind
+          = preparation['ingredient']['kind']
+        %span.brand
+          = preparation['brand']

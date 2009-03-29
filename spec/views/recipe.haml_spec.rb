@@ -11,18 +11,6 @@ describe "recipe.haml" do
     response.should have_selector("h1", :content => @title)
   end
 
-  it "should render ingredient names" do
-    @recipe['preparations'] =
-      [  'quantity' => 1, 'ingredient' => { 'name' => 'egg' } ]
-
-    render("views/recipe.haml")
-
-    response.should have_selector(".preparations") do |preparations|
-      preparations.
-        should have_selector(".ingredient > .name", :content => 'egg')
-    end
-  end
-
   context "a recipe with no ingredient preparations" do
     before(:each) do
       @recipe[:preparations] = nil
@@ -31,6 +19,85 @@ describe "recipe.haml" do
     it "should not render an ingredient preparations" do
       render("views/recipe.haml")
       response.should_not have_selector(".preparations")
+    end
+  end
+
+  context "a recipe with 1 egg" do
+    before(:each) do
+      @recipe['preparations'] =
+        [ { 'quantity' => 1, 'ingredient' => { 'name' => 'egg' } } ]
+
+      render("views/recipe.haml")
+    end
+
+    it "should render ingredient names" do
+      response.should have_selector(".preparations") do |preparations|
+        preparations.
+          should have_selector(".ingredient > .name", :content => 'egg')
+      end
+    end
+
+    it "should render ingredient quantities" do
+      response.should have_selector(".preparations") do |preparations|
+        preparations.
+          should have_selector(".ingredient > .quantity", :content => '1')
+      end
+    end
+  end
+
+  context "a recipe with 1 cup of all-purpose, unbleached flour" do
+    before(:each) do
+      @recipe['preparations'] = []
+      @recipe['preparations'] << {
+        'quantity' => 1,
+        'unit'     => 'cup',
+        'ingredient' => {
+          'name' => 'flour',
+          'kind' => 'all-purpose, unbleached'
+        }
+      }
+
+      render("views/recipe.haml")
+    end
+
+    it "should include the measurement unit" do
+      response.should have_selector(".preparations") do |preparations|
+        preparations.
+          should have_selector(".ingredient > .unit", :content => 'cup')
+      end
+    end
+
+    it "should include the specific kind of ingredient" do
+      response.should have_selector(".preparations") do |preparations|
+        preparations.
+          should have_selector(".ingredient > .kind",
+                               :content => 'all-purpose, unbleached')
+      end
+    end
+
+  end
+
+  context "a recipe with 1 12 ounce bag of Nestle Tollhouse chocolate chips" do
+    before(:each) do
+      @recipe['preparations'] = []
+      @recipe['preparations'] << {
+        'quantity' => 1,
+        'unit'     => '12 ounce bag',
+        'brand'    => 'Nestle Tollhouse',
+        'ingredient' => {
+          'name' => 'chocolate chips'
+        }
+      }
+
+      render("views/recipe.haml")
+    end
+
+    it "should include the ingredient brand" do
+      response.should have_selector(".preparations") do |preparations|
+        preparations.
+          should have_selector(".ingredient > .brand",
+                               :content => 'Nestle Tollhouse')
+      end
     end
   end
 end
