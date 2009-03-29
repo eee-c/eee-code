@@ -8,7 +8,7 @@ Feature: Recipe Details
 
       Given a recipe for Buttermilk Chocolate Chip Pancakes
       When I view the recipe
-      Then I should see an ingredient of "1 cup of all-purpose, unbleached flour"
+      Then I should see an ingredient of "1 cup all-purpose, unbleached flour"
       And I should see an ingredient of "¼ teaspoons salt"
       And I should see an ingredient of "chocolate chips (Nestle Tollhouse)"
 

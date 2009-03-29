@@ -3,9 +3,35 @@ Given /^a recipe for Buttermilk Chocolate Chip Pancakes$/ do
   @title = "Buttermilk Chocolate Chip Pancakes"
   @permalink = @date.to_s + "-" + @title.downcase.gsub(/\W/, '-')
 
+  recipe = {
+    :title => @title,
+    :date  => @date,
+    :preparations => [
+      {
+        'quantity' => 1,
+        'unit'     => 'cup',
+        'ingredient' => {
+          'name' => 'flour',
+          'kind' => 'all-purpose, unbleached'
+        }
+      },
+      {
+        'quantity' => '¼',
+        'unit'     => 'teaspoons',
+        'ingredient' => { 'name' => 'salt'}
+      },
+      {
+        'brand' => 'Nestle Tollhouse',
+        'ingredient' => {
+          'name' => 'chocolate chips'
+        }
+      }
+    ]
+  }
+
+
   RestClient.put "#{@@db}/#{@permalink}",
-    { :title => @title,
-      :date  => @date }.to_json,
+    recipe.to_json,
     :content_type => 'application/json'
 end
 
@@ -14,5 +40,9 @@ When /^I view the recipe$/ do
 end
 
 Then /^I should see an ingredient of "(.+)"$/ do |ingredient|
-  response.should contain(ingredient)
+  matcher = ingredient.
+    gsub(/\s+/, "\\s+").
+    gsub(/\(/, "\\(").
+    gsub(/\)/, "\\)")
+  response.should contain(Regexp.new(matcher))
 end
