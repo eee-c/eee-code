@@ -75,6 +75,13 @@ describe "recipe.haml" do
       end
     end
 
+    it "should read conversationally, with the ingredient kind before the name" do
+      response.should have_selector(".preparations") do |preparations|
+        preparations.
+          should have_selector(".ingredient > .kind + .name",
+                               :content => 'flour')
+      end
+    end
   end
 
   context "a recipe with 1 12 ounce bag of Nestle Tollhouse chocolate chips" do
