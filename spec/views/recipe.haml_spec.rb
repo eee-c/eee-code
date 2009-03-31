@@ -120,4 +120,41 @@ describe "recipe.haml" do
 
     end
   end
+
+  context "a recipe with an active and inactive preparation time" do
+    before(:each) do
+      @recipe['inactive_time'] = 30
+      @recipe['prep_time']     = 45
+
+      render("views/recipe.haml")
+    end
+
+    it "should include preparation time" do
+      response.should contain(/Preparation Time: 45 minutes/)
+    end
+
+    it "should include inactive time" do
+      response.should contain(/Inactive Time: 30 minutes/)
+    end
+  end
+
+  context "a recipe with no inactive preparation time" do
+    before(:each) do
+      render("views/recipe.haml")
+    end
+
+    it "should not include inactive time" do
+      response.should_not contain(/Inactive Time:/)
+    end
+  end
+
+  context "a recipe with 300 minutes of inactive time" do
+    before(:each) do
+      @recipe['inactive_time'] = 300
+      render("views/recipe.haml")
+    end
+    it "should display 5 hours of Inactive Time" do
+      response.should contain(/Inactive Time: 5 hours/)
+    end
+  end
 end

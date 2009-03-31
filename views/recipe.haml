@@ -1,6 +1,12 @@
 %h1
   = @recipe['title']
 
+.eee-recipe-meta
+  %div= "Preparation Time: " + hours(@recipe['prep_time'])
+  - if @recipe['inactive_time']
+    %div= "Inactive Time: " + hours(@recipe['inactive_time'])
+
+
 - if @recipe['preparations']
   %ul.preparations
     - @recipe['preparations'].each do |preparation|
