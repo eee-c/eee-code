@@ -2,6 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require 'rest_client'
 require 'json'
+require 'helpers'
 
 configure :test do
   @@db = "http://localhost:5984/eee-test"
@@ -12,14 +13,8 @@ configure :development, :production do
 end
 
 helpers do
+  include Eee::Helpers
 end
-
-def hours(minutes)
-  h = minutes.to_i / 60
-  m = minutes.to_i % 60
-  h > 0 ? "#{h} hours" : "#{m} minutes"
-end
-
 
 get '/recipes/:permalink' do
   data = RestClient.get "#{@@db}/#{params[:permalink]}"

@@ -10,6 +10,7 @@ require 'haml'
 
 Spec::Runner.configure do |config|
   config.include Webrat::Matchers, :type => :views
+  config.include Eee::Helpers
 end
 
 # Renders the supplied template with Haml::Engine and assigns the
@@ -17,7 +18,7 @@ end
 def render(template_path)
   template = File.read("./#{template_path.sub(/^\//, '')}")
   engine = Haml::Engine.new(template)
-  @response = engine.render(Object.new, assigns_for_template)
+  @response = engine.render(self, assigns_for_template)
 end
 
 # Convenience method to access the @response instance variable set in
