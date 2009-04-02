@@ -6,6 +6,14 @@
   - if @recipe['inactive_time']
     %div= "Inactive Time: " + hours(@recipe['inactive_time'])
 
+- if @recipe['tools']
+  .eee-recipe-tools
+    %h2= "Tools and Appliances Used"
+    %ul
+      - @recipe['tools'].each do |tool|
+        %li
+          %a{:href => amazon_url(tool['asin'])}
+            = tool['title']
 
 - if @recipe['preparations']
   %ul.preparations

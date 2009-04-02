@@ -5,5 +5,9 @@ module Eee
       m = minutes.to_i % 60
       h > 0 ? "#{h} hours" : "#{m} minutes"
     end
+
+    def amazon_url(asin)
+      "http://www.amazon.com/exec/obidos/ASIN/#{asin}/eeecooks-20"
+    end
   end
 end

@@ -11,6 +11,17 @@ describe "recipe.haml" do
     response.should have_selector("h1", :content => @title)
   end
 
+  context "a recipe with no tools or appliances" do
+    before(:each) do
+      @recipe[:tools] = nil
+    end
+
+    it "should not render an ingredient preparations" do
+      render("views/recipe.haml")
+      response.should_not have_selector(".eee-recipe-tools")
+    end
+  end
+
   context "a recipe with no ingredient preparations" do
     before(:each) do
       @recipe[:preparations] = nil
@@ -155,6 +166,30 @@ describe "recipe.haml" do
     end
     it "should display 5 hours of Inactive Time" do
       response.should contain(/Inactive Time: 5 hours/)
+    end
+  end
+
+  context "a recipe requiring a colander and a pot" do
+    before(:each) do
+      colander = {
+        'title' => "Colander",
+        'asin'  => "ASIN-1234"
+      }
+      pot = {
+        'title' => "Pot",
+        'asin'  => "ASIN-5678"
+      }
+
+      @recipe['tools'] = [colander, pot]
+      render("views/recipe.haml")
+    end
+    it "should contain a link to the colander on Amazon" do
+      response.should have_selector("a", :content => "Colander",
+        :href => "http://www.amazon.com/exec/obidos/ASIN/ASIN-1234/eeecooks-20")
+    end
+    it "should contain a link to the pot on Amazon" do
+      response.should have_selector("a", :content => "Pot",
+        :href => "http://www.amazon.com/exec/obidos/ASIN/ASIN-5678/eeecooks-20")
     end
   end
 end
