@@ -52,6 +52,48 @@ Given /^a recipe for Crockpot Lentil Andouille Soup$/ do
     :content_type => 'application/json'
 end
 
+Given /^a recipe for Chicken Noodle Soup$/ do
+  @date = Date.new(2009, 4, 1)
+  @title = "Chicken Noodle Soup"
+  @permalink = @date.to_s + "-" + @title.downcase.gsub(/\W/, '-')
+
+  recipe = {
+    :title => @title,
+    :date  => @date,
+    :tools => [
+       {
+           "title"        => "Bowl",
+           "asin"         => nil,
+           "amazon_title" => nil
+       },
+       {
+           "title"        => "Colander",
+           "asin"         => nil,
+           "amazon_title" => nil
+       },
+       {
+           "title"        => "Cutting Board",
+           "asin"         => nil,
+           "amazon_title" => nil
+       },
+       {
+           "title"        => "Pot",
+           "asin"         => nil,
+           "amazon_title" => nil
+       },
+       {
+           "title"        => "Skimmer",
+           "asin"         => nil,
+           "amazon_title" => nil
+       },
+    ]
+  }
+
+  RestClient.put "#{@@db}/#{@permalink}",
+    recipe.to_json,
+    :content_type => 'application/json'
+end
+
 When /^I view the recipe$/ do
   visit("/recipes/#{@permalink}")
 end
