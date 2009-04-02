@@ -65,5 +65,10 @@ Then /^I should see an ingredient of "(.+)"$/ do |ingredient|
 end
 
 Then /^I should see 15 minutes of prep time$/ do
-  pending
+  response.should contain("Preparation Time: 15 minutes")
 end
+
+Then /^I should see that it requires 5 hours of non\-active cook time$/ do
+  response.should contain("Inactive Time: 5 hours")
+end
+
