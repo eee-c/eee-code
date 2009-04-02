@@ -23,7 +23,7 @@ Feature: Recipe Details
 
       Given a recipe for Chicken Noodle Soup
       When I view the recipe
-      Then I should see that it requires a bowl, a colander, a cutting board, a pot and a skimmer to prepare
+      Then I should see that it requires a Bowl, a Colander, a Cutting Board, a Pot and a Skimmer to prepare
 
     Scenario: Main site categories
 

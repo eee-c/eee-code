@@ -114,3 +114,11 @@ Then /^I should see that it requires 5 hours of non\-active cook time$/ do
   response.should contain("Inactive Time: 5 hours")
 end
 
+Then /^I should see that it requires (.+) to prepare$/ do |tool_list|
+  tools = tool_list.
+    split(/\s*(,|and)\s*/).
+    reject{|str| str == "," || str == "and"}
+  tools.each do |tool|
+    response.should contain(tool.sub(/an? /, ''))
+  end
+end
