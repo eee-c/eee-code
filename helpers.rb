@@ -9,5 +9,13 @@ module Eee
     def amazon_url(asin)
       "http://www.amazon.com/exec/obidos/ASIN/#{asin}/eeecooks-20"
     end
+
+    def recipe_category_link(recipe, category)
+      if recipe['tag_names'] && recipe['tag_names'].include?(category.downcase)
+        %Q|<a class="active">#{category}</a>|
+      else
+        %Q|<a>#{category}</a>|
+      end
+    end
   end
 end

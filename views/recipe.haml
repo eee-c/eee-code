@@ -1,3 +1,16 @@
+%ul#eee-categories
+  %li= recipe_category_link(@recipe, 'Italian')
+  %li= recipe_category_link(@recipe, 'Asian')
+  %li= recipe_category_link(@recipe, 'Latin')
+  %li= recipe_category_link(@recipe, 'Breakfast')
+  %li= recipe_category_link(@recipe, 'Chicken')
+  %li= recipe_category_link(@recipe, 'Fish')
+  %li= recipe_category_link(@recipe, 'Meat')
+  %li= recipe_category_link(@recipe, 'Salad')
+  %li= recipe_category_link(@recipe, 'Vegetarian')
+  %li
+    %a Recipes
+
 %h1
   = @recipe['title']
 

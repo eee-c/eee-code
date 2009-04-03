@@ -33,6 +33,17 @@ describe "recipe.haml" do
     end
   end
 
+  context "a recipe with no categories" do
+    before(:each) do
+      @recipe[:tag_names] = nil
+    end
+
+    it "should not have any active categories" do
+      render("views/recipe.haml")
+      response.should_not have_selector("#eee-categories a.active")
+    end
+  end
+
   context "a recipe with 1 egg" do
     before(:each) do
       @recipe['preparations'] =
@@ -190,6 +201,35 @@ describe "recipe.haml" do
     it "should contain a link to the pot on Amazon" do
       response.should have_selector("a", :content => "Pot",
         :href => "http://www.amazon.com/exec/obidos/ASIN/ASIN-5678/eeecooks-20")
+    end
+  end
+
+  context "a vegetarian recipe" do
+    before(:each) do
+      @recipe['tag_names'] = ['vegetarian']
+      render("views/recipe.haml")
+    end
+    it "should highlight the vegetarian category at the top of the page" do
+      response.should have_selector("a",
+                                    :content => "Vegetarian",
+                                    :class   => "active")
+    end
+  end
+
+  context "a vegetarian, italian recipe" do
+    before(:each) do
+      @recipe['tag_names'] = ['vegetarian', 'italian']
+      render("views/recipe.haml")
+    end
+    it "should highlight the vegetarian category at the top of the page" do
+      response.should have_selector("a",
+                                    :content => "Vegetarian",
+                                    :class   => "active")
+    end
+    it "should highlight the italian category at the top of the page" do
+      response.should have_selector("a",
+                                    :content => "Italian",
+                                    :class   => "active")
     end
   end
 end
