@@ -28,6 +28,6 @@ Feature: Recipe Details
     Scenario: Main site categories
 
       Given a recipe for Mango and Tomato Salad
-      And site-wide categories of Italian, Asian, Latin, Breakfast, Chicken, Fish, Meat, Salad, and Vegetarian
       When I view the recipe
-      Then the Salad and Vegetarian categories should be active
+      Then I should see the site-wide categories of Italian, Asian, Latin, Breakfast, Chicken, Fish, Meat, Salad, and Vegetarian
+      And the Salad and Vegetarian categories should be active

@@ -94,6 +94,22 @@ Given /^a recipe for Chicken Noodle Soup$/ do
     :content_type => 'application/json'
 end
 
+Given /^a recipe for Mango and Tomato Salad$/ do
+  @date = Date.new(2009, 4, 2)
+  @title = "Mango and Tomato Salad"
+  @permalink = @date.to_s + "-" + @title.downcase.gsub(/\W/, '-')
+
+  recipe = {
+    :title => @title,
+    :date  => @date,
+    :tag_names => [ "vegetarian", "salad" ]
+  }
+
+  RestClient.put "#{@@db}/#{@permalink}",
+    recipe.to_json,
+    :content_type => 'application/json'
+end
+
 When /^I view the recipe$/ do
   visit("/recipes/#{@permalink}")
 end
@@ -121,4 +137,12 @@ Then /^I should see that it requires (.+) to prepare$/ do |tool_list|
   tools.each do |tool|
     response.should contain(tool.sub(/an? /, ''))
   end
+end
+
+Then /^I should see the site\-wide categories of (.+)$/ do |category_list|
+  pending
+end
+
+Then /^the Salad and Vegetarian categories should be active$/ do
+  pending
 end
