@@ -31,3 +31,10 @@ Feature: Recipe Details
       When I view the recipe
       Then I should see the site-wide categories of Italian, Asian, Latin, Breakfast, Chicken, Fish, Meat, Salad, and Vegetarian
       And the Salad and Vegetarian categories should be active
+
+    Scenario: Viewing summary and recipe instructions
+
+      Given a recipe for Curried Shrimp
+      When I view the recipe
+      Then I should a nice summary of the dish
+      And I should see detailed, easy-to-read instructions

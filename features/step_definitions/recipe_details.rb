@@ -140,9 +140,18 @@ Then /^I should see that it requires (.+) to prepare$/ do |tool_list|
 end
 
 Then /^I should see the site\-wide categories of (.+)$/ do |category_list|
-  pending
+  categories = category_list.
+    split(/\s*(,|and)\s*/).
+    reject{|str| str == "," || str == "and"}
+  response.should have_selector("#eee-categories") do |list|
+    categories.each do |category|
+      response.should have_selector("a", :content => category)
+    end
+  end
 end
 
 Then /^the Salad and Vegetarian categories should be active$/ do
-  pending
+  response.should have_selector("a", :class => "active", :content => "Salad")
+  response.should have_selector("a", :class => "active", :content => "Vegetarian")
+  response.should_not have_selector("a", :class => "active", :content => "Fish")
 end

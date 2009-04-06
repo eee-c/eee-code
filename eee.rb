@@ -22,3 +22,12 @@ get '/recipes/:permalink' do
 
   haml :recipe
 end
+
+get '/images/:permalink/:image' do
+  content_type 'image/jpeg'
+  begin
+    RestClient.get "#{@@db}/#{params[:permalink]}/#{params[:image]}"
+  rescue
+    404
+  end
+end
