@@ -110,6 +110,30 @@ Given /^a recipe for Mango and Tomato Salad$/ do
     :content_type => 'application/json'
 end
 
+Given /^a recipe for Curried Shrimp$/ do
+  @date = Date.new(2009, 4, 2)
+  @title = "Mango and Tomato Salad"
+  @permalink = @date.to_s + "-" + @title.downcase.gsub(/\W/, '-')
+
+  @summary = "This dish is *yummy*."
+  @instructions = <<_EOM
+While the shrimp are defrosting, we chop the vegetables.
+
+The onion and the garlic are finely chopped, keeping them separate on the large cutting board.
+_EOM
+
+  recipe = {
+    :title        => @title,
+    :date         => @date,
+    :summary      => @summary,
+    :instructions => @instructions
+  }
+
+  RestClient.put "#{@@db}/#{@permalink}",
+    recipe.to_json,
+    :content_type => 'application/json'
+end
+
 When /^I view the recipe$/ do
   visit("/recipes/#{@permalink}")
 end

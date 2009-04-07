@@ -17,5 +17,9 @@ module Eee
         %Q|<a>#{category}</a>|
       end
     end
+
+    def wiki(text)
+      text
+    end
   end
 end

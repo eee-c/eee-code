@@ -3,12 +3,34 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper' )
 describe "recipe.haml" do
   before(:each) do
     @title  = "Recipe Title"
-    assigns[:recipe] = @recipe = { 'title' => @title }
+    @summary = "Recipe Summary"
+    @instructions = "Recipe Instructions"
+    assigns[:recipe] = @recipe = {
+      'title'        => @title,
+      'summary'      => @summary,
+      'instructions' => @instructions
+    }
   end
 
   it "should display the recipe's title" do
     render("/views/recipe.haml")
     response.should have_selector("h1", :content => @title)
+  end
+
+  it "should display the recipe's summary" do
+    self.stub!(:wiki).and_return("wiki #{@summary}")
+
+    render("/views/recipe.haml")
+    response.should have_selector("#eee-summary",
+                                  :content => "wiki #{@summary}")
+  end
+
+  it "should display the recipe's instructions" do
+    self.stub!(:wiki).and_return("wiki #{@instructions}")
+
+    render("/views/recipe.haml")
+    response.should have_selector("#eee-instructions",
+                                  :content => "wiki #{@instructions}")
   end
 
   context "a recipe with no tools or appliances" do
