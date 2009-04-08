@@ -1,5 +1,7 @@
 module Eee
   module Helpers
+    require 'RedCloth'
+
     def hours(minutes)
       h = minutes.to_i / 60
       m = minutes.to_i % 60
@@ -18,8 +20,15 @@ module Eee
       end
     end
 
-    def wiki(text)
-      text
+    def wiki(original)
+      text = original.dup
+      text.gsub!(/\b(\d+)F/, "\\1° F")
+      text.gsub!(/\[kid:(\w+)\]/m) { |kid| kid_nicknames[$1] }
+      RedCloth.new(text).to_html
+    end
+
+    def kid_nicknames
+      { }
     end
   end
 end
