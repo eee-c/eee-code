@@ -21,7 +21,7 @@ module Eee
     end
 
     def wiki(original)
-      text = original.dup
+      text = (original || '').dup
       text.gsub!(/\b(\d+)F/, "\\1° F")
       text.gsub!(/\[kid:(\w+)\]/m) { |kid| kid_nicknames[$1] }
       text.gsub!(/\[recipe:(\S+)\]/m) { |r| recipe_link($1) }

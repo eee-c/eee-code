@@ -5,6 +5,10 @@ describe "wiki" do
     wiki("bob").should contain("bob")
   end
 
+  it "should return an empty string if called with nil" do
+    wiki(nil).should == ""
+  end
+
   it "should convert textile to HTML" do
     textile = <<_TEXTILE
 paragraph 1 *bold text*
