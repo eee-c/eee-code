@@ -179,3 +179,13 @@ Then /^the Salad and Vegetarian categories should be active$/ do
   response.should have_selector("a", :class => "active", :content => "Vegetarian")
   response.should_not have_selector("a", :class => "active", :content => "Fish")
 end
+
+Then /^I should a nice summary of the dish$/ do
+  response.should have_selector("p", :content => "This dish is yummy") do |p|
+    p.should have_selector("strong", :content => "yummy")
+  end
+end
+
+Then /^I should see detailed, easy\-to\-read instructions$/ do
+  response.should have_selector("p", :content => "While the shrimp are defrosting, we chop the vegetables.")
+end
