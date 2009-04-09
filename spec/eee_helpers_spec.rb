@@ -22,13 +22,24 @@ _TEXTILE
     wiki("250F").should contain("250° F")
   end
 
-  it "should wikify kids names" do
-    self.stub!(:kid_nicknames).
-      and_return({"marsha" => "the oldest Brady girl"})
-    wiki("[kid:marsha]").should contain("the oldest Brady girl")
+  context "data stored in CouchDB" do
+    before(:each) do
+      self.stub!(:_db).and_return("http://example.org/couchdb")
+    end
+
+    it "should lookup kid nicknames" do
+      RestClient.stub!(:get).and_return('{"marsha":"the oldest Brady girl"}')
+      wiki("[kid:marsha]").should contain("the oldest Brady girl")
+    end
+
+    it "should wikify recipe URIs" do
+      RestClient.stub!(:get).
+        and_return('{"_id":"id-123","title":"Title"}')
+
+      wiki("[recipe:id-123]").
+        should have_selector("a",
+                             :href    => "/recipes/id-123",
+                             :content => "Title")
+    end
   end
-
-  it "should lookup kid nicknames in CouchDB"
-
-  it "should wikify recipe URIs"
 end
