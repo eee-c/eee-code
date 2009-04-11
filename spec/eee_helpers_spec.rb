@@ -47,3 +47,24 @@ _TEXTILE
     end
   end
 end
+
+describe "image_link" do
+  it "should return a link tag pointing to the document's image" do
+    doc = {
+      '_id'          => "foo",
+      '_attachments' => { 'sample.jpg' => { } }
+    }
+
+    image_link(doc).
+      should have_selector("img",
+                           :src => "/images/#{doc['_id']}/sample.jpg")
+  end
+
+  it "should return nil if no attachments" do
+    image_link({ }).should be_nil
+  end
+  it "should return nil if no image attachments" do
+    doc = { '_attachments' => { 'sample.txt' => { } } }
+    image_link(doc).should be_nil
+  end
+end

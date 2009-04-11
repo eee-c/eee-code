@@ -254,4 +254,21 @@ describe "recipe.haml" do
                                     :class   => "active")
     end
   end
+
+  context "a recipe with an image" do
+    it "should include an image in the recipe summary" do
+      self.stub!(:image_link).and_return("<img/>")
+      render("views/recipe.haml")
+      response.should have_selector("#eee-summary > img")
+    end
+
+  end
+
+  context "a recipe without an image" do
+    it "should not include an image" do
+      self.stub!(:image_link).and_return(nil)
+      render("views/recipe.haml")
+      response.should_not have_selector("#eee-summary > img")
+    end
+  end
 end

@@ -41,5 +41,16 @@ module Eee
       %Q|<a href="/recipes/#{recipe['_id']}">#{recipe['title']}</a>|
     end
 
+    def image_link(doc)
+      return nil unless doc['_attachments']
+
+      filename = doc['_attachments'].
+        keys.
+        detect{ |f| f =~ /jpg/ }
+
+      return nil unless filename
+
+      %Q|<img src="/images/#{doc['_id']}/#{filename}"/>|
+    end
   end
 end
