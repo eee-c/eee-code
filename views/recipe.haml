@@ -44,7 +44,7 @@
           = preparation['ingredient']['kind']
         %span.name
           = preparation['ingredient']['name']
-        - if preparation['brand']
+        - if preparation['brand'] =~ /\S/
           %span.brand
             = "(" + preparation['brand'] + ")"
 

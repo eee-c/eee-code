@@ -165,6 +165,26 @@ describe "recipe.haml" do
     end
   end
 
+  # TODO: this should not be necessary.  The blank brands are an
+  # artifact of the import-from-rails process
+  context "a recipe with a blank brand" do
+    it "should not include brand information" do
+      @recipe['preparations'] = []
+      @recipe['preparations'] << {
+        'quantity' => 1,
+        'unit'     => '12 ounce bag',
+        'brand'    => '',
+        'ingredient' => {
+          'name' => 'chocolate chips'
+        }
+      }
+
+      render("views/recipe.haml")
+
+      response.should_not have_selector(".ingredient > .brand")
+    end
+  end
+
   context "a recipe with an active and inactive preparation time" do
     before(:each) do
       @recipe['inactive_time'] = 30
