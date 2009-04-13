@@ -59,4 +59,22 @@ describe "eee" do
     end
 
   end
+
+  describe "GET /recipes/search" do
+    it "should retrieve search results from couchdb-lucene" do
+      RestClient.should_receive(:get).
+        with("#{@@db}/_fti?q=all:eggs").
+        and_return('{"total_rows":1,"rows":[]}')
+
+      get "/recipes/search?q=eggs"
+    end
+    it "should include a link to a match" do
+      RestClient.should_receive(:get).
+        with("#{@@db}/_fti?q=all:eggs").
+        and_return('{"total_rows":1,"rows":[{"_id":"007"}]}')
+
+      get "/recipes/search?q=eggs"
+      response.should have_selector("a", :href => "/recipes/007")
+    end
+  end
 end

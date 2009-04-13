@@ -16,6 +16,16 @@ helpers do
   include Eee::Helpers
 end
 
+get '/recipes/search' do
+  data = RestClient.get "#{@@db}/_fti?q=all:#{params[:q]}"
+  @results = JSON.parse(data)
+
+  ["results: #{@results['total_rows']}<br/>"] +
+    @results['rows'].map do |result|
+      %Q|<a href="/recipes/#{result['_id']}">title</a>|
+    end
+end
+
 get '/recipes/:permalink' do
   data = RestClient.get "#{@@db}/#{params[:permalink]}"
   @recipe = JSON.parse(data)
