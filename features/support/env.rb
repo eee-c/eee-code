@@ -46,6 +46,9 @@ function(doc) {
 
   idx(doc);
 
+  ret.field('date',  doc['date'],  'yes');
+  ret.field('title', doc['title'], 'yes');
+
   return ret;
 }
 _JS
