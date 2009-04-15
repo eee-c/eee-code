@@ -8,6 +8,7 @@ Feature: Search for recipes
 
       Given a "pancake" recipe with "chocolate chips" in it
       And a "french toast" recipe with "eggs" in it
+      And a 1 second wait to allow the search index to be updated
       When I search for "chocolate"
       Then I should see the "pancake" recipe in the search results
       And I should not see the "french toast" recipe in the search results

@@ -42,8 +42,11 @@ Given /^a "french toast" recipe with "eggs" in it$/ do
     :content_type => 'application/json'
 end
 
+Given /^a (\d+) second wait to allow the search index to be updated$/ do |seconds|
+  sleep seconds.to_i
+end
+
 When /^I search for "chocolate"$/ do
-  sleep 5
   visit("/recipes/search?q=chocolate")
 end
 
