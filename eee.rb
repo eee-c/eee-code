@@ -20,10 +20,7 @@ get '/recipes/search' do
   data = RestClient.get "#{@@db}/_fti?q=all:#{params[:q]}"
   @results = JSON.parse(data)
 
-  ["results: #{@results['total_rows']}<br/>"] +
-    @results['rows'].map do |result|
-      %Q|<a href="/recipes/#{result['_id']}">title</a>|
-    end
+  haml :search
 end
 
 get '/recipes/:permalink' do

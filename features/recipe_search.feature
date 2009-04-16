@@ -44,3 +44,7 @@ Feature: Search for recipes
       When I search ingredients for "chocolate"
       Then I should see the "pancake" recipe in the search results
       And I should not see the "french toast" recipe in the search results
+
+    Scenario: Paginating results
+
+    Scenario: Sorting (name, date, preparation time, number of ingredients)

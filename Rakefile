@@ -1,7 +1,17 @@
 task :default => [:test]
 
-task :test do
-  ruby "./spec/eee_spec.rb"
-  ruby "./spec/eee_helpers_spec.rb"
-  ruby "./spec/views/recipe.haml_spec.rb"
+task :test => [:app_specs, :helper_specs, :view_specs]
+
+task :app_specs do
+  system("spec", "./spec/eee_spec.rb")
+end
+
+task :helper_specs do
+  system("spec", "./spec/eee_helpers_spec.rb")
+end
+
+task :view_specs do
+  system("spec",
+         "./spec/views/recipe.haml_spec.rb",
+         "./spec/views/search.haml_spec.rb")
 end

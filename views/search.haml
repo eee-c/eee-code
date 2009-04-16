@@ -1,0 +1,9 @@
+%table
+  %tr
+    %th= "Name"
+    %th= "Date"
+  - @results['rows'].each_with_index do |result, i|
+    %tr{:class => "row#{i % 2}"}
+      %td
+        %a{:href => "/recipes/#{result['_id']}"}= result['title']
+      %td= result['date']
