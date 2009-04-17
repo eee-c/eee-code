@@ -40,12 +40,27 @@ Given /^a "(.+)" recipe with "eggs" in it$/ do |title|
     :content_type => 'application/json'
 end
 
+Given /^a "(.+)" recipe with a "(.+)" summary$/ do |title, keyword|
+  date = Date.new(2009, 4, 12)
+  permalink = "id-#{title.gsub(/\W/, '-')}"
+
+  recipe = {
+    :title => title,
+    :date  => date,
+    :summary => "This is #{keyword}"
+  }
+
+  RestClient.put "#{@@db}/#{permalink}",
+    recipe.to_json,
+    :content_type => 'application/json'
+end
+
 Given /^a (\d+) second wait to allow the search index to be updated$/ do |seconds|
   sleep seconds.to_i
 end
 
-When /^I search for "chocolate"$/ do
-  visit("/recipes/search?q=chocolate")
+When /^I search for "(.+)"$/ do |keyword|
+  visit("/recipes/search?q=#{keyword}")
 end
 
 Then /^I should see the "(.+)" recipe in the search results$/ do |title|
@@ -55,8 +70,5 @@ Then /^I should see the "(.+)" recipe in the search results$/ do |title|
 end
 
 Then /^I should not see the "(.+)" recipe in the search results$/ do |title|
-  response.
-    should_not have_selector("a",
-                             :href => "/recipes/id-#{title.gsub(/\W/, '-')}",
-                             :content => title)
+  response.should_not have_selector("a", :content => title)
 end
