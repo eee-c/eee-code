@@ -55,6 +55,21 @@ Given /^a "(.+)" recipe with a "(.+)" summary$/ do |title, keyword|
     :content_type => 'application/json'
 end
 
+Given /^a "(.+)" recipe with instructions "(.+)"$/ do |title, instructions|
+  date = Date.new(2009, 4, 16)
+  permalink = "id-#{title.gsub(/\W/, '-')}"
+
+  recipe = {
+    :title => title,
+    :date  => date,
+    :instructions => instructions
+  }
+
+  RestClient.put "#{@@db}/#{permalink}",
+    recipe.to_json,
+    :content_type => 'application/json'
+end
+
 Given /^a (\d+) second wait to allow the search index to be updated$/ do |seconds|
   sleep seconds.to_i
 end
@@ -65,7 +80,7 @@ end
 
 Then /^I should see the "(.+)" recipe in the search results$/ do |title|
   response.should have_selector("a",
-                                :href => "/recipes/id-#{title}",
+                                :href => "/recipes/id-#{title.gsub(/\W/, '-')}",
                                 :content => title)
 end
 
