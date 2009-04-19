@@ -62,4 +62,5 @@ end
 
 After do
   RestClient.delete @@db
+  sleep 0.5
 end

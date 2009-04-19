@@ -70,8 +70,8 @@ Given /^a "(.+)" recipe with instructions "(.+)"$/ do |title, instructions|
     :content_type => 'application/json'
 end
 
-Given /^a (\d+) second wait to allow the search index to be updated$/ do |seconds|
-  sleep seconds.to_i
+Given /^a ([.\d]+) second wait/ do |seconds|
+  sleep seconds.to_f
 end
 
 When /^I search for "(.+)"$/ do |keyword|

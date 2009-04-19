@@ -8,7 +8,7 @@ Feature: Search for recipes
 
       Given a "pancake" recipe with "chocolate chips" in it
       And a "french toast" recipe with "eggs" in it
-      And a 1 second wait to allow the search index to be updated
+      And a 0.25 second wait to allow the search index to be updated
       When I search for "chocolate"
       Then I should see the "pancake" recipe in the search results
       And I should not see the "french toast" recipe in the search results
@@ -17,7 +17,7 @@ Feature: Search for recipes
 
       Given a "pancake" recipe with a "Yummy!" summary
       And  a "french toast" recipe with a "Delicious" summary
-      And a 1 second wait to allow the search index to be updated
+      And a 0.25 second wait to allow the search index to be updated
       When I search for "yummy"
       Then I should see the "pancake" recipe in the search results
       And I should not see the "french toast" recipe in the search results
@@ -26,7 +26,7 @@ Feature: Search for recipes
 
       Given a "pancake" recipe with instructions "mixing together dry ingredients"
       And a "french toast" recipe with instructions "whisking the eggs"
-      And a 1 second wait to allow the search index to be updated
+      And a 0.25 second wait to allow the search index to be updated
       When I search for "whisk"
       Then I should not see the "pancake" recipe in the search results
       And I should see the "french toast" recipe in the search results
@@ -52,3 +52,5 @@ Feature: Search for recipes
     Scenario: Paginating results
 
     Scenario: Sorting (name, date, preparation time, number of ingredients)
+
+    Scenario: No matching results
