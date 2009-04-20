@@ -68,5 +68,13 @@ describe "eee" do
 
       get "/recipes/search?q=eggs"
     end
+
+    it "should not include the \"all\" field when performing fielded searches" do
+      RestClient.should_receive(:get).
+        with("#{@@db}/_fti?q=title:eggs").
+        and_return('{"total_rows":1,"rows":[]}')
+
+      get "/recipes/search?q=title:eggs"
+    end
   end
 end

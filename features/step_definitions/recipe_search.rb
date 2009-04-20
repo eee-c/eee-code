@@ -70,12 +70,31 @@ Given /^a "(.+)" recipe with instructions "(.+)"$/ do |title, instructions|
     :content_type => 'application/json'
 end
 
+Given /^a "(.+)" recipe$/ do |title|
+  date = Date.new(2009, 4, 19)
+  permalink = "id-#{title.gsub(/\W/, '-')}"
+
+  recipe = {
+    :title => title,
+    :date  => date,
+  }
+
+  RestClient.put "#{@@db}/#{permalink}",
+    recipe.to_json,
+    :content_type => 'application/json'
+end
+
+
 Given /^a ([.\d]+) second wait/ do |seconds|
   sleep seconds.to_f
 end
 
 When /^I search for "(.+)"$/ do |keyword|
   visit("/recipes/search?q=#{keyword}")
+end
+
+When /^I search titles for "(.+)"$/ do |keyword|
+  visit("/recipes/search?q=title:#{keyword}")
 end
 
 Then /^I should see the "(.+)" recipe in the search results$/ do |title|
