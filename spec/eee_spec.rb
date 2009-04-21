@@ -63,7 +63,7 @@ describe "eee" do
   describe "GET /recipes/search" do
     it "should retrieve search results from couchdb-lucene" do
       RestClient.should_receive(:get).
-        with("#{@@db}/_fti?q=all:eggs").
+        with("#{@@db}/_fti?q=eggs").
         and_return('{"total_rows":1,"rows":[]}')
 
       get "/recipes/search?q=eggs"

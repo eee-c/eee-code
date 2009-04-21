@@ -17,8 +17,7 @@ helpers do
 end
 
 get '/recipes/search' do
-  query = "all:#{params[:q]}".sub(/(\w+):(\w+):/, "\\2:")
-  data = RestClient.get "#{@@db}/_fti?q=#{query}"
+  data = RestClient.get "#{@@db}/_fti?q=#{params[:q]}"
   @results = JSON.parse(data)
 
   haml :search
