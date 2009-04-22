@@ -51,6 +51,27 @@ Feature: Search for recipes
 
     Scenario: Paginating results
 
+      Given 50 yummy recipes
+      And a 0.5 second wait to allow the search index to be updated
+      When I search for "yummy"
+      Then I should see 20 results
+      And 3 pages of results
+      And I should not be able to go to a previous page
+      When I visit page 3
+      Then I should see 10 results
+      And I should not be able to go to a next page
+      When I visit the previous page
+      Then I should see 20 results
+      And I should be able to go to a previous page
+      When I visit the next page
+      Then I should see 10 results
+      When I visit page -1
+      Then I should see page 1
+      When I visit page "foo"
+      Then I should see page 1
+      When I visit page 4
+      Then I should see page 1
+
     Scenario: Sorting (name, date, preparation time, number of ingredients)
 
     Scenario: No matching results
