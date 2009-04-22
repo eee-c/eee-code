@@ -43,7 +43,7 @@ Feature: Search for recipes
     Scenario: Searching ingredients
 
       Given a "pancake" recipe with "chocolate chips" in it
-      And a "french toast" recipe with eggs in it and a summary of "does not go well with chocolate"
+      And a "french toast" recipe with "eggs" in it and a summary of "does not go well with chocolate"
       And a 0.5 second wait to allow the search index to be updated
       When I search ingredients for "chocolate"
       Then I should see the "pancake" recipe in the search results

@@ -85,6 +85,28 @@ Given /^a "(.+)" recipe$/ do |title|
 end
 
 
+Given /^a "(.+)" recipe with "(.+)" in it and a summary of "(.+)"$/ do |title, ingredient, summary|
+  date = Date.new(2009, 4, 21)
+  permalink = "id-#{title.gsub(/\W/, '-')}"
+
+  @pancake_recipe = {
+    :title => title,
+    :date  => date,
+    :summary => summary,
+    :preparations => [
+      {
+        'ingredient' => {
+          'name' => ingredient
+        }
+      }
+    ]
+  }
+
+  RestClient.put "#{@@db}/#{permalink}",
+    @pancake_recipe.to_json,
+    :content_type => 'application/json'
+end
+
 Given /^a ([.\d]+) second wait/ do |seconds|
   sleep seconds.to_f
 end
@@ -95,6 +117,10 @@ end
 
 When /^I search titles for "(.+)"$/ do |keyword|
   visit("/recipes/search?q=title:#{keyword}")
+end
+
+When /^I search ingredients for "(.+)"$/ do |keyword|
+  visit("/recipes/search?q=ingredient:#{keyword}")
 end
 
 Then /^I should see the "(.+)" recipe in the search results$/ do |title|

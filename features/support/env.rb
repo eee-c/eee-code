@@ -32,7 +32,17 @@ function(doc) {
     for (var key in obj) {
       switch (typeof obj[key]) {
         case 'object':
-          idx(obj[key]);
+          /* Handle ingredients as a special case */
+          if (key == 'preparations') {
+            var ingredients = [];
+            for (var i=0; i<obj[key].length; i++) {
+              ingredients.push(obj[key][i]['ingredient']['name']);
+            }
+            ret.field('ingredient', ingredients.join(', '), 'yes');
+          }
+          else {
+            idx(obj[key]);
+          }
           break;
         case 'function':
           break;
