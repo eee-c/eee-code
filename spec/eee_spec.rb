@@ -63,7 +63,7 @@ describe "eee" do
   describe "GET /recipes/search" do
     it "should retrieve search results from couchdb-lucene" do
       RestClient.should_receive(:get).
-        with("#{@@db}/_fti?q=eggs").
+        with(/_fti\?.*q=eggs/).
         and_return('{"total_rows":1,"rows":[]}')
 
       get "/recipes/search?q=eggs"
@@ -71,7 +71,15 @@ describe "eee" do
 
     it "should not include the \"all\" field when performing fielded searches" do
       RestClient.should_receive(:get).
-        with("#{@@db}/_fti?q=title:eggs").
+        with(/q=title:eggs/).
+        and_return('{"total_rows":1,"rows":[]}')
+
+      get "/recipes/search?q=title:eggs"
+    end
+
+    it "should have pages sizes of 20 records" do
+      RestClient.should_receive(:get).
+        with(/limit=20/).
         and_return('{"total_rows":1,"rows":[]}')
 
       get "/recipes/search?q=title:eggs"

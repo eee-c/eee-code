@@ -4,6 +4,10 @@ ENV['RACK_ENV'] = 'test'
 # sinatra will look in the wrong place for its views.
 require File.dirname(__FILE__) + '/../../eee'
 
+# Force the application name because polyglot breaks the auto-detection logic.
+Sinatra::Application.app_file = File.join(File.dirname(__FILE__), *%w[.. .. eee.rb])
+
+
 # RSpec matchers
 require 'spec/expectations'
 

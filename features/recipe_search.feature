@@ -57,13 +57,13 @@ Feature: Search for recipes
       Then I should see 20 results
       And 3 pages of results
       And I should not be able to go to a previous page
-      When I visit page 3
+      When I click page 3
       Then I should see 10 results
       And I should not be able to go to a next page
-      When I visit the previous page
+      When I click the previous page
       Then I should see 20 results
       And I should be able to go to a previous page
-      When I visit the next page
+      When I click the next page
       Then I should see 10 results
       When I visit page -1
       Then I should see page 1

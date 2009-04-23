@@ -107,6 +107,23 @@ Given /^a "(.+)" recipe with "(.+)" in it and a summary of "(.+)"$/ do |title, i
     :content_type => 'application/json'
 end
 
+Given /^(\d+) (.+) recipes$/ do |count, keyword|
+  date = Date.new(2009, 4, 22)
+
+  (0..count.to_i).each do |i|
+    permalink = "id-#{i}-#{keyword.gsub(/\W/, '-')}"
+
+    @pancake_recipe = {
+      :title => "#{keyword} recipe #{i}",
+      :date  => date
+    }
+
+    RestClient.put "#{@@db}/#{permalink}",
+    @pancake_recipe.to_json,
+    :content_type => 'application/json'
+  end
+end
+
 Given /^a ([.\d]+) second wait/ do |seconds|
   sleep seconds.to_f
 end
@@ -131,4 +148,8 @@ end
 
 Then /^I should not see the "(.+)" recipe in the search results$/ do |title|
   response.should_not have_selector("a", :content => title)
+end
+
+Then /^I should see (\d+) results$/ do |count|
+  response.should have_selector("table a", :count => count.to_i)
 end
