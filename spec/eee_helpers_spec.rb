@@ -68,3 +68,18 @@ describe "image_link" do
     image_link(doc).should be_nil
   end
 end
+
+describe "pagination" do
+  it "should have a link to other pages" do
+    pagination(0, 20, 41).
+      should have_selector("a", :content => "2")
+  end
+  it "should have 3 pages, when results.size > 2 * page size" do
+    pagination(0, 20, 41).
+      should have_selector("a", :content => "3")
+  end
+  it "should have only 2 pages, when results.size == 2 * page size" do
+    pagination(0, 20, 40).
+      should_not have_selector("a", :content => "3")
+  end
+end

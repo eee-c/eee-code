@@ -52,5 +52,15 @@ module Eee
 
       %Q|<img src="/images/#{doc['_id']}/#{filename}"/>|
     end
+
+    def pagination(skip, limit, total)
+      total_pages = (total + limit - 1) / limit
+
+      links = (1..total_pages).map do |page|
+        %Q|<a href="">#{page}</a>|
+      end
+
+      %Q|<div class="pagination">#{links.join}</div>|
+    end
   end
 end

@@ -153,3 +153,7 @@ end
 Then /^I should see (\d+) results$/ do |count|
   response.should have_selector("table a", :count => count.to_i)
 end
+
+Then /^I should see 3 pages of results$/ do
+  response.should have_selector(".pagination a", :content => "3")
+end

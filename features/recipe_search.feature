@@ -55,7 +55,7 @@ Feature: Search for recipes
       And a 0.5 second wait to allow the search index to be updated
       When I search for "yummy"
       Then I should see 20 results
-      And 3 pages of results
+      And I should see 3 pages of results
       And I should not be able to go to a previous page
       When I click page 3
       Then I should see 10 results
