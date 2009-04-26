@@ -53,14 +53,46 @@ module Eee
       %Q|<img src="/images/#{doc['_id']}/#{filename}"/>|
     end
 
-    def pagination(skip, limit, total)
-      total_pages = (total + limit - 1) / limit
+    def pagination(query, results)
+      total = results['total_rows']
+      limit = results['limit']
+      skip  = results['skip']
 
-      links = (1..total_pages).map do |page|
-        %Q|<a href="">#{page}</a>|
+      last_page    = (total + limit - 1) / limit
+      current_page = skip / limit + 1
+
+      link = "/recipes/search?q=#{query}"
+
+      links = []
+
+      links <<
+        if current_page == 1
+          %Q|<span class="inactive">&laquo; Previous</span>|
+        else
+          %Q|<a href="#{link}&page=#{current_page - 1}">&laquo; Previous</a>|
+        end
+
+      links << (1..last_page).map do |page|
+        %Q|<a href="#{link}&page=#{page}">#{page}</a>|
       end
 
+      links <<
+        if current_page == last_page
+          %Q|<span class="inactive">Next »</span>|
+        else
+          %Q|<a href="#{link}&page=#{current_page + 1}">Next »</a>|
+        end
+
       %Q|<div class="pagination">#{links.join}</div>|
+    end
+  end
+
+  def page_link(query, page, active)
+    if active
+      link = "/recipes/search?q=#{query}"
+      %Q|<a href="#{link}&page=#{page}">#{yield}</a>|
+    else
+      %Q|<span class="inactive">#{yield}</span>|
     end
   end
 end

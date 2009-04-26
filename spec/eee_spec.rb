@@ -61,10 +61,14 @@ describe "eee" do
   end
 
   describe "GET /recipes/search" do
+    before(:each) do
+      self.stub!(:render)
+    end
+
     it "should retrieve search results from couchdb-lucene" do
       RestClient.should_receive(:get).
         with(/_fti\?.*q=eggs/).
-        and_return('{"total_rows":1,"rows":[]}')
+        and_return('{"total_rows":1,"skip":0,"limit":20,"rows":[]}')
 
       get "/recipes/search?q=eggs"
     end
@@ -72,17 +76,25 @@ describe "eee" do
     it "should not include the \"all\" field when performing fielded searches" do
       RestClient.should_receive(:get).
         with(/q=title:eggs/).
-        and_return('{"total_rows":1,"rows":[]}')
+        and_return('{"total_rows":1,"skip":0,"limit":20,"rows":[]}')
 
       get "/recipes/search?q=title:eggs"
     end
 
-    it "should have pages sizes of 20 records" do
+    it "should have page sizes of 20 records" do
       RestClient.should_receive(:get).
         with(/limit=20/).
-        and_return('{"total_rows":1,"rows":[]}')
+        and_return('{"total_rows":1,"skip":0,"limit":20,"rows":[]}')
 
       get "/recipes/search?q=title:eggs"
+    end
+
+    it "should paginate" do
+      RestClient.should_receive(:get).
+        with(/skip=21/).
+        and_return('{"total_rows":30,"skip":0,"limit":20,"rows":[]}')
+
+      get "/recipes/search?q=title:eggs&page=2"
     end
   end
 end

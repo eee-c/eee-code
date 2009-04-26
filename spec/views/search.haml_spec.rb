@@ -2,12 +2,16 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper' )
 
 describe "search.haml" do
   before(:each) do
-    assigns[:results] = @results =
-      [
-       { '_id' => 'id-one',   'title' => 'One',   'date' => '2009-04-15' },
-       { '_id' => 'id-two',   'title' => 'Two',   'date' => '2009-04-14' },
-       { '_id' => 'id-three', 'title' => 'Three', 'date' => '2009-04-13' },
+    assigns[:results] = {
+      'skip'       => 0,
+      'limit'      => 20,
+      'total_rows' => 100,
+      'rows' => [
+        { '_id' => 'id-one',   'title' => 'One',   'date' => '2009-04-15' },
+        { '_id' => 'id-two',   'title' => 'Two',   'date' => '2009-04-14' },
+        { '_id' => 'id-three', 'title' => 'Three', 'date' => '2009-04-13' },
       ]
+    }
   end
 
   it "should display the recipe's title" do
@@ -36,13 +40,5 @@ describe "search.haml" do
   it "should display the recipe's date" do
     render("/views/search.haml")
     response.should have_selector("td", :content => '2009-04-15')
-  end
-
-  it "should pass skip, limit, and total count to pagination helper" do
-    assigns[:skip]  = 1
-    assigns[:limit] = 2
-    assigns[:total] = 3
-    self.should_receive(:pagination).with(1,2,3)
-    render("/views/search.haml")
   end
 end

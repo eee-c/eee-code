@@ -140,6 +140,10 @@ When /^I search ingredients for "(.+)"$/ do |keyword|
   visit("/recipes/search?q=ingredient:#{keyword}")
 end
 
+When /^I click page (\d+)$/ do |page|
+  click_link(page)
+end
+
 Then /^I should see the "(.+)" recipe in the search results$/ do |title|
   response.should have_selector("a",
                                 :href => "/recipes/id-#{title.gsub(/\W/, '-')}",
@@ -157,3 +161,8 @@ end
 Then /^I should see 3 pages of results$/ do
   response.should have_selector(".pagination a", :content => "3")
 end
+
+Then /^I should not be able to go to a previous page$/ do
+  response.should have_selector(".pagination span", :content => "« Previous")
+end
+

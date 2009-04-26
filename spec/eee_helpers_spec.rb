@@ -70,16 +70,42 @@ describe "image_link" do
 end
 
 describe "pagination" do
+  before(:each) do
+    @query = 'foo'
+    @results = { 'total_rows' => 41, 'limit' => 20, 'skip' => 0}
+  end
   it "should have a link to other pages" do
-    pagination(0, 20, 41).
-      should have_selector("a", :content => "2")
+    pagination(@query, @results).
+      should have_selector("a",
+                           :content => "2",
+                           :href    => "/recipes/search?q=foo&page=2")
   end
   it "should have 3 pages, when results.size > 2 * page size" do
-    pagination(0, 20, 41).
+    pagination(@query, @results).
       should have_selector("a", :content => "3")
   end
   it "should have only 2 pages, when results.size == 2 * page size" do
-    pagination(0, 20, 40).
+    @results['total_rows'] = 40
+    pagination(@query, @results).
       should_not have_selector("a", :content => "3")
+  end
+  it "should have a link to the next page if before the last page" do
+    @results['skip'] = 20
+    pagination(@query, @results).
+      should have_selector("a", :content => "Next »")
+  end
+  it "should not have a link to the next page if on the last page" do
+    @results['skip'] = 40
+    pagination(@query, @results).
+      should have_selector("span", :content => "Next »")
+  end
+  it "should have a link to the previous page if past the first page" do
+    @results['skip'] = 20
+    pagination(@query, @results).
+      should have_selector("a", :content => "« Previous")
+  end
+  it "should not have a link to the next page if on the first page" do
+    pagination(@query, @results).
+      should have_selector("span", :content => "« Previous")
   end
 end

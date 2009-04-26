@@ -17,8 +17,11 @@ helpers do
 end
 
 get '/recipes/search' do
-  data = RestClient.get "#{@@db}/_fti?limit=20&q=#{params[:q]}"
+  skip = (((params[:page] ? params[:page].to_i : 1) - 1) * 20) + 1
+  data = RestClient.get "#{@@db}/_fti?limit=20&skip=#{skip}&q=#{params[:q]}"
   @results = JSON.parse(data)
+
+  @query = params[:q]
 
   haml :search
 end
