@@ -17,11 +17,16 @@ helpers do
 end
 
 get '/recipes/search' do
-  skip = (((params[:page] ? params[:page].to_i : 1) - 1) * 20) + 1
+  page = params[:page].to_i
+  skip = (page < 2) ? 0 : ((page - 1) * 20) + 1
   data = RestClient.get "#{@@db}/_fti?limit=20&skip=#{skip}&q=#{params[:q]}"
   @results = JSON.parse(data)
-
   @query = params[:q]
+
+  if @results['rows'].size == 0 && page > 1
+    redirect("/recipes/search?q=#{@query}")
+    return
+  end
 
   haml :search
 end

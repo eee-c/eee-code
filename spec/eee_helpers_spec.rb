@@ -108,4 +108,8 @@ describe "pagination" do
     pagination(@query, @results).
       should have_selector("span", :content => "« Previous")
   end
+  it "should mark the current page" do
+    pagination(@query, @results).
+      should have_selector("span.current", :content => "1")
+  end
 end

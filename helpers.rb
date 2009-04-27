@@ -73,7 +73,11 @@ module Eee
         end
 
       links << (1..last_page).map do |page|
-        %Q|<a href="#{link}&page=#{page}">#{page}</a>|
+        if page == current_page
+          %Q|<span class="current">#{page}</span>|
+        else
+          %Q|<a href="#{link}&page=#{page}">#{page}</a>|
+        end
       end
 
       links <<

@@ -96,5 +96,13 @@ describe "eee" do
 
       get "/recipes/search?q=title:eggs&page=2"
     end
+
+    it "should display page 1 when passing a bad page number" do
+      RestClient.should_receive(:get).
+        with(/skip=0/).
+        and_return('{"total_rows":30,"skip":0,"limit":20,"rows":[]}')
+
+      get "/recipes/search?q=title:eggs&page=foo"
+    end
   end
 end

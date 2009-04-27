@@ -129,7 +129,8 @@ Given /^a ([.\d]+) second wait/ do |seconds|
 end
 
 When /^I search for "(.+)"$/ do |keyword|
-  visit("/recipes/search?q=#{keyword}")
+  @query = "/recipes/search?q=#{keyword}"
+  visit(@query)
 end
 
 When /^I search titles for "(.+)"$/ do |keyword|
@@ -142,6 +143,14 @@ end
 
 When /^I click page (\d+)$/ do |page|
   click_link(page)
+end
+
+When /^I click the (.+) page$/ do |link_text|
+  click_link(link_text)
+end
+
+When /^I visit page \"?(.+?)\"?$/ do |page|
+  visit(@query + "&page=#{page}")
 end
 
 Then /^I should see the "(.+)" recipe in the search results$/ do |title|
@@ -162,7 +171,17 @@ Then /^I should see 3 pages of results$/ do
   response.should have_selector(".pagination a", :content => "3")
 end
 
-Then /^I should not be able to go to a previous page$/ do
-  response.should have_selector(".pagination span", :content => "« Previous")
+Then /^I should not be able to go to a (.+) page$/ do |link_text|
+  response.should have_selector(".pagination span",
+                                :content => link_text.capitalize())
 end
 
+Then /^I should be able to go to a (.+) page$/ do |link_text|
+  response.should have_selector(".pagination a",
+                                :content => link_text.capitalize())
+end
+
+Then /^I should see page (.+)$/ do |page|
+  response.should have_selector(".pagination span.current",
+                                :content => page)
+end
