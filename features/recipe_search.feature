@@ -74,6 +74,48 @@ Feature: Search for recipes
 
     Scenario: Sorting (name, date, preparation time, number of ingredients)
 
+      Given 50 "delicious" recipes with ascending names, dates, preparation times, and number of ingredients
+      And of 0.5 second wait to allow the search index to be updated
+      When I search for "delicious"
+      Then I should see 20 results
+      When I click the "Name" column header
+      Then the results should be ordered by name in ascending order
+      When I click the "Name" column header
+      Then the results should be ordered by name in descending order
+      When I click the next page
+      Then I should see page 2
+      And the results should be ordered by name in descending order
+      When I click the "Date" column header
+      Then I should see page 1
+      And the results should be ordered by date in descending order
+      When I click the next page
+      Then I should see page 2
+      When I click the "Date" column header
+      Then the results should be ordered by date in ascending order
+      And I should see page 1
+      When I click the "Prep" column header
+      Then the results should be ordered by preparation time in ascending order
+      When I click the "Ingredients" column header
+      Then the results should be ordered by the number of ingredients in ascending order
+
     Scenario: No matching results
 
+      Given 5 "Yummy" recipes
+      And of 0.5 second wait to allow the search index to be updated
+      When I search for "delicious"
+      Then I should see no results
+      And no result headings
+
+
     Scenario: Invalid search parameters
+
+      Given 5 "Yummy" recipes
+      And of 0.5 second wait to allow the search index to be updated
+      When I search for ""
+      Then I should see no results
+      When I seach for a pre-ascii character "%1F"
+      Then I should see no results
+      And an empty query string
+      When I search for an invalid lucene search term like "title:ingredient:egg"
+      Then I should see no results
+      And an empty query string
