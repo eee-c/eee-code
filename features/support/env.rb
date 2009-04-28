@@ -43,6 +43,7 @@ function(doc) {
               ingredients.push(obj[key][i]['ingredient']['name']);
             }
             ret.field('ingredient', ingredients.join(', '), 'yes');
+            ret.field('all',        ingredients.join(', '));
           }
           else {
             idx(obj[key]);
