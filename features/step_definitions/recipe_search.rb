@@ -113,14 +113,35 @@ Given /^(\d+) (.+) recipes$/ do |count, keyword|
   (0..count.to_i).each do |i|
     permalink = "id-#{i}-#{keyword.gsub(/\W/, '-')}"
 
-    @pancake_recipe = {
+    recipe = {
       :title => "#{keyword} recipe #{i}",
       :date  => date
     }
 
     RestClient.put "#{@@db}/#{permalink}",
-    @pancake_recipe.to_json,
-    :content_type => 'application/json'
+      recipe.to_json,
+      :content_type => 'application/json'
+  end
+end
+
+Given /^(\d+) "([^\"]*)" recipes with ascending names, dates, preparation times, and number of ingredients$/ do |count, keyword|
+  date = Date.new(2008, 4, 28)
+
+  (1..count.to_i).each do |i|
+    permalink = "id-#{i}-#{keyword.gsub(/\W/, '-')}"
+
+    recipe = {
+      :title     => "#{keyword} recipe #{i}",
+      :date      => date + i,
+      :prep_time => i,
+      :preparations =>
+        (1..count.to_i).
+        map {|j| { :ingredient => { :name => "ingredient #{j}"}} }
+    }
+
+    RestClient.put "#{@@db}/#{permalink}",
+      recipe.to_json,
+      :content_type => 'application/json'
   end
 end
 
@@ -152,6 +173,11 @@ end
 When /^I visit page \"?(.+?)\"?$/ do |page|
   visit(@query + "&page=#{page}")
 end
+
+When /^I click the "([^\"]*)" column header$/ do |link|
+  click_link("sort-by-#{link.downcase()}")
+end
+
 
 Then /^I should see the "(.+)" recipe in the search results$/ do |title|
   response.should have_selector("a",

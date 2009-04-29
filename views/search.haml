@@ -1,6 +1,7 @@
 %table
   %tr
-    %th= "Name"
+    %th
+      %a{:href => "/recipes/search?q=foo&sort=name" } Name
     %th= "Date"
   - @results['rows'].each_with_index do |result, i|
     %tr{:class => "row#{i % 2}"}

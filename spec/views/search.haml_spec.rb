@@ -41,4 +41,12 @@ describe "search.haml" do
     render("/views/search.haml")
     response.should have_selector("td", :content => '2009-04-15')
   end
+
+  it "should link to sort by date" do
+    assigns[:query] = "foo"
+    render("/views/search.haml")
+    response.should have_selector("th > a",
+                                  :href => "/recipes/search?q=foo&sort=name",
+                                  :content => "Name")
+  end
 end

@@ -90,13 +90,4 @@ module Eee
       %Q|<div class="pagination">#{links.join}</div>|
     end
   end
-
-  def page_link(query, page, active)
-    if active
-      link = "/recipes/search?q=#{query}"
-      %Q|<a href="#{link}&page=#{page}">#{yield}</a>|
-    else
-      %Q|<span class="inactive">#{yield}</span>|
-    end
-  end
 end
