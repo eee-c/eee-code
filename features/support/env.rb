@@ -61,6 +61,9 @@ function(doc) {
 
   idx(doc);
 
+  ret.field('sort_title', doc['title'], 'yes', 'not_analyzed');
+  ret.field('sort_date',  doc['date'],  'yes', 'not_analyzed');
+
   ret.field('date',  doc['date'],  'yes');
   ret.field('title', doc['title'], 'yes');
 

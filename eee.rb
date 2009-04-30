@@ -20,6 +20,7 @@ get '/recipes/search' do
   page = params[:page].to_i
   skip = (page < 2) ? 0 : ((page - 1) * 20) + 1
   data = RestClient.get "#{@@db}/_fti?limit=20&skip=#{skip}&q=#{params[:q]}"
+
   @results = JSON.parse(data)
   @query = params[:q]
 
