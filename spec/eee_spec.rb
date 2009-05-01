@@ -104,5 +104,22 @@ describe "eee" do
 
       get "/recipes/search?q=title:eggs&page=foo"
     end
+
+    it "should sort" do
+      RestClient.should_receive(:get).
+        with(/sort=title/).
+        and_return('{"total_rows":30,"skip":0,"limit":20,"rows":[]}')
+
+      get "/recipes/search?q=title:egg&sort=title"
+    end
+
+    it "should not sort when no sort field is supplied" do
+      RestClient.stub!(:get).
+        and_return('{"total_rows":30,"skip":0,"limit":20,"rows":[]}')
+
+      RestClient.should_not_receive(:get).with(/sort=/)
+
+      get "/recipes/search?q=title:egg&sort="
+    end
   end
 end

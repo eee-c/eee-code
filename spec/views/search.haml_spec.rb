@@ -46,7 +46,7 @@ describe "search.haml" do
     assigns[:query] = "foo"
     render("/views/search.haml")
     response.should have_selector("th > a",
-                                  :href => "/recipes/search?q=foo&sort=name",
+                                  :href => "/recipes/search?q=foo&sort=sort_title",
                                   :content => "Name")
   end
 end

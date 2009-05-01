@@ -17,12 +17,22 @@ helpers do
 end
 
 get '/recipes/search' do
+  @query = params[:q]
+
   page = params[:page].to_i
   skip = (page < 2) ? 0 : ((page - 1) * 20) + 1
-  data = RestClient.get "#{@@db}/_fti?limit=20&skip=#{skip}&q=#{params[:q]}"
+
+  couchdb_url = "#{@@db}/_fti?limit=20" +
+    "&q=#{@query}" +
+    "&skip=#{skip}"
+
+  if params[:sort] =~ /\w/
+    couchdb_url += "&sort=#{params[:sort]}"
+  end
+
+  data = RestClient.get couchdb_url
 
   @results = JSON.parse(data)
-  @query = params[:q]
 
   if @results['rows'].size == 0 && page > 1
     redirect("/recipes/search?q=#{@query}")
