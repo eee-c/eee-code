@@ -1,7 +1,8 @@
 %table
   %tr
     %th
-      %a{:href => "/recipes/search?q=foo&sort=sort_title", :id => "sort-by-name"} Name
+      = sort_link("Name", "sort_title", @query)
+      = sort_link("Date", "sort_date",  @query)
     %th= "Date"
   - @results['rows'].each_with_index do |result, i|
     %tr{:class => "row#{i % 2}"}

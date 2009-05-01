@@ -113,3 +113,16 @@ describe "pagination" do
       should have_selector("span.current", :content => "1")
   end
 end
+
+describe "sort_link" do
+  it "should link the supplied text" do
+    sort_link("Foo", "sort_foo", "query").
+      should have_selector("a",
+                           :content => "Foo")
+  end
+  it "should link to the query with the supplied sort field" do
+    sort_link("Foo", "sort_foo", "query").
+      should have_selector("a",
+                           :href => "/recipes/search?q=query&sort=sort_foo")
+  end
+end

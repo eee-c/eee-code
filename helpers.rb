@@ -89,5 +89,11 @@ module Eee
 
       %Q|<div class="pagination">#{links.join}</div>|
     end
+
+    def sort_link(text, sort_on, query)
+      id  = "sort-by-#{text.downcase}"
+      url = "/recipes/search?q=#{query}&sort=#{sort_on}"
+      %Q|<a href="#{url}" id="#{id}">#{text}</a>|
+    end
   end
 end

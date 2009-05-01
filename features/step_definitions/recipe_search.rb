@@ -211,3 +211,10 @@ Then /^I should see page (.+)$/ do |page|
   response.should have_selector(".pagination span.current",
                                 :content => page)
 end
+
+Then /^the results should be ordered by name in ascending order$/ do
+  response.should have_selector("tr:nth-child(2) a",
+                                :content => "delicious recipe 1")
+  response.should have_selector("tr:nth-child(3) a",
+                                :content => "delicious recipe 10")
+end
