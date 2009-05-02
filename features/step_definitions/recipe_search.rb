@@ -218,3 +218,10 @@ Then /^the results should be ordered by name in ascending order$/ do
   response.should have_selector("tr:nth-child(3) a",
                                 :content => "delicious recipe 10")
 end
+
+Then /^the results should be ordered by name in descending order$/ do
+  response.should have_selector("tr:nth-child(2) a",
+                                :content => "delicious recipe 9")
+  response.should have_selector("tr:nth-child(3) a",
+                                :content => "delicious recipe 8")
+end

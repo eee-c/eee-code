@@ -121,5 +121,15 @@ describe "eee" do
 
       get "/recipes/search?q=title:egg&sort="
     end
+
+    it "should reverse sort when order=desc is supplied" do
+      RestClient.stub!(:get).
+        and_return('{"total_rows":30,"skip":0,"limit":20,"rows":[]}')
+
+      RestClient.should_receive(:get).with(/sort=%5C/)
+
+      get "/recipes/search?q=title:egg&sort=sort_foo&order=desc"
+    end
+
   end
 end

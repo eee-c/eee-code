@@ -90,9 +90,19 @@ module Eee
       %Q|<div class="pagination">#{links.join}</div>|
     end
 
-    def sort_link(text, sort_on, query)
+    def sort_link(text, sort_field, query, results)
       id  = "sort-by-#{text.downcase}"
-      url = "/recipes/search?q=#{query}&sort=#{sort_on}"
+
+      sort_field_current =
+        results["sort_order"] &&
+        results["sort_order"].detect { |sort_options|
+        sort_options["field"] == sort_field
+      }
+
+      sort = sort_field_current.nil? || sort_field_current["reverse"] ?
+        sort_field : "#{sort_field}&order=desc"
+
+      url = "/recipes/search?q=#{query}&sort=#{sort}"
       %Q|<a href="#{url}" id="#{id}">#{text}</a>|
     end
   end

@@ -1,8 +1,8 @@
 %table
   %tr
     %th
-      = sort_link("Name", "sort_title", @query)
-      = sort_link("Date", "sort_date",  @query)
+      = sort_link("Name", "sort_title", @query, @results)
+      = sort_link("Date", "sort_date",  @query, @results)
     %th= "Date"
   - @results['rows'].each_with_index do |result, i|
     %tr{:class => "row#{i % 2}"}

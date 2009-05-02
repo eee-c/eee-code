@@ -27,7 +27,8 @@ get '/recipes/search' do
     "&skip=#{skip}"
 
   if params[:sort] =~ /\w/
-    couchdb_url += "&sort=#{params[:sort]}"
+    order = params[:order] =~ /desc/ ? "%5C" : ""
+    couchdb_url += "&sort=#{order}#{params[:sort]}"
   end
 
   data = RestClient.get couchdb_url
