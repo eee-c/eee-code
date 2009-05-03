@@ -91,7 +91,7 @@ describe "eee" do
 
     it "should paginate" do
       RestClient.should_receive(:get).
-        with(/skip=21/).
+        with(/skip=20/).
         and_return('{"total_rows":30,"skip":0,"limit":20,"rows":[]}')
 
       get "/recipes/search?q=title:eggs&page=2"

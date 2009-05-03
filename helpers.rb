@@ -63,6 +63,13 @@ module Eee
 
       link = "/recipes/search?q=#{query}"
 
+      if results['sort_order']
+        link += "&sort=#{results['sort_order'].first['field']}"
+        if results['sort_order'].first['reverse']
+          link += "&order=desc"
+        end
+      end
+
       links = []
 
       links <<

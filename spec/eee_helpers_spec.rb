@@ -112,6 +112,25 @@ describe "pagination" do
     pagination(@query, @results).
       should have_selector("span.current", :content => "1")
   end
+  context "with sorting applied" do
+    before(:each) do
+      @results["sort_order"] = [{ "field"   => "sort_foo",
+                                  "reverse" => false}]
+    end
+    it "should have a link to other pages with sorting applied" do
+      pagination(@query, @results).
+        should have_selector("a",
+                             :content => "2",
+                             :href    => "/recipes/search?q=foo&sort=sort_foo&page=2")
+    end
+    it "should have a link to other pages with reverse sorting applied" do
+      @results["sort_order"].first["reverse"] = true
+      pagination(@query, @results).
+        should have_selector("a",
+                             :content => "2",
+                             :href    => "/recipes/search?q=foo&sort=sort_foo&order=desc&page=2")
+    end
+  end
 end
 
 describe "sort_link" do

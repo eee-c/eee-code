@@ -208,6 +208,7 @@ Then /^I should be able to go to a (.+) page$/ do |link_text|
 end
 
 Then /^I should see page (.+)$/ do |page|
+  @page = page.to_i
   response.should have_selector(".pagination span.current",
                                 :content => page)
 end
@@ -220,8 +221,15 @@ Then /^the results should be ordered by name in ascending order$/ do
 end
 
 Then /^the results should be ordered by name in descending order$/ do
-  response.should have_selector("tr:nth-child(2) a",
-                                :content => "delicious recipe 9")
-  response.should have_selector("tr:nth-child(3) a",
-                                :content => "delicious recipe 8")
+  if @page == 2
+    response.should have_selector("tr:nth-child(2) a",
+                                  :content => "delicious recipe 36")
+    response.should have_selector("tr:nth-child(3) a",
+                                  :content => "delicious recipe 35")
+  else
+    response.should have_selector("tr:nth-child(2) a",
+                                  :content => "delicious recipe 9")
+    response.should have_selector("tr:nth-child(3) a",
+                                  :content => "delicious recipe 8")
+  end
 end

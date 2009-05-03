@@ -20,7 +20,7 @@ get '/recipes/search' do
   @query = params[:q]
 
   page = params[:page].to_i
-  skip = (page < 2) ? 0 : ((page - 1) * 20) + 1
+  skip = (page < 2) ? 0 : ((page - 1) * 20)
 
   couchdb_url = "#{@@db}/_fti?limit=20" +
     "&q=#{@query}" +
