@@ -233,3 +233,32 @@ Then /^the results should be ordered by name in descending order$/ do
                                   :content => "delicious recipe 8")
   end
 end
+
+Then /^the results should be ordered by date in descending order$/ do
+    response.should have_selector("tr:nth-child(2) .date",
+                                  :content => "2008-06-17")
+    response.should have_selector("tr:nth-child(3) .date",
+                                  :content => "2008-06-16")
+end
+
+Then /^the results should be ordered by date in ascending order$/ do
+    response.should have_selector("tr:nth-child(2) .date",
+                                  :content => "2008-04-29")
+    response.should have_selector("tr:nth-child(3) .date",
+                                  :content => "2008-04-30")
+end
+
+Then /^the results should be ordered by preparation time in ascending order$/ do
+    response.should have_selector("tr:nth-child(2) .prep",
+                                  :content => "1")
+    response.should have_selector("tr:nth-child(3) .prep",
+                                  :content => "2")
+end
+
+Then /^the results should be ordered by the number of ingredients in ascending order$/ do
+    response.should have_selector("tr:nth-child(2) .ingredients",
+                                  :content => "ingredient 1")
+    response.should have_selector("tr:nth-child(3) .ingredients",
+                                  :content => "ingredient 1, ingredient 2")
+end
+

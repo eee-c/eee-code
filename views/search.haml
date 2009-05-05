@@ -1,13 +1,22 @@
 %table
   %tr
     %th
-      = sort_link("Name", "sort_title", @query, @results)
-      = sort_link("Date", "sort_date",  @query, @results)
-    %th= "Date"
+      = sort_link("Name", "sort_title", @results, :query => @query)
+    %th
+      = sort_link("Date", "sort_date",  @results, :query => @query, :reverse => true)
+    %th
+      = sort_link("Prep", "sort_prep", @results, :query => @query)
+    %th
+      = sort_link("Ingredients", "sort_ingredient", @results, :query => @query)
   - @results['rows'].each_with_index do |result, i|
     %tr{:class => "row#{i % 2}"}
       %td
         %a{:href => "/recipes/#{result['_id']}"}= result['title']
-      %td= result['date']
+      %td
+        %span.date= result['date']
+      %td
+        %span.prep= result['prep_time'].to_i
+      %td
+        %span.ingredients= result['ingredient']
 
 = pagination(@query, @results)

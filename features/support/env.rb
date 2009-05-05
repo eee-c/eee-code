@@ -61,11 +61,15 @@ function(doc) {
 
   idx(doc);
 
-  ret.field('sort_title', doc['title'], 'yes', 'not_analyzed');
-  ret.field('sort_date',  doc['date'],  'yes', 'not_analyzed');
+  ret.field('sort_title', doc['title'],     'yes', 'not_analyzed');
+  ret.field('sort_date',  doc['date'],      'yes', 'not_analyzed');
+  ret.field('sort_prep',  doc['prep_time'], 'yes', 'not_analyzed');
 
-  ret.field('date',  doc['date'],  'yes');
-  ret.field('title', doc['title'], 'yes');
+  ret.field('sort_ingredient', doc['preparations'].length, 'yes', 'not_analyzed');
+
+  ret.field('date',       doc['date'],      'yes');
+  ret.field('title',      doc['title'],     'yes');
+  ret.field('prep_time',  doc['prep_time'], 'yes');
 
   return ret;
 }

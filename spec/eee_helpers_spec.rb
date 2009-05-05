@@ -134,34 +134,49 @@ describe "pagination" do
 end
 
 describe "sort_link" do
+  before(:each) do
+    @current_results = { }
+  end
+
   it "should link the supplied text" do
-    sort_link("Foo", "sort_foo", "query", { }).
+    sort_link("Foo", "sort_foo", @current_results, :query => "query").
       should have_selector("a",
                            :content => "Foo")
   end
   it "should link to the query with the supplied sort field" do
-    sort_link("Foo", "sort_foo", "query", { }).
+    sort_link("Foo", "sort_foo", @current_results, :query => "query").
       should have_selector("a",
                            :href => "/recipes/search?q=query&sort=sort_foo")
   end
 
   it "should link in descending order if already sorted on the sort field in ascending order" do
-    results = {
-      "sort_order" => [{ "field"   => "sort_foo",
-                         "reverse" => false}]
-    }
-    sort_link("Foo", "sort_foo", "query", results).
+    @current_results["sort_order"] =
+      [{ "field"   => "sort_foo",
+         "reverse" => false }]
+
+    sort_link("Foo", "sort_foo", @current_results, :query => "query").
       should have_selector("a",
                            :href => "/recipes/search?q=query&sort=sort_foo&order=desc")
   end
 
   it "should link in ascending order if already sorted on the sort field in descending order" do
-    results = {
-      "sort_order" => [{ "field"   => "sort_foo",
-                         "reverse" => true}]
-    }
-    sort_link("Foo", "sort_foo", "query", results).
+    @current_results["sort_order"] =
+      [{ "field"   => "sort_foo",
+         "reverse" => true }]
+
+    sort_link("Foo", "sort_foo", @current_results, :query => "query").
       should have_selector("a",
                            :href => "/recipes/search?q=query&sort=sort_foo")
   end
+
+  it "should link to descending sort if instructed to reverse" do
+    sort_link("Foo",
+              "sort_foo",
+              @current_results,
+              :query => "query",
+              :reverse => true).
+      should have_selector("a",
+                           :href => "/recipes/search?q=query&sort=sort_foo&order=desc")
+  end
+
 end
