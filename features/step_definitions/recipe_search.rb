@@ -110,7 +110,7 @@ end
 Given /^(\d+) (.+) recipes$/ do |count, keyword|
   date = Date.new(2009, 4, 22)
 
-  (0..count.to_i).each do |i|
+  (1..count.to_i).each do |i|
     permalink = "id-#{i}-#{keyword.gsub(/\W/, '-')}"
 
     recipe = {

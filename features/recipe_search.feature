@@ -101,7 +101,7 @@ Feature: Search for recipes
     Scenario: No matching results
 
       Given 5 "Yummy" recipes
-      And of 0.5 second wait to allow the search index to be updated
+      And a 0.5 second wait to allow the search index to be updated
       When I search for "delicious"
       Then I should see no results
       And no result headings
@@ -110,7 +110,7 @@ Feature: Search for recipes
     Scenario: Invalid search parameters
 
       Given 5 "Yummy" recipes
-      And of 0.5 second wait to allow the search index to be updated
+      And a 0.5 second wait to allow the search index to be updated
       When I search for ""
       Then I should see no results
       When I seach for a pre-ascii character "%1F"
