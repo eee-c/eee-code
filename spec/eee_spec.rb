@@ -131,5 +131,13 @@ describe "eee" do
       get "/recipes/search?q=title:egg&sort=sort_foo&order=desc"
     end
 
+    it "should display a helpful message when no results" do
+      RestClient.stub!(:get).
+        and_return('{"total_rows":0,"skip":0,"limit":20,"rows":[]}')
+
+      get "/recipes/search?q=title:egg"
+
+      response.should contain("No results")
+    end
   end
 end

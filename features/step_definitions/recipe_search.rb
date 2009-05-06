@@ -262,3 +262,10 @@ Then /^the results should be ordered by the number of ingredients in ascending o
                                   :content => "ingredient 1, ingredient 2")
 end
 
+Then /^I should see no results$/ do
+  response.should have_selector("p.no-results")
+end
+
+Then /^no result headings$/ do
+  response.should_not have_selector("th")
+end

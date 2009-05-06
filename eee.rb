@@ -40,7 +40,7 @@ get '/recipes/search' do
     return
   end
 
-  haml :search
+  haml @results['total_rows'] == 0 ? :no_results : :search
 end
 
 get '/recipes/:permalink' do
