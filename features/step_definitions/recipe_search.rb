@@ -149,7 +149,7 @@ Given /^a ([.\d]+) second wait/ do |seconds|
   sleep seconds.to_f
 end
 
-When /^I search for "(.+)"$/ do |keyword|
+When /^I search for "(.*)"$/ do |keyword|
   @query = "/recipes/search?q=#{keyword}"
   visit(@query)
 end
@@ -160,6 +160,10 @@ end
 
 When /^I search ingredients for "(.+)"$/ do |keyword|
   visit("/recipes/search?q=ingredient:#{keyword}")
+end
+
+When /^I search for an invalid lucene search term like "([^\"]*)"$/ do |keyword|
+  visit("/recipes/search?q=#{keyword}")
 end
 
 When /^I click page (\d+)$/ do |page|
@@ -177,7 +181,6 @@ end
 When /^I click the "([^\"]*)" column header$/ do |link|
   click_link("sort-by-#{link.downcase()}")
 end
-
 
 Then /^I should see the "(.+)" recipe in the search results$/ do |title|
   response.should have_selector("a",
@@ -268,4 +271,8 @@ end
 
 Then /^no result headings$/ do
   response.should_not have_selector("th")
+end
+
+Then /^I should see an empty query string$/ do
+  response.should have_selector("input[@name=query][@value='']")
 end

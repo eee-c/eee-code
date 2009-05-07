@@ -139,5 +139,23 @@ describe "eee" do
 
       response.should contain("No results")
     end
+
+    it "should treat couchdb errors as no-results" do
+      RestClient.stub!(:get).
+        and_raise(Exception)
+
+      get "/recipes/search?q=title:egg"
+
+      response.should contain("No results")
+    end
+
+    it "should treat couchdb-lucene errors as an empty query" do
+      RestClient.stub!(:get).
+        and_raise(Exception)
+
+      get "/recipes/search?q=title:egg"
+
+      response.should have_selector("input[@name=query][@value='']")
+    end
   end
 end

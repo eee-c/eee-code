@@ -31,11 +31,15 @@ get '/recipes/search' do
     couchdb_url += "&sort=#{order}#{params[:sort]}"
   end
 
-  data = RestClient.get couchdb_url
+  begin
+    data = RestClient.get couchdb_url
+    @results = JSON.parse(data)
+  rescue Exception
+    @query = ""
+    @results = { 'total_rows' => 0 }
+  end
 
-  @results = JSON.parse(data)
-
-  if @results['rows'].size == 0 && page > 1
+  if @results['total_rows'] == 0 && page > 1
     redirect("/recipes/search?q=#{@query}")
     return
   end

@@ -1,2 +1,6 @@
+%form{:method => "get", :action => "/recipes/search"}
+  %input{:type => "text", :value => @query, :name => "query", :size => 31, :maxlength => 2048}
+  %input{:type => "submit", :value => "Search", :name => "s"}
+
 %p.no-results
   No results matched your search. Please refine your search

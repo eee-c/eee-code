@@ -113,9 +113,7 @@ Feature: Search for recipes
       And a 0.5 second wait to allow the search index to be updated
       When I search for ""
       Then I should see no results
-      When I seach for a pre-ascii character "%1F"
-      Then I should see no results
-      And an empty query string
+      And I should see an empty query string
       When I search for an invalid lucene search term like "title:ingredient:egg"
       Then I should see no results
-      And an empty query string
+      And I should see an empty query string
