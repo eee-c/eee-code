@@ -36,10 +36,10 @@ get '/recipes/search' do
     @results = JSON.parse(data)
   rescue Exception
     @query = ""
-    @results = { 'total_rows' => 0 }
+    @results = { 'total_rows' => 0, 'rows' => [] }
   end
 
-  if @results['total_rows'] == 0 && page > 1
+  if @results['rows'].count == 0 && page > 1
     redirect("/recipes/search?q=#{@query}")
     return
   end

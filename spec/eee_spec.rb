@@ -1,4 +1,5 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper' )
+require 'pp'
 
 describe "eee" do
   include Sinatra::Test
@@ -138,6 +139,16 @@ describe "eee" do
       get "/recipes/search?q=title:egg"
 
       response.should contain("No results")
+    end
+
+    it "should redirect without pagination after navigating beyond the pagination window" do
+      RestClient.stub!(:get).
+        and_return('{"total_rows":1,"skip":0,"limit":20,"rows":[]}')
+
+      get "/recipes/search?q=egg&page=2"
+
+      response.status.should == 302
+      response.headers["Location"].should == "/recipes/search?q=egg"
     end
 
     it "should treat couchdb errors as no-results" do
