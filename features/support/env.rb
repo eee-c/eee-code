@@ -32,6 +32,14 @@ Before do
 function(doc) {
   var ret = new Document();
 
+  function zero_pad(i, number_of_zeroes) {
+    var ret = i + "";
+    while (ret.length < number_of_zeroes) {
+      ret = "0" + ret;
+    }
+    return ret;
+  }
+
   function idx(obj) {
     for (var key in obj) {
       switch (typeof obj[key]) {
@@ -63,10 +71,11 @@ function(doc) {
 
   ret.field('sort_title', doc['title'],     'yes', 'not_analyzed');
   ret.field('sort_date',  doc['date'],      'yes', 'not_analyzed');
-  ret.field('sort_prep',  doc['prep_time'], 'yes', 'not_analyzed');
+
+  ret.field('sort_prep',  zero_pad(doc['prep_time'], 5), 'yes', 'not_analyzed');
 
   var ingredient_count = doc['preparations'] ? doc['preparations'].length : 0;
-  ret.field('sort_ingredient', ingredient_count, 'yes', 'not_analyzed');
+  ret.field('sort_ingredient', zero_pad(ingredient_count, 5), 'yes', 'not_analyzed');
 
   ret.field('date',       doc['date'],      'yes');
   ret.field('title',      doc['title'],     'yes');
