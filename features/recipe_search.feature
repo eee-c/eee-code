@@ -117,3 +117,13 @@ Feature: Search for recipes
       When I search for an invalid lucene search term like "title:ingredient:egg"
       Then I should see no results
       And I should see an empty query string
+
+    Scenario: Searching recipes with meals and other things in the DB
+
+      Given 5 "Yummy" recipes
+      And 1 "Yummy" meal
+      And 1 "About this site" document with the word "Yummy" in it
+      And a 0.5 second wait to allow the search index to be updated
+      When I search for "yummy"
+      Then I should see 5 results
+

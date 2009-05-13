@@ -47,7 +47,10 @@ Given /^a "(.+)" recipe with a "(.+)" summary$/ do |title, keyword|
   recipe = {
     :title => title,
     :date  => date,
-    :summary => "This is #{keyword}"
+    :summary => "This is #{keyword}",
+    :preparations => [
+      { 'ingredient' => { 'name' => 'ingredient' } }
+    ]
   }
 
   RestClient.put "#{@@db}/#{permalink}",
@@ -62,7 +65,10 @@ Given /^a "(.+)" recipe with instructions "(.+)"$/ do |title, instructions|
   recipe = {
     :title => title,
     :date  => date,
-    :instructions => instructions
+    :instructions => instructions,
+    :preparations => [
+      { 'ingredient' => { 'name' => 'ingredient' } }
+    ]
   }
 
   RestClient.put "#{@@db}/#{permalink}",
@@ -77,6 +83,9 @@ Given /^a "(.+)" recipe$/ do |title|
   recipe = {
     :title => title,
     :date  => date,
+    :preparations => [
+      { 'ingredient' => { 'name' => 'ingredient' } }
+    ]
   }
 
   RestClient.put "#{@@db}/#{permalink}",
@@ -115,7 +124,10 @@ Given /^(\d+) (.+) recipes$/ do |count, keyword|
 
     recipe = {
       :title => "#{keyword} recipe #{i}",
-      :date  => date
+      :date  => date,
+      :preparations => [
+        { 'ingredient' => { 'name' => 'ingredient' } }
+      ]
     }
 
     RestClient.put "#{@@db}/#{permalink}",
@@ -144,6 +156,40 @@ Given /^(\d+) "([^\"]*)" recipes with ascending names, dates, preparation times,
       :content_type => 'application/json'
   end
 end
+
+Given /^(\d+) "([^\"]*)" meals?$/ do |count, keyword|
+  date = Date.new(2008, 5, 12)
+
+  (1..count.to_i).each do |i|
+    permalink = "id-#{date.to_s}"
+
+    meal = {
+      :title       => "#{keyword} meal #{i}",
+      :date        => date + i,
+      :serves      => i,
+      :summary     => "#{keyword} summary",
+      :description => "#{keyword} description"
+    }
+
+    RestClient.put "#{@@db}/#{permalink}",
+      meal.to_json,
+      :content_type => 'application/json'
+  end
+end
+
+Given /^1 "([^\"]*)" document with the word "([^\"]*)" in it$/ do |arg1, arg2|
+  permalink = "id-#{arg1.gsub(/\W/, '-')}"
+
+  doc = {
+    :title   => arg1,
+    :content => arg2
+  }
+
+  RestClient.put "#{@@db}/#{permalink}",
+    doc.to_json,
+    :content_type => 'application/json'
+end
+
 
 Given /^a ([.\d]+) second wait/ do |seconds|
   sleep seconds.to_f
