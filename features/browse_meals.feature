@@ -7,14 +7,13 @@ Feature: Browse Meals
   Scenario: Browsing a meal in a given year
 
     Given a "Even Fried, They Won't Eat It" meal enjoyed in 2009
-    When I view the list of meals prepared in 2009
-    Then "Even Fried, They Won't Eat It" should be included in the list
-
-    Given a "Even Fried, They Won't Eat It" meal enjoyed in 2009
     And a "Salad. Mmmm." meal enjoyed in 2008
     When I view the list of meals prepared in 2009
-    Then I should be able to follow a link to the list of meals in 2008
-    And "Salad. Mmmm." should be included in the list
+    Then the "Even Fried, They Won't Eat It" meal should be included in the list
+    And the "Salad. Mmmm." meal should not be included in the list
+    When I follow the link to the list of meals in 2008
+    Then the "Even Fried, They Won't Eat It" meal should not be included in the list
+    And the "Salad. Mmmm." meal should be included in the list
 
   Scenario: Browsing a meal in a given month
 
