@@ -15,3 +15,8 @@ Given /^a "([^\"]*)" meal enjoyed in (\d+)$/ do |title, year|
     meal.to_json,
     :content_type => 'application/json'
 end
+
+When /^I view the list of meals prepared in 2009$/ do
+  visit("/meals/2009")
+  response.status.should == 200
+end

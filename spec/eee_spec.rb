@@ -12,6 +12,42 @@ describe "eee" do
     RestClient.delete @@db
   end
 
+  context "a CouchDB meal" do
+    before(:each) do
+      @date = Date.new(2009, 5, 13)
+      @title = "Meal Title"
+      @permalink = "id-#{@date.to_s}"
+
+      meal = {
+        :title       => @title,
+        :date        => @date,
+        :serves      => 4,
+        :summary     => "meal summary",
+        :description => "meal description"
+      }
+
+      RestClient.put "#{@@db}/#{@permalink}",
+        meal.to_json,
+        :content_type => 'application/json'
+
+    end
+
+    after(:each) do
+      data = RestClient.get "#{@@db}/#{@permalink}"
+      meal = JSON.parse(data)
+
+      RestClient.delete "#{@@db}/#{@permalink}?rev=#{meal['_rev']}"
+    end
+
+
+    describe "GET /meals/YYYY" do
+      it "should respond OK" do
+        get "/meals/2009"
+        response.should be_ok
+      end
+    end
+  end
+
   describe "a CouchDB recipe" do
     before (:each) do
       @date = Date.today

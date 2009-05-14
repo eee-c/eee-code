@@ -16,6 +16,9 @@ helpers do
   include Eee::Helpers
 end
 
+get %r{/meals/(\d+)} do |year|
+end
+
 get '/recipes/search' do
   @query = params[:q]
 
