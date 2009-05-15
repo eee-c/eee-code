@@ -30,10 +30,11 @@ describe "eee" do
         meal.to_json,
         :content_type => 'application/json'
 
+      RestClient.stub!(:get).and_return("{ }")
     end
 
     after(:each) do
-      data = RestClient.get "#{@@db}/#{@permalink}"
+      data = RestClient.proxied_by_rspec__get "#{@@db}/#{@permalink}"
       meal = JSON.parse(data)
 
       RestClient.delete "#{@@db}/#{@permalink}?rev=#{meal['_rev']}"
@@ -44,6 +45,15 @@ describe "eee" do
       it "should respond OK" do
         get "/meals/2009"
         response.should be_ok
+      end
+
+      it "should ask CouchDB for meal from year YYYY" do
+        RestClient.
+          should_receive(:get).
+          with(/year=2009/).
+          and_return("{ }")
+
+        get "/meals/2009"
       end
     end
   end

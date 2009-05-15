@@ -17,6 +17,9 @@ helpers do
 end
 
 get %r{/meals/(\d+)} do |year|
+  url = "#{@@db}/_design/meals/_view/by_year?group=true&year=#{year}}"
+  data = RestClient.get url
+  @meals = JSON.parse(data)
 end
 
 get '/recipes/search' do
