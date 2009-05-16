@@ -1,0 +1,6 @@
+%h1= "Meals from #{@year}"
+
+%ul
+  - @meal.each do |meal|
+    %li
+      %a{:href => "/meals/#{meal['_id']}"}= meal['title']
