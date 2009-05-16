@@ -11,7 +11,5 @@ task :helper_specs do
 end
 
 task :view_specs do
-  system("spec",
-         "./spec/views/recipe.haml_spec.rb",
-         "./spec/views/search.haml_spec.rb")
+  system("spec ./spec/views/*.haml_spec.rb")
 end
