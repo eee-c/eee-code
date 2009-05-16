@@ -92,6 +92,22 @@ _JS
   RestClient.put "#{@@db}/_design/lucene",
     doc.to_json,
     :content_type => 'application/json'
+
+  meals_view = <<_JS
+{
+  "views": {
+    "by_year": {
+      "map": "function (doc) { emit(doc['date'].substring(0, 4), [doc['_id'], doc['title']]); }",
+      "reduce": "function(keys, values, rereduce) { return values; }"
+    }
+  },
+  "language": "javascript"
+}
+_JS
+
+  RestClient.put "#{@@db}/_design/meals",
+    meals_view,
+    :content_type => 'application/json'
 end
 
 After do

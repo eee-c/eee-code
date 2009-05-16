@@ -20,3 +20,11 @@ When /^I view the list of meals prepared in 2009$/ do
   visit("/meals/2009")
   response.status.should == 200
 end
+
+Then /^the "([^\"]*)" meal should be included in the list$/ do |title|
+  response.should have_selector("li a", :content => title)
+end
+
+Then /^the "([^\"]*)" meal should not be included in the list$/ do |title|
+  response.should_not have_selector("a", :content => title)
+end

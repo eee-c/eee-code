@@ -17,10 +17,12 @@ helpers do
 end
 
 get %r{/meals/(\d+)} do |year|
-  url = "#{@@db}/_design/meals/_view/by_year?group=true&year=#{year}}"
+  url = "#{@@db}/_design/meals/_view/by_year?group=true&key=%22#{year}%22"
   data = RestClient.get url
   @meals = JSON.parse(data)
   @year  = year
+
+  haml :meal_by_year
 end
 
 get '/recipes/search' do

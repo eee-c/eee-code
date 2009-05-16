@@ -2,18 +2,12 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper' )
 
 describe "meal.haml" do
   before(:each) do
-    assigns[:meals] = @meal =
-      [
-       {
-         'title' => 'Meal 1',
-         '_id'   => '2009-05-14'
-       },
-       {
-         'title' => 'Meal 2',
-         '_id'   => '2009-05-14'
-       }
+    assigns[:meals] = {
+      'rows' => [
+        { "value" => [['2009-05-14', 'Meal 1']]},
+        { "value" => [['2009-05-15', 'Meal 2']]},
       ]
-
+    }
     assigns[:year] = 2009
   end
 

@@ -1,6 +1,6 @@
 %h1= "Meals from #{@year}"
 
 %ul
-  - @meal.each do |meal|
+  - @meals["rows"].each do |meal|
     %li
-      %a{:href => "/meals/#{meal['_id']}"}= meal['title']
+      %a{:href => "/meals/#{meal['value'][0][0]}"}= meal['value'][0][1]

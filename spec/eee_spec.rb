@@ -30,7 +30,7 @@ describe "eee" do
         meal.to_json,
         :content_type => 'application/json'
 
-      RestClient.stub!(:get).and_return("{ }")
+      RestClient.stub!(:get).and_return('{"rows": [] }')
     end
 
     after(:each) do
@@ -50,8 +50,8 @@ describe "eee" do
       it "should ask CouchDB for meal from year YYYY" do
         RestClient.
           should_receive(:get).
-          with(/year=2009/).
-          and_return("{ }")
+          with(/key=...2009/).
+          and_return('{"rows": [] }')
 
         get "/meals/2009"
       end
