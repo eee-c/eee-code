@@ -21,6 +21,10 @@ When /^I view the list of meals prepared in 2009$/ do
   response.status.should == 200
 end
 
+When /^I follow the link to the list of meals in 2008$/ do
+  click_link "2008"
+end
+
 Then /^the "([^\"]*)" meal should be included in the list$/ do |title|
   response.should have_selector("li a", :content => title)
 end

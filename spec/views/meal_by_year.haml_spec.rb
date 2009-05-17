@@ -9,6 +9,9 @@ describe "meal.haml" do
       ]
     }
     assigns[:year] = 2009
+    assigns[:count_by_year] = [{"key" => "2008", "value" => 3},
+                               {"key" => "2009", "value" => 3}]
+
   end
 
   it "should display a list of meals" do

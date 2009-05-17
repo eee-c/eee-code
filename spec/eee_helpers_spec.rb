@@ -180,3 +180,19 @@ describe "sort_link" do
   end
 
 end
+
+describe "link_to_next_year" do
+  before(:each) do
+    @count_by_year = [{"key" => "2008", "value" => 3},
+                      {"key" => "2009", "value" => 3}]
+  end
+  it "should link to the next year after the current one" do
+    link_to_next_year(2008, @count_by_year).
+      should have_selector("a",
+                           :href => "/meals/2009")
+  end
+  it "should return empty if there are no more years" do
+    link_to_next_year(2009, @count_by_year).
+      should == ""
+  end
+end

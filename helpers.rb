@@ -118,5 +118,16 @@ module Eee
       url = "/recipes/search?q=#{query}&sort=#{sort_field}#{order}"
       %Q|<a href="#{url}" id="#{id}">#{text}</a>|
     end
+
+    def link_to_next_year(current, couch_view)
+      next_result = couch_view.detect do |result|
+        result['key'].to_i > current.to_i
+      end
+      if next_result
+        %Q|<a href="/meals/#{next_result['key']}">#{next_result['key']}</a>|
+      else
+        ""
+      end
+    end
   end
 end

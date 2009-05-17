@@ -55,6 +55,16 @@ describe "eee" do
 
         get "/meals/2009"
       end
+
+      it "should ask CouchDB how many meals from all years" do
+        RestClient.
+          should_receive(:get).
+          with(/meals.+count_by_year/).
+          and_return('{"rows": [{"key":"2008","value":3},
+                                {"key":"2009","value":3}]}')
+
+        get "/meals/2009"
+      end
     end
   end
 

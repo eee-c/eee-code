@@ -97,8 +97,20 @@ _JS
 {
   "views": {
     "by_year": {
-      "map": "function (doc) { emit(doc['date'].substring(0, 4), [doc['_id'], doc['title']]); }",
+      "map": "function (doc) {
+        if (doc['type'] == 'Meal') {
+          emit(doc['date'].substring(0, 4), [doc['_id'], doc['title']]);
+        }
+      }",
       "reduce": "function(keys, values, rereduce) { return values; }"
+    },
+    "count_by_year": {
+      "map": "function (doc) {
+        if (doc['type'] == 'Meal') {
+          emit(doc['date'].substring(0, 4), 1);
+        }
+      }",
+      "reduce": "function(keys, values, rereduce) { return sum(values); }"
     }
   },
   "language": "javascript"
