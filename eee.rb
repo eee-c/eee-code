@@ -24,7 +24,7 @@ get %r{/meals/(\d+)} do |year|
 
   url = "#{@@db}/_design/meals/_view/count_by_year?group=true"
   data = RestClient.get url
-  @count_by_year = data['rows']
+  @count_by_year = JSON.parse(data)['rows']
 
   haml :meal_by_year
 end

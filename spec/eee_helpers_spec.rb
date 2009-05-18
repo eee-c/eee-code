@@ -187,12 +187,17 @@ describe "link_to_next_year" do
                       {"key" => "2009", "value" => 3}]
   end
   it "should link to the next year after the current one" do
-    link_to_next_year(2008, @count_by_year).
+    link_to_year_in_set(2008, @count_by_year).
       should have_selector("a",
                            :href => "/meals/2009")
   end
+  it "should link to the previous before the current one" do
+    link_to_year_in_set(2009, @count_by_year, :previous => true).
+      should have_selector("a",
+                           :href => "/meals/2008")
+  end
   it "should return empty if there are no more years" do
-    link_to_next_year(2009, @count_by_year).
+    link_to_year_in_set(2009, @count_by_year).
       should == ""
   end
 end

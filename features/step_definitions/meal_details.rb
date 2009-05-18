@@ -5,10 +5,11 @@ Given /^a "([^\"]*)" meal enjoyed in (\d+)$/ do |title, year|
 
   meal = {
     :title       => title,
-    :date        => date,
+    :date        => date.to_s,
     :serves      => 4,
     :summary     => "meal summary",
-    :description => "meal description"
+    :description => "meal description",
+    :type        => "Meal"
   }
 
   RestClient.put "#{@@db}/#{permalink}",
@@ -22,6 +23,7 @@ When /^I view the list of meals prepared in 2009$/ do
 end
 
 When /^I follow the link to the list of meals in 2008$/ do
+  save_and_open_page
   click_link "2008"
 end
 

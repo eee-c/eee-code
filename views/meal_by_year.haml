@@ -1,9 +1,9 @@
 %h1= "Meals from #{@year}"
 
 %div.navigation
-  =link_to_next_year(@year, @count_by_year.reverse)
+  =link_to_year_in_set(@year, @count_by_year, :previous => true)
   |
-  =link_to_next_year(@year, @count_by_year)
+  =link_to_year_in_set(@year, @count_by_year)
 
 %ul
   - @meals["rows"].each do |meal|
