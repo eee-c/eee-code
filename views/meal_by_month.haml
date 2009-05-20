@@ -1,0 +1,5 @@
+%h1= "Meals from #{@year}-#{@month}"
+
+.meals
+  - @meals["rows"].each do |meal|
+    %h2= meal['value'][0][1]

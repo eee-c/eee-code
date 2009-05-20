@@ -104,10 +104,26 @@ _JS
       }",
       "reduce": "function(keys, values, rereduce) { return values; }"
     },
+    "by_month": {
+      "map": "function (doc) {
+        if (doc['type'] == 'Meal') {
+          emit(doc['date'].substring(0, 7), [doc['_id'], doc['title']]);
+        }
+      }",
+      "reduce": "function(keys, values, rereduce) { return values; }"
+    },
     "count_by_year": {
       "map": "function (doc) {
         if (doc['type'] == 'Meal') {
           emit(doc['date'].substring(0, 4), 1);
+        }
+      }",
+      "reduce": "function(keys, values, rereduce) { return sum(values); }"
+    },
+    "count_by_month": {
+      "map": "function (doc) {
+        if (doc['type'] == 'Meal') {
+          emit(doc['date'].substring(0, 7), 1);
         }
       }",
       "reduce": "function(keys, values, rereduce) { return sum(values); }"

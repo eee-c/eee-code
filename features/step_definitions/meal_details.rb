@@ -1,5 +1,6 @@
-Given /^a "([^\"]*)" meal enjoyed in (\d+)$/ do |title, year|
-  date = Date.new(year.to_i, 5, 13)
+Given /^a "([^\"]*)" meal enjoyed in (.+)$/ do |title, date_str|
+  date = (date_str =~ /^\s*(\d+)\s*$/) ?
+    Date.new($1.to_i, 5, 13) : Date.parse(date_str)
 
   permalink = "id-#{date.to_s}"
 
@@ -23,8 +24,12 @@ When /^I view the list of meals prepared in 2009$/ do
 end
 
 When /^I follow the link to the list of meals in 2008$/ do
-  save_and_open_page
   click_link "2008"
+end
+
+When /^I view the list of meals prepared in May of 2009$/ do
+  visit("/meals/2009/05")
+  response.status.should == 200
 end
 
 Then /^the "([^\"]*)" meal should be included in the list$/ do |title|

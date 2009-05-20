@@ -66,6 +66,32 @@ describe "eee" do
         get "/meals/2009"
       end
     end
+
+    describe "GET /meals/YYYY/MM" do
+      it "should respond OK" do
+        get "/meals/2009/05"
+        response.should be_ok
+      end
+
+      it "should ask CouchDB for meal from year YYYY and month MM" do
+        RestClient.
+          should_receive(:get).
+          with(/key=...2009-05/).
+          and_return('{"rows": [] }')
+
+        get "/meals/2009/05"
+      end
+
+      it "should ask CouchDB how many meals from all months" do
+        RestClient.
+          should_receive(:get).
+          with(/meals.+count_by_month/).
+          and_return('{"rows": [{"key":"2009-04","value":3},
+                                {"key":"2009-05","value":3}]}')
+
+        get "/meals/2009/05"
+      end
+    end
   end
 
   describe "a CouchDB recipe" do

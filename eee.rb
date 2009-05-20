@@ -16,6 +16,20 @@ helpers do
   include Eee::Helpers
 end
 
+get %r{/meals/(\d+)/(\d+)} do |year, month|
+  url = "#{@@db}/_design/meals/_view/by_year?group=true&key=%22#{year}-#{month}%22"
+  data = RestClient.get url
+  @meals = JSON.parse(data)
+  @year  = year
+  @month = month
+
+  url = "#{@@db}/_design/meals/_view/count_by_month?group=true"
+  data = RestClient.get url
+  @count_by_year = JSON.parse(data)['rows']
+
+  haml :meal_by_month
+end
+
 get %r{/meals/(\d+)} do |year|
   url = "#{@@db}/_design/meals/_view/by_year?group=true&key=%22#{year}%22"
   data = RestClient.get url

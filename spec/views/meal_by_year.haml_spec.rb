@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper' )
 
-describe "meal.haml" do
+describe "meal_by_year.haml" do
   before(:each) do
     assigns[:meals] = {
       'rows' => [
