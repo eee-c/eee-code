@@ -2,4 +2,8 @@
 
 .meals
   - @meals["rows"].each do |meal|
-    %h2= meal['value'][0][1]
+    = image_link meal['value'][0], :width => 200, :height => 150
+    %h2
+      %span.date= meal['value'][0]['date']
+      %span.title= meal['value'][0]['title']
+    %p= meal['value'][0]['summary']

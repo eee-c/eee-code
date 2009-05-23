@@ -107,7 +107,7 @@ _JS
     "by_month": {
       "map": "function (doc) {
         if (doc['type'] == 'Meal') {
-          emit(doc['date'].substring(0, 7), [doc['_id'], doc['title']]);
+          emit(doc['date'].substring(0, 4) + '-' + doc['date'].substring(5, 7), doc);
         }
       }",
       "reduce": "function(keys, values, rereduce) { return values; }"
@@ -123,7 +123,8 @@ _JS
     "count_by_month": {
       "map": "function (doc) {
         if (doc['type'] == 'Meal') {
-          emit(doc['date'].substring(0, 7), 1);
+          emit(doc['date'].substring(0, 4) + '-' + doc['date'].substring(5, 7), 1);
+
         }
       }",
       "reduce": "function(keys, values, rereduce) { return sum(values); }"

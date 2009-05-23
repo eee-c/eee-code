@@ -41,7 +41,7 @@ module Eee
       %Q|<a href="/recipes/#{recipe['_id']}">#{recipe['title']}</a>|
     end
 
-    def image_link(doc)
+    def image_link(doc, options={ })
       return nil unless doc['_attachments']
 
       filename = doc['_attachments'].
@@ -50,7 +50,8 @@ module Eee
 
       return nil unless filename
 
-      %Q|<img src="/images/#{doc['_id']}/#{filename}"/>|
+      attrs = options.map{|kv| %Q|#{kv.first}="#{kv.last}"|}.join(" ")
+      %Q|<img #{attrs} src="/images/#{doc['_id']}/#{filename}"/>|
     end
 
     def pagination(query, results)

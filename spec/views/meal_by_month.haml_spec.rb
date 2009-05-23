@@ -4,19 +4,52 @@ describe "meal_by_month.haml" do
   before(:each) do
     assigns[:meals] = {
       'rows' => [
-        { "value" => [['2009-05-14', 'Meal 1']]},
-        { "value" => [['2009-05-15', 'Meal 2']]},
+        { "value" => [{ "_id"     => '2009-05-14',
+                        "date"    => '2009-05-14',
+                        "title"   => 'Meal 1',
+                        "summary" => 'Meal 1 Summary',
+                        "_attachments" => {"image1.jpg" => { }}
+                      }]
+        },
+        { "value" => [{ "_id"     => '2009-05-15',
+                        "date"    => '2009-05-15',
+                        "title"   => 'Meal 2',
+                        "summary" => 'Meal 2 Summary',
+                        "_attachments" => {"image2.jpg" => { }}
+                      }]
+        }
       ]
     }
     assigns[:year]  = 2009
     assigns[:month] = '05'
     assigns[:count_by_year] = [{"key" => "2009-04", "value" => 3},
                                {"key" => "2009-05", "value" => 3}]
-
   end
 
   it "should include each meal's title" do
     render("/views/meal_by_month.haml")
     response.should have_selector("h2", :content => "Meal 1")
   end
+
+  it "should include each meal's date in the title" do
+    render("/views/meal_by_month.haml")
+    response.should have_selector("h2", :content => "2009-05-14")
+  end
+
+  it "should include each meal's summary" do
+    render("/views/meal_by_month.haml")
+    response.should have_selector("p", :content => "Meal 2 Summary")
+  end
+
+  it "should include a thumbnail image of the meal" do
+    render("/views/meal_by_month.haml")
+    response.should have_selector("img",
+                                  :src    => "/images/2009-05-14/image1.jpg",
+                                  :width  => "200",
+                                  :height => "150")
+  end
+
+  it "should include the menu items"
+
+  it "should include recipe titles in the menu items"
 end

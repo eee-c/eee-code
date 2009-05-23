@@ -49,15 +49,22 @@ _TEXTILE
 end
 
 describe "image_link" do
-  it "should return a link tag pointing to the document's image" do
-    doc = {
-      '_id'          => "foo",
-      '_attachments' => { 'sample.jpg' => { } }
-    }
-
-    image_link(doc).
-      should have_selector("img",
-                           :src => "/images/#{doc['_id']}/sample.jpg")
+  context do
+    before(:each) do
+      @doc = {
+        '_id'          => "foo",
+        '_attachments' => { 'sample.jpg' => { } }
+      }
+    end
+    it "should return a link tag pointing to the document's image" do
+      image_link(@doc).
+        should have_selector("img",
+                             :src => "/images/#{@doc['_id']}/sample.jpg")
+    end
+    it "should include image attributes" do
+      image_link(@doc, :alt => "foo").
+        should have_selector("img", :alt => "foo")
+    end
   end
 
   it "should return nil if no attachments" do

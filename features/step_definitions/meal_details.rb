@@ -39,3 +39,11 @@ end
 Then /^the "([^\"]*)" meal should not be included in the list$/ do |title|
   response.should_not have_selector("a", :content => title)
 end
+
+Then /^I should see the "([^\"]*)" meal among the meals of this month$/ do |title|
+  response.should have_selector("h2", :content => title)
+end
+
+Then /^I should not see the "([^\"]*)" meal among the meals of this month$/ do |title|
+  response.should_not have_selector("h2", :content => title)
+end
