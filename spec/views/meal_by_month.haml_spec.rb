@@ -8,6 +8,7 @@ describe "meal_by_month.haml" do
                         "date"    => '2009-05-14',
                         "title"   => 'Meal 1',
                         "summary" => 'Meal 1 Summary',
+                        "menu"    => [],
                         "_attachments" => {"image1.jpg" => { }}
                       }]
         },
@@ -15,6 +16,7 @@ describe "meal_by_month.haml" do
                         "date"    => '2009-05-15',
                         "title"   => 'Meal 2',
                         "summary" => 'Meal 2 Summary',
+                        "menu"    => %w(foo bar baz),
                         "_attachments" => {"image2.jpg" => { }}
                       }]
         }
@@ -49,7 +51,11 @@ describe "meal_by_month.haml" do
                                   :height => "150")
   end
 
-  it "should include the menu items"
+  it "should include the menu items" do
+    render("/views/meal_by_month.haml")
+    response.should have_selector(".menu",
+                                  :content => "foo, bar, baz")
+  end
 
   it "should include recipe titles in the menu items"
 end
