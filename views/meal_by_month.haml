@@ -7,5 +7,4 @@
       %span.date= meal['value'][0]['date']
       %span.title= meal['value'][0]['title']
     %p= meal['value'][0]['summary']
-    .menu= meal['value'][0]['menu'].join(', ')
-
+    .menu= wiki(meal['value'][0]['menu'].join(', '))

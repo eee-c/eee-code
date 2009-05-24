@@ -45,6 +45,16 @@ _TEXTILE
                              :href    => "/recipes/id-123",
                              :content => "Title")
     end
+
+    it "should wikify recipe URIs, using supplied text for the link" do
+      RestClient.stub!(:get).
+        and_return('{"_id":"id-123","title":"Title"}')
+
+      wiki("[recipe:id-123 Different Title]").
+        should have_selector("a",
+                             :href    => "/recipes/id-123",
+                             :content => "Different Title")
+    end
   end
 end
 

@@ -57,5 +57,19 @@ describe "meal_by_month.haml" do
                                   :content => "foo, bar, baz")
   end
 
-  it "should include recipe titles in the menu items"
+  it "should include recipe titles in the menu items" do
+    assigns[:meals]['rows'][0]['value'][0]["menu"] =
+      [" Salad with [recipe:2009/05/23/lemon_dressing] "]
+
+    self.stub!(:_db).and_return("")
+
+    RestClient.
+      stub!(:get).
+      and_return('{"title":"Lemon Dressing"}')
+
+    render("/views/meal_by_month.haml")
+    response.should have_selector(".menu",
+                                  :content => "Salad with Lemon Dressing")
+  end
+
 end
