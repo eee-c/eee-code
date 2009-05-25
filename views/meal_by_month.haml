@@ -1,5 +1,10 @@
 %h1= "Meals from #{@year}-#{@month}"
 
+%div.navigation
+  =link_to_adjacent_view_date("#{@year}-#{@month}", @count_by_year, :previous => true)
+  |
+  =link_to_adjacent_view_date("#{@year}-#{@month}", @count_by_year)
+
 .meals
   - @meals["rows"].each do |meal|
     = image_link meal['value'][0], :width => 200, :height => 150

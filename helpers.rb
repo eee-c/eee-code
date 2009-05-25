@@ -121,17 +121,18 @@ module Eee
       %Q|<a href="#{url}" id="#{id}">#{text}</a>|
     end
 
-    def link_to_year_in_set(current, couch_view, options={})
-      compare_years = options[:previous] ?
-        Proc.new { |year, current_year| year < current_year} :
-        Proc.new { |year, current_year| year > current_year}
+    def link_to_adjacent_view_date(current, couch_view, options={})
+      compare = options[:previous] ?
+        Proc.new { |date_fragment, current| date_fragment < current} :
+        Proc.new { |date_fragment, current| date_fragment > current}
 
       next_result = couch_view.
         send(options[:previous] ? :reverse : :map).
-        detect{|result| compare_years[result['key'].to_i, current.to_i]}
+        detect{|result| compare[result['key'], current.to_s]}
 
       if next_result
-        %Q|<a href="/meals/#{next_result['key']}">#{next_result['key']}</a>|
+        next_uri = next_result['key'].gsub(/-/, '/')
+        %Q|<a href="/meals/#{next_uri}">#{next_result['key']}</a>|
       else
         ""
       end

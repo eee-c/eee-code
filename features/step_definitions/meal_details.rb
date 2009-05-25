@@ -10,7 +10,8 @@ Given /^a "([^\"]*)" meal enjoyed in (.+)$/ do |title, date_str|
     :serves      => 4,
     :summary     => "meal summary",
     :description => "meal description",
-    :type        => "Meal"
+    :type        => "Meal",
+    :menu        => []
   }
 
   RestClient.put "#{@@db}/#{permalink}",
@@ -32,6 +33,10 @@ When /^I view the list of meals prepared in May of 2009$/ do
   response.status.should == 200
 end
 
+When /^I follow the link to the list of meals in April of 2009$/ do
+  click_link "2009-04"
+end
+
 Then /^the "([^\"]*)" meal should be included in the list$/ do |title|
   response.should have_selector("li a", :content => title)
 end
@@ -46,4 +51,16 @@ end
 
 Then /^I should not see the "([^\"]*)" meal among the meals of this month$/ do |title|
   response.should_not have_selector("h2", :content => title)
+end
+
+Then /^I should not see a link to June of 2009$/ do
+  response.should_not have_selector("a", :content => "2009-06")
+end
+
+Then /^I should not see a link to February of 2009$/ do
+  response.should_not have_selector("a", :content => "2009-02")
+end
+
+Then /^I should see a link to May of 2009$/ do
+  response.should have_selector("a", :content => "2009-05")
 end

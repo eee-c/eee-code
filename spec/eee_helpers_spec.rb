@@ -198,23 +198,36 @@ describe "sort_link" do
 
 end
 
-describe "link_to_next_year" do
-  before(:each) do
-    @count_by_year = [{"key" => "2008", "value" => 3},
-                      {"key" => "2009", "value" => 3}]
+describe "link_to_adjacent_view_date" do
+  context "couchdb view by_year" do
+    before(:each) do
+      @count_by_year = [{"key" => "2008", "value" => 3},
+                        {"key" => "2009", "value" => 3}]
+    end
+    it "should link to the next year after the current one" do
+      link_to_adjacent_view_date(2008, @count_by_year).
+        should have_selector("a",
+                             :href => "/meals/2009")
+    end
+    it "should link to the previous before the current one" do
+      link_to_adjacent_view_date(2009, @count_by_year, :previous => true).
+        should have_selector("a",
+                             :href => "/meals/2008")
+    end
+    it "should return empty if there are no more years" do
+      link_to_adjacent_view_date(2009, @count_by_year).
+        should == ""
+    end
   end
-  it "should link to the next year after the current one" do
-    link_to_year_in_set(2008, @count_by_year).
-      should have_selector("a",
-                           :href => "/meals/2009")
-  end
-  it "should link to the previous before the current one" do
-    link_to_year_in_set(2009, @count_by_year, :previous => true).
-      should have_selector("a",
-                           :href => "/meals/2008")
-  end
-  it "should return empty if there are no more years" do
-    link_to_year_in_set(2009, @count_by_year).
-      should == ""
+  context "couchdb view by_month" do
+    before(:each) do
+      @count_by_month = [{"key" => "2009-04", "value" => 3},
+                         {"key" => "2009-05", "value" => 3}]
+    end
+    it "should link to the next month after the current one" do
+      link_to_adjacent_view_date("2009-04", @count_by_month).
+        should have_selector("a",
+                             :href => "/meals/2009/05")
+    end
   end
 end
