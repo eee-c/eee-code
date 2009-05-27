@@ -20,8 +20,7 @@ get %r{/meals/(\d+)/(\d+)} do |year, month|
   url = "#{@@db}/_design/meals/_view/by_month?group=true&key=%22#{year}-#{month}%22"
   data = RestClient.get url
   @meals = JSON.parse(data)
-  @year  = year
-  @month = month
+  @month = "#{year}-#{month}"
 
   url = "#{@@db}/_design/meals/_view/count_by_month?group=true"
   data = RestClient.get url

@@ -22,12 +22,12 @@ Feature: Browse Meals
     When I view the list of meals prepared in May of 2009
     Then I should see the "Even Fried, They Won't Eat It" meal among the meals of this month
     And I should not see the "Salad. Mmmm." meal among the meals of this month
-    And I should not see a link to June of 2009
-    When I follow the link to the list of meals in April of 2009
+    And I should not see a link to June 2009
+    When I follow the link to the list of meals in April 2009
     Then I should not see the "Even Fried, They Won't Eat It" meal among the meals of this month
     And I should see the "Salad. Mmmm." meal among the meals of this month
-    And I should not see a link to February of 2009
-    And I should see a link to May of 2009
+    And I should not see a link to February 2009
+    And I should see a link to May 2009
 
 
   Scenario: Browsing a meal on a specific date

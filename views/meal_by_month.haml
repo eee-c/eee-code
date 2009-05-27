@@ -1,9 +1,9 @@
-%h1= "Meals from #{@year}-#{@month}"
+%h1= "Meals from #{@month}"
 
 %div.navigation
-  =link_to_adjacent_view_date("#{@year}-#{@month}", @count_by_year, :previous => true)
+  =link_to_adjacent_view_date(@month, @count_by_year, :previous => true) { |d| month_text(d) }
   |
-  =link_to_adjacent_view_date("#{@year}-#{@month}", @count_by_year)
+  =link_to_adjacent_view_date(@month, @count_by_year) { |d| month_text(d) }
 
 .meals
   - @meals["rows"].each do |meal|

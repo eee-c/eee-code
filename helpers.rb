@@ -132,10 +132,15 @@ module Eee
 
       if next_result
         next_uri = next_result['key'].gsub(/-/, '/')
-        %Q|<a href="/meals/#{next_uri}">#{next_result['key']}</a>|
+        link_text = block_given? ? yield(next_result['key']) : next_result['key']
+        %Q|<a href="/meals/#{next_uri}">#{link_text}</a>|
       else
         ""
       end
+    end
+
+    def month_text(date_frag)
+      Date.parse("#{date_frag}-01").strftime("%B %Y")
     end
   end
 end

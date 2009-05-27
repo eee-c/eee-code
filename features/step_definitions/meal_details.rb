@@ -24,17 +24,13 @@ When /^I view the list of meals prepared in 2009$/ do
   response.status.should == 200
 end
 
-When /^I follow the link to the list of meals in 2008$/ do
-  click_link "2008"
-end
-
 When /^I view the list of meals prepared in May of 2009$/ do
   visit("/meals/2009/05")
   response.status.should == 200
 end
 
-When /^I follow the link to the list of meals in April of 2009$/ do
-  click_link "2009-04"
+When /^I follow the link to the list of meals in (.+)$/ do |date|
+  click_link date
 end
 
 Then /^the "([^\"]*)" meal should be included in the list$/ do |title|
@@ -53,14 +49,10 @@ Then /^I should not see the "([^\"]*)" meal among the meals of this month$/ do |
   response.should_not have_selector("h2", :content => title)
 end
 
-Then /^I should not see a link to June of 2009$/ do
-  response.should_not have_selector("a", :content => "2009-06")
+Then /^I should see a link to (.+)$/ do |date|
+  response.should have_selector("a", :content => date)
 end
 
-Then /^I should not see a link to February of 2009$/ do
-  response.should_not have_selector("a", :content => "2009-02")
-end
-
-Then /^I should see a link to May of 2009$/ do
-  response.should have_selector("a", :content => "2009-05")
+Then /^I should not see a link to (.+)$/ do |date|
+  response.should_not have_selector("a", :content => date)
 end

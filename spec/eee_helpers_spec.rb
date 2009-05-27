@@ -229,5 +229,28 @@ describe "link_to_adjacent_view_date" do
         should have_selector("a",
                              :href => "/meals/2009/05")
     end
+    it "should link to block text, if supplied" do
+      link_to_adjacent_view_date("2009-04", @count_by_month) do
+        "foo"
+      end.
+        should have_selector("a",
+                             :href    => "/meals/2009/05",
+                             :content => "foo")
+    end
+    it "should link to block text + date, if block is given" do
+      link_to_adjacent_view_date("2009-04", @count_by_month) do |date|
+        "foo #{date} bar"
+      end.
+        should have_selector("a",
+                             :href    => "/meals/2009/05",
+                             :content => "foo 2009-05 bar")
+    end
+  end
+end
+
+describe "month_text" do
+  it "should increase readability of an ISO8601 date fragment" do
+    month_text("2009-05").
+      should == "May 2009"
   end
 end
