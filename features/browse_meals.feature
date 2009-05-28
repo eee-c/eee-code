@@ -17,8 +17,9 @@ Feature: Browse Meals
 
   Scenario: Browsing a meal in a given month
 
-    Given a "Even Fried, They Won't Eat It" meal enjoyed in May of 2009
-    And a "Salad. Mmmm." meal enjoyed in April of 2009
+    Given a "Even Fried, They Won't Eat It" meal enjoyed in May 2009
+    And a "Salad. Mmmm." meal enjoyed in April 2009
+    And a "Almost French Onion Soup" meal enjoyed in September 2003
     When I view the list of meals prepared in May of 2009
     Then I should see the "Even Fried, They Won't Eat It" meal among the meals of this month
     And I should not see the "Salad. Mmmm." meal among the meals of this month
@@ -26,9 +27,11 @@ Feature: Browse Meals
     When I follow the link to the list of meals in April 2009
     Then I should not see the "Even Fried, They Won't Eat It" meal among the meals of this month
     And I should see the "Salad. Mmmm." meal among the meals of this month
-    And I should not see a link to February 2009
     And I should see a link to May 2009
-
+    And I should not see a link to February 2009
+    When I follow the link to the list of meals in September 2003
+    Then I should see the "Almost French Onion Soup" meal among the meals of this month
+    And I should see a link to April 2009
 
   Scenario: Browsing a meal on a specific date
 
