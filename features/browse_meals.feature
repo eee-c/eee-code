@@ -36,6 +36,31 @@ Feature: Browse Meals
   Scenario: Browsing a meal on a specific date
 
     Given a "Focaccia!" meal enjoyed on March 3, 2009
-    When I view the meal
+    And a "Focaccia" recipe from March 3, 2009
+    When I view the "Focaccia!" meal
     Then I should see the "Focaccia!" title
-    And I should be able to follow a link to the list of meals in March of 2009
+    And I should see a link to the "Focaccia" recipe in the menu
+    When I click the "March" link
+    Then I should see "Focaccia!" in the list of meals
+    When I click the "Focaccia" link
+    And I click the "2009" link
+    Then I should see "Focaccia!" in the list of meals
+    When I click the "Focaccia!" link
+    And I click the "Focaccia" link
+    Then I should see the "Focaccia" recipe
+
+  Scenario: Navigating between meals
+
+    Given a "Focaccia!" meal enjoyed on March 3, 2009
+    And a "Star Wars: The Dinner" meal enjoyed on February 28, 2009
+    And "Pumpkin is a Very Exciting Vegetable" meal enjoyed on December 3, 2008
+    When I view the "Focaccia!" meal
+    Then I should see the "Focaccia!" title
+    When I click "Star Wars: The Dinner"
+    Then I should see the "Star Wars: The Dinner" title
+    When I click "Pumpkin is a Very Exciting Vegetable"
+    Then I should see the "Pumpkin is a Very Exciting Vegetable" title
+    When I click "Star Wars: The Dinner"
+    Then I should see the "Star Wars: The Dinner" title
+    When I click "Focaccia!"
+    Then I should see the "Focaccia!" title

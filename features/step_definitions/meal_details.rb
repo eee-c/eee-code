@@ -1,8 +1,8 @@
-Given /^a "([^\"]*)" meal enjoyed in (.+)$/ do |title, date_str|
+Given /^a "([^\"]*)" meal enjoyed [io]n (.+)$/ do |title, date_str|
   date = (date_str =~ /^\s*(\d+)\s*$/) ?
     Date.new($1.to_i, 5, 13) : Date.parse(date_str)
 
-  permalink = "id-#{date.to_s}"
+  @meal_permalink = date.to_s
 
   meal = {
     :title       => title,
@@ -14,7 +14,7 @@ Given /^a "([^\"]*)" meal enjoyed in (.+)$/ do |title, date_str|
     :menu        => []
   }
 
-  RestClient.put "#{@@db}/#{permalink}",
+  RestClient.put "#{@@db}/#{@meal_permalink}",
     meal.to_json,
     :content_type => 'application/json'
 end
@@ -26,6 +26,11 @@ end
 
 When /^I view the list of meals prepared in May of 2009$/ do
   visit("/meals/2009/05")
+  response.status.should == 200
+end
+
+When /^I view the "([^\"]*)" meal$/ do |arg1|
+  visit("/meals/#{@meal_permalink.gsub(/-/, '/')}")
   response.status.should == 200
 end
 

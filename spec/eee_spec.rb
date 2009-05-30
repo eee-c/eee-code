@@ -92,6 +92,13 @@ describe "eee" do
         get "/meals/2009/05"
       end
     end
+
+    describe "GET /meals/YYYY/MM/DD" do
+      it "should respond OK" do
+        get "/meals/2009/05/28"
+        response.should be_ok
+      end
+    end
   end
 
   describe "a CouchDB recipe" do

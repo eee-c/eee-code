@@ -52,7 +52,7 @@ Feature: Search for recipes
     Scenario: Paginating results
 
       Given 50 yummy recipes
-      And a 0.5 second wait to allow the search index to be updated
+      And a 1 second wait to allow the search index to be updated
       When I search for "yummy"
       Then I should see 20 results
       And I should see 3 pages of results
@@ -75,7 +75,7 @@ Feature: Search for recipes
     Scenario: Sorting (name, date, preparation time, number of ingredients)
 
       Given 50 "delicious" recipes with ascending names, dates, preparation times, and number of ingredients
-      And a 0.5 second wait to allow the search index to be updated
+      And a 1 second wait to allow the search index to be updated
       When I search for "delicious"
       Then I should see 20 results
       When I click the "Name" column header

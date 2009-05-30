@@ -16,6 +16,10 @@ helpers do
   include Eee::Helpers
 end
 
+get %r{/meals/(\d+)/(\d+)/(\d+)} do |year, month, day|
+end
+
+
 get %r{/meals/(\d+)/(\d+)} do |year, month|
   url = "#{@@db}/_design/meals/_view/by_month?group=true&key=%22#{year}-#{month}%22"
   data = RestClient.get url

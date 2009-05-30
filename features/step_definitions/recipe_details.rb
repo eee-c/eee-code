@@ -134,6 +134,22 @@ _EOM
     :content_type => 'application/json'
 end
 
+Given /^a "([^\"]*)" recipe from (.+)$/ do |title, date_str|
+  date = Date.parse(date_str)
+  @recipe_permalink = date.to_s + "-" + title.downcase.gsub(/\W/, '-')
+
+  recipe = {
+    :title        => title,
+    :date         => date,
+    :summary      => "#{title} summary",
+    :instructions => "#{title} instructions"
+  }
+
+  RestClient.put "#{@@db}/#{@recipe_permalink}",
+    recipe.to_json,
+    :content_type => 'application/json'
+end
+
 When /^I view the recipe$/ do
   visit("/recipes/#{@permalink}")
 end
