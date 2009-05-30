@@ -38,6 +38,10 @@ When /^I follow the link to the list of meals in (.+)$/ do |date|
   click_link date
 end
 
+Then /^I should see the "([^\"]*)" title$/ do |title|
+  response.should have_selector("h1", :content => title)
+end
+
 Then /^the "([^\"]*)" meal should be included in the list$/ do |title|
   response.should have_selector("li a", :content => title)
 end

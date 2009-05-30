@@ -17,6 +17,10 @@ helpers do
 end
 
 get %r{/meals/(\d+)/(\d+)/(\d+)} do |year, month, day|
+  data = RestClient.get "#{@@db}/#{year}-#{month}-#{day}"
+  @meal = JSON.parse(data)
+
+  haml :meal
 end
 
 

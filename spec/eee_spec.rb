@@ -95,8 +95,17 @@ describe "eee" do
 
     describe "GET /meals/YYYY/MM/DD" do
       it "should respond OK" do
-        get "/meals/2009/05/28"
+        get "/meals/2009/05/13"
         response.should be_ok
+      end
+
+      it "should request the meal from CouchDB" do
+        RestClient.
+          should_receive(:get).
+          with(/2009-05-13/).
+          and_return('{"title":"Foo"}')
+
+        get "/meals/2009/05/13"
       end
     end
   end
