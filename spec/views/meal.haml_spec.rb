@@ -8,7 +8,8 @@ describe "meal.haml" do
     assigns[:meal] = @meal = {
       'title'       => @title,
       'summary'     => @summary,
-      'description' => @description
+      'description' => @description,
+      'menu'        => ["Peanut Butter and Jelly Sandwich"]
     }
   end
 
@@ -28,9 +29,22 @@ describe "meal.haml" do
     response.should have_selector("#summary p", :content => "paragraph 1")
   end
 
-  it "should display a description of the meal" do
+  it "should include the menu after the summary" do
     render("/views/meal.haml")
-    response.should have_selector("#summary + #description",
+    response.should have_selector("#summary + ul#menu li",
+                                  :content => "Peanut Butter and Jelly Sandwich")
+  end
+
+  it "should wikify the menu items" do
+    assigns[:meal]['menu'] << "foo *bar* baz"
+    render("/views/meal.haml")
+    response.should have_selector("ul#menu li strong",
+                                  :content => "bar")
+  end
+
+  it "should display a description of the meal after the menu" do
+    render("/views/meal.haml")
+    response.should have_selector("#menu + #description",
                                   :content => @description)
   end
 

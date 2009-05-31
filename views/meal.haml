@@ -4,5 +4,9 @@
 #summary
   = wiki @meal['summary']
 
+%ul#menu
+  - @meal['menu'].each do |menu_item|
+    %li= wiki(menu_item)
+
 #description
   = wiki @meal['description']

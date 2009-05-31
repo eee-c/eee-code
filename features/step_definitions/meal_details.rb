@@ -19,6 +19,26 @@ Given /^a "([^\"]*)" meal enjoyed [io]n (.+)$/ do |title, date_str|
     :content_type => 'application/json'
 end
 
+Given /^a "([^\"]*)" meal with the "([^\"]*)" recipe on the menu$/ do |title, recipe_title|
+  date = Date.new(2009, 5, 30)
+  @meal_permalink = date.to_s
+
+  meal = {
+    :title       => title,
+    :date        => date.to_s,
+    :serves      => 4,
+    :summary     => "meal summary",
+    :description => "meal description",
+    :type        => "Meal",
+    :menu        => ["[recipe:#{@recipe_permalink}]"]
+  }
+
+  RestClient.put "#{@@db}/#{@meal_permalink}",
+    meal.to_json,
+    :content_type => 'application/json'
+end
+
+
 When /^I view the list of meals prepared in 2009$/ do
   visit("/meals/2009")
   response.status.should == 200
@@ -56,6 +76,10 @@ end
 
 Then /^I should not see the "([^\"]*)" meal among the meals of this month$/ do |title|
   response.should_not have_selector("h2", :content => title)
+end
+
+Then /^I should see a "(.+)" recipe link in the menu$/ do |recipe_title|
+  response.should have_selector("a", :content => recipe_title)
 end
 
 Then /^I should see a link to (.+)$/ do |date|

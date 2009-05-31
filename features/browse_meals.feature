@@ -35,11 +35,11 @@ Feature: Browse Meals
 
   Scenario: Browsing a meal on a specific date
 
-    Given a "Focaccia!" meal enjoyed on March 3, 2009
-    And a "Focaccia" recipe from March 3, 2009
+    Given a "Focaccia" recipe from March 3, 2009
+    Given a "Focaccia!" meal with the "Focaccia" recipe on the menu
     When I view the "Focaccia!" meal
     Then I should see the "Focaccia!" title
-    And I should see a link to the "Focaccia" recipe in the menu
+    And I should see a "Focaccia" recipe link in the menu
     When I click the "March" link
     Then I should see "Focaccia!" in the list of meals
     When I click the "Focaccia" link
