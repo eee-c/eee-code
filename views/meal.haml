@@ -1,3 +1,9 @@
+- date = Date.parse(@meal['date'])
+.breadcrumbs
+  %a{:href => "/meals/#{date.year}"}= date.year
+  >
+  %a{:href => "/meals/#{date.strftime("%Y/%m")}"}= date.strftime("%B")
+
 %h1
   = @meal['title']
 

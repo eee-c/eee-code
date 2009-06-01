@@ -14,20 +14,21 @@ describe "eee" do
 
   context "a CouchDB meal" do
     before(:each) do
-      @date = Date.new(2009, 5, 13)
+      @date = Date.new(2009, 5, 13).to_s
       @title = "Meal Title"
-      @permalink = "id-#{@date.to_s}"
+      @permalink = @date
 
-      meal = {
+      @meal = {
         :title       => @title,
         :date        => @date,
         :serves      => 4,
         :summary     => "meal summary",
-        :description => "meal description"
+        :description => "meal description",
+        :menu        => ["meal menu item"]
       }
 
       RestClient.put "#{@@db}/#{@permalink}",
-        meal.to_json,
+        @meal.to_json,
         :content_type => 'application/json'
 
       RestClient.stub!(:get).and_return('{"rows": [] }')
@@ -94,6 +95,12 @@ describe "eee" do
     end
 
     describe "GET /meals/YYYY/MM/DD" do
+      before(:each) do
+        RestClient.
+          stub!(:get).
+          and_return(@meal.to_json)
+      end
+
       it "should respond OK" do
         get "/meals/2009/05/13"
         response.should be_ok
@@ -103,7 +110,7 @@ describe "eee" do
         RestClient.
           should_receive(:get).
           with(/2009-05-13/).
-          and_return('{"title":"Foo"}')
+          and_return(@meal.to_json)
 
         get "/meals/2009/05/13"
       end

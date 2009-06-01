@@ -20,7 +20,7 @@ Given /^a "([^\"]*)" meal enjoyed [io]n (.+)$/ do |title, date_str|
 end
 
 Given /^a "([^\"]*)" meal with the "([^\"]*)" recipe on the menu$/ do |title, recipe_title|
-  date = Date.new(2009, 5, 30)
+  date = Date.new(2009, 3, 3)
   @meal_permalink = date.to_s
 
   meal = {
@@ -58,6 +58,10 @@ When /^I follow the link to the list of meals in (.+)$/ do |date|
   click_link date
 end
 
+When /^I click the "([^\"]*)" link$/ do |text|
+  click_link text
+end
+
 Then /^I should see the "([^\"]*)" title$/ do |title|
   response.should have_selector("h1", :content => title)
 end
@@ -88,4 +92,8 @@ end
 
 Then /^I should not see a link to (.+)$/ do |date|
   response.should_not have_selector("a", :content => date)
+end
+
+Then /^I should see "([^\"]*)" in the list of meals$/ do |title|
+  response.should have_selector("a", :content => title)
 end

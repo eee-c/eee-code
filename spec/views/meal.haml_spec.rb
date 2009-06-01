@@ -5,12 +5,27 @@ describe "meal.haml" do
     @title  = "Meal Title"
     @summary = "Meal Summary"
     @description = "Meal Description"
+    @year = 2009
+    @month = 5
     assigns[:meal] = @meal = {
+      'date'        => "%d-%02d-31" % [@year, @month],
       'title'       => @title,
       'summary'     => @summary,
       'description' => @description,
       'menu'        => ["Peanut Butter and Jelly Sandwich"]
     }
+  end
+
+  it "should display a breadcrumb link to the other meals in this year" do
+    render("/views/meal.haml")
+    response.should have_selector(".breadcrumbs a",
+                                  :href => "/meals/#{@year}")
+  end
+
+  it "should display a breadcrumb link to the other meals in this month" do
+    render("/views/meal.haml")
+    response.should have_selector(".breadcrumbs a",
+                                  :href => "/meals/#{@year}/#{"%02d" % @month}")
   end
 
   it "should display the meal's title" do
