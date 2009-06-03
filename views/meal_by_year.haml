@@ -1,3 +1,7 @@
+- date = Date.parse("#{@year}-01-01")
+.breadcrumbs
+  = breadcrumbs(date, :year)
+
 %h1= "Meals from #{@year}"
 
 %div.navigation
@@ -7,5 +11,6 @@
 
 %ul
   - @meals["rows"].each do |meal|
+    -date = Date.parse(meal['value'][0][0])
     %li
-      %a{:href => "/meals/#{meal['value'][0][0]}"}= meal['value'][0][1]
+      %a{:href => date.strftime("/meals/%Y/%m/%d")}= meal['value'][0][1]

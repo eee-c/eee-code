@@ -142,5 +142,29 @@ module Eee
     def month_text(date_frag)
       Date.parse("#{date_frag}-01").strftime("%B %Y")
     end
+
+    def breadcrumbs(date, context=nil)
+      crumbs = [ %Q|<a href="/">home</a>| ]
+
+      if context == :year
+        crumbs << %Q|<span>#{date.year}</span>|
+      else
+        crumbs << %Q|<a href="/meals/#{date.year}">#{date.year}</span>|
+      end
+
+      if context == :month
+        crumbs << %Q|<span>#{date.strftime("%B")}</span>|
+      elsif context == :day || context == nil
+        crumbs << %Q|<a href="#{date.strftime("/meals/%Y/%m")}">#{date.strftime("%B")}</a>|
+      end
+
+      if context == :day
+        crumbs << %Q|<span>#{date.day}</span>|
+      elsif context == nil
+        crumbs << %Q|<a href="#{date.strftime("/meals/%Y/%m/%d")}">#{date.day}</a>|
+      end
+
+      crumbs.join(" &gt; ")
+    end
   end
 end

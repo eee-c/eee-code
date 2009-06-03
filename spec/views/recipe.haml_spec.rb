@@ -6,6 +6,7 @@ describe "recipe.haml" do
     @summary = "Recipe Summary"
     @instructions = "Recipe Instructions"
     assigns[:recipe] = @recipe = {
+      'date'         => '2009-06-02',
       'title'        => @title,
       'summary'      => @summary,
       'instructions' => @instructions

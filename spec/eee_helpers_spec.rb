@@ -254,3 +254,67 @@ describe "month_text" do
       should == "May 2009"
   end
 end
+
+describe "breadcrumbs" do
+  context "for a year (list of meals in a year)" do
+    it "should link home" do
+      breadcrumbs(Date.new(2009, 6, 2), :year).
+        should have_selector("a", :href => "/")
+    end
+    it "should show the year" do
+      breadcrumbs(Date.new(2009, 6, 2), :year).
+        should have_selector("span", :content => "2009")
+    end
+  end
+  context "for a month (list of meals in a month)" do
+    it "should link home" do
+      breadcrumbs(Date.new(2009, 6, 2), :month).
+        should have_selector("a", :href => "/")
+    end
+    it "should link to the year" do
+      breadcrumbs(Date.new(2009, 6, 2), :month).
+        should have_selector("a", :href => "/meals/2009")
+    end
+    it "should show the month" do
+      breadcrumbs(Date.new(2009, 6, 2), :month).
+        should have_selector("span", :content => "June")
+    end
+  end
+  context "for a day (show a single meal)" do
+    it "should link home" do
+      breadcrumbs(Date.new(2009, 6, 2), :day).
+        should have_selector("a", :href => "/")
+    end
+    it "should link to the year" do
+      breadcrumbs(Date.new(2009, 6, 2), :day).
+        should have_selector("a", :href => "/meals/2009")
+    end
+    it "should link to the month" do
+      breadcrumbs(Date.new(2009, 6, 2), :day).
+        should have_selector("a", :href => "/meals/2009/06")
+    end
+    it "should show the day" do
+      breadcrumbs(Date.new(2009, 6, 2), :day).
+        should have_selector("span", :content => "2")
+    end
+  end
+  context "for a recipe" do
+    it "should link home" do
+      breadcrumbs(Date.new(2009, 6, 2)).
+        should have_selector("a", :href => "/")
+    end
+    it "should link to the year" do
+      breadcrumbs(Date.new(2009, 6, 2)).
+        should have_selector("a", :href => "/meals/2009")
+    end
+    it "should link to the month" do
+      breadcrumbs(Date.new(2009, 6, 2)).
+        should have_selector("a", :href => "/meals/2009/06")
+    end
+
+    it "should link to the day" do
+      breadcrumbs(Date.new(2009, 6, 2)).
+        should have_selector("a", :href => "/meals/2009/06/02")
+    end
+  end
+end

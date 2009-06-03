@@ -33,6 +33,11 @@ describe "meal_by_month.haml" do
     response.should have_selector("h2", :content => "Meal 1")
   end
 
+  it "should link to the meal" do
+    render("/views/meal_by_month.haml")
+    response.should have_selector("a", :href => "/meals/2009/05/14")
+  end
+
   it "should include each meal's date in the title" do
     render("/views/meal_by_month.haml")
     response.should have_selector("h2", :content => "2009-05-14")

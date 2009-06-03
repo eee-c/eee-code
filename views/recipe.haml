@@ -11,6 +11,9 @@
   %li
     %a Recipes
 
+.breadcrumbs
+  = breadcrumbs(Date.parse(@recipe['date']))
+
 %h1
   = @recipe['title']
 

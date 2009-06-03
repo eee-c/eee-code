@@ -97,3 +97,7 @@ end
 Then /^I should see "([^\"]*)" in the list of meals$/ do |title|
   response.should have_selector("a", :content => title)
 end
+
+Then /^I should see the "([^\"]*)" recipe$/ do |title|
+  response.should have_selector("h1", :content => title)
+end

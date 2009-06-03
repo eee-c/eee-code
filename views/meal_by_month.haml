@@ -1,3 +1,7 @@
+- date = Date.parse("#{@month}-01")
+.breadcrumbs
+  = breadcrumbs(date, :month)
+
 %h1= "Meals from #{month_text(@month)}"
 
 %div.navigation
@@ -6,10 +10,12 @@
   =link_to_adjacent_view_date(@month, @count_by_year) { |d| month_text(d) }
 
 .meals
-  - @meals["rows"].each do |meal|
-    = image_link meal['value'][0], :width => 200, :height => 150
+  - @meals["rows"].each do |meal_result|
+    - meal = meal_result['value'][0]
+    - date = Date.parse(meal['date'])
+    = image_link meal, :width => 200, :height => 150
     %h2
-      %span.date= meal['value'][0]['date']
-      %span.title= meal['value'][0]['title']
-    %p= meal['value'][0]['summary']
-    .menu= wiki(meal['value'][0]['menu'].join(', '))
+      %span.date= meal['date']
+      %a.title{:href => date.strftime("/meals/%Y/%m/%d")}= meal['title']
+    %p= meal['summary']
+    .menu= wiki(meal['menu'].join(', '))
