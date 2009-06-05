@@ -7,14 +7,6 @@ require File.dirname(__FILE__) + '/../../eee'
 # Force the application name because polyglot breaks the auto-detection logic.
 Sinatra::Application.app_file = File.join(File.dirname(__FILE__), *%w[.. .. eee.rb])
 
-module Eee
-  module Helpers
-    def _db
-      "http://localhost:5984/eee-test"
-    end
-  end
-end
-
 # RSpec matchers
 require 'spec/expectations'
 

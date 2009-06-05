@@ -35,6 +35,7 @@ module Eee
 
     def _db
       @@db
+      self.class.send(:class_variable_get, "@@db")
     end
 
     def recipe_link(permalink, title=nil)
