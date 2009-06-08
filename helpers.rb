@@ -34,7 +34,6 @@ module Eee
     end
 
     def _db
-      @@db
       self.class.send(:class_variable_get, "@@db")
     end
 
@@ -150,7 +149,7 @@ module Eee
       if context == :year
         crumbs << %Q|<span>#{date.year}</span>|
       else
-        crumbs << %Q|<a href="/meals/#{date.year}">#{date.year}</span>|
+        crumbs << %Q|<a href="/meals/#{date.year}">#{date.year}</a>|
       end
 
       if context == :month
