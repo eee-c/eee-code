@@ -3,14 +3,20 @@ ENV['RACK_ENV'] = 'test'
 require 'eee'
 require 'spec'
 require 'spec/interop/test'
-require 'sinatra/test'
+require 'rack/test'
 
 require 'webrat'
 require 'haml'
 
+Test::Unit::TestCase.send :include, Rack::Test::Methods
+
 Spec::Runner.configure do |config|
   config.include Webrat::Matchers, :type => :views
   config.include Eee::Helpers
+end
+
+def app
+  Sinatra::Application
 end
 
 # Renders the supplied template with Haml::Engine and assigns the

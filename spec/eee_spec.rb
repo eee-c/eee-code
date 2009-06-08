@@ -2,8 +2,6 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper' )
 require 'pp'
 
 describe "eee" do
-  include Sinatra::Test
-
   before(:all) do
     RestClient.put @@db, { }
   end
@@ -45,7 +43,7 @@ describe "eee" do
     describe "GET /meals/YYYY" do
       it "should respond OK" do
         get "/meals/2009"
-        response.should be_ok
+        last_response.should be_ok
       end
 
       it "should ask CouchDB for meal from year YYYY" do
@@ -71,7 +69,7 @@ describe "eee" do
     describe "GET /meals/YYYY/MM" do
       it "should respond OK" do
         get "/meals/2009/05"
-        response.should be_ok
+        last_response.should be_ok
       end
 
       it "should ask CouchDB for meal from year YYYY and month MM" do
@@ -103,7 +101,7 @@ describe "eee" do
 
       it "should respond OK" do
         get "/meals/2009/05/13"
-        response.should be_ok
+        last_response.should be_ok
       end
 
       it "should request the meal from CouchDB" do
@@ -140,7 +138,7 @@ describe "eee" do
     describe 'GET /recipes/permalink' do
       it "should respond OK" do
         get "/recipes/#{@permalink}"
-        response.should be_ok
+        last_response.should be_ok
       end
     end
 
@@ -153,14 +151,13 @@ describe "eee" do
           File.read('spec/fixtures/sample.jpg'),
           :content_type => 'image/jpeg'
 
-
-        lambda { get "/images/#{@permalink}/sample.jpg" }.
-          should raise_error(Rack::Lint::LintError)
+        get "/images/#{@permalink}/sample.jpg"
+        last_response.should be_ok
       end
 
       it "should return 404 for a non-existent image" do
         get "/images/#{@permalink}/sample2.jpg"
-        response.should be_not_found
+        last_response.should be_not_found
       end
     end
 
@@ -243,7 +240,7 @@ describe "eee" do
 
       get "/recipes/search?q=title:egg"
 
-      response.should contain("No results")
+      last_response.should contain("No results")
     end
 
     it "should redirect without pagination after navigating beyond the pagination window" do
@@ -252,8 +249,8 @@ describe "eee" do
 
       get "/recipes/search?q=egg&page=2"
 
-      response.status.should == 302
-      response.headers["Location"].should == "/recipes/search?q=egg"
+      last_response.status.should == 302
+      last_response.headers["Location"].should == "/recipes/search?q=egg"
     end
 
     it "should treat couchdb errors as no-results" do
@@ -262,7 +259,7 @@ describe "eee" do
 
       get "/recipes/search?q=title:egg"
 
-      response.should contain("No results")
+      last_response.should contain("No results")
     end
 
     it "should treat couchdb-lucene errors as an empty query" do
@@ -271,7 +268,7 @@ describe "eee" do
 
       get "/recipes/search?q=title:egg"
 
-      response.should have_selector("input[@name=query][@value='']")
+      last_response.should have_selector("input[@name=query][@value='']")
     end
   end
 end
