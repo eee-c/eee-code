@@ -100,11 +100,21 @@ describe "eee" do
       end
 
       it "should respond OK" do
+        RestClient.
+          should_receive(:get).
+          with(/by_date/).
+          and_return('{"rows": [] }')
+
         get "/meals/2009/05/13"
         last_response.should be_ok
       end
 
       it "should request the meal from CouchDB" do
+        RestClient.
+          should_receive(:get).
+          with(/by_date/).
+          and_return('{"rows": [] }')
+
         RestClient.
           should_receive(:get).
           with(/2009-05-13/).

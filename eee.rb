@@ -20,6 +20,10 @@ get %r{/meals/(\d+)/(\d+)/(\d+)} do |year, month, day|
   data = RestClient.get "#{@@db}/#{year}-#{month}-#{day}"
   @meal = JSON.parse(data)
 
+  url = "#{@@db}/_design/meals/_view/by_date"
+  data = RestClient.get url
+  @meals_by_date = JSON.parse(data)['rows']
+
   haml :meal
 end
 

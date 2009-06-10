@@ -113,6 +113,13 @@ _JS
       }",
       "reduce": "function(keys, values, rereduce) { return values; }"
     },
+    "by_date": {
+      "map": "function (doc) {
+        if (doc['type'] == 'Meal') {
+          emit(doc['date'], [doc['_id'], doc['title']]);
+        }
+      }"
+    },
     "count_by_year": {
       "map": "function (doc) {
         if (doc['type'] == 'Meal') {

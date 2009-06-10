@@ -5,6 +5,11 @@
 %h1
   = @meal['title']
 
+%div.navigation
+  =link_to_adjacent_view_date(@meal['date'], @meals_by_date, :previous => true)
+  |
+  =link_to_adjacent_view_date(@meal['date'], @meals_by_date)
+
 #summary
   = wiki @meal['summary']
 
