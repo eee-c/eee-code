@@ -53,9 +53,9 @@ Feature: Browse Meals
 
   Scenario: Navigating between meals
 
-    Given a "Focaccia! The Dinner" meal enjoyed on March 3, 2009
+    Given a "Pumpkin is a Very Exciting Vegetable" meal enjoyed on December 3, 2008
     And a "Star Wars: The Dinner" meal enjoyed on February 28, 2009
-    And "Pumpkin is a Very Exciting Vegetable" meal enjoyed on December 3, 2008
+    And a "Focaccia! The Dinner" meal enjoyed on March 3, 2009
     When I view the "Focaccia! The Dinner" meal
     Then I should see the "Focaccia! The Dinner" title
     When I click "Star Wars: The Dinner"

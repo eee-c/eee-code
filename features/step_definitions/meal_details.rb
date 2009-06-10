@@ -62,6 +62,10 @@ When /^I click the "([^\"]*)" link$/ do |text|
   click_link text
 end
 
+When /^I click "([^\"]*)"$/ do |text|
+  click_link text
+end
+
 Then /^I should see the "([^\"]*)" title$/ do |title|
   response.should have_selector("h1", :content => title)
 end
