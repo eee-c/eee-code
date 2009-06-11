@@ -14,8 +14,10 @@ describe "meal.haml" do
       'description' => @description,
       'menu'        => ["Peanut Butter and Jelly Sandwich"]
     }
-    assigns[:meals_by_date] = [{"key" => "2009-05-15", "value" => []},
-                               {"key" => "2009-05-31", "value" => []}]
+    assigns[:meals_by_date] = [{ "key" => "2009-05-15",
+                                 "value" => ['2009-05-15', "Foo"] },
+                               { "key" => "2009-05-31",
+                                 "value" => ["2009-05-31", "Bar"] }]
   end
 
   it "should display a breadcrumb link to the other meals in this year" do
@@ -37,7 +39,16 @@ describe "meal.haml" do
 
   it "should link to previous meal" do
     render("/views/meal.haml")
-    response.should have_selector("a", :href => "/meals/2009/05/15")
+    response.should have_selector("a",
+                                  :href => "/meals/2009/05/15",
+                                  :content => "May 15, 2009")
+  end
+
+  it "should link to previous meal title" do
+    render("/views/meal.haml")
+    response.should have_selector("a",
+                                  :href => "/meals/2009/05/15",
+                                  :content => "Foo")
   end
 
   it "should display the meal's summary" do

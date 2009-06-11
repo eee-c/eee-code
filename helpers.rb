@@ -132,7 +132,10 @@ module Eee
 
       if next_result
         next_uri = next_result['key'].gsub(/-/, '/')
-        link_text = block_given? ? yield(next_result['key']) : next_result['key']
+        link_text = block_given? ?
+          yield(next_result['key'], next_result['value']) :
+          next_result['key']
+
         %Q|<a href="/meals/#{next_uri}">#{link_text}</a>|
       else
         ""

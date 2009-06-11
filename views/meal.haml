@@ -6,9 +6,11 @@
   = @meal['title']
 
 %div.navigation
-  =link_to_adjacent_view_date(@meal['date'], @meals_by_date, :previous => true)
+  &lsaquo;
+  =link_to_adjacent_view_date(@meal['date'], @meals_by_date, :previous => true) { |d,v| Date.parse(d).strftime("#{v[1]} (%B %e, %Y)") }
   |
-  =link_to_adjacent_view_date(@meal['date'], @meals_by_date)
+  =link_to_adjacent_view_date(@meal['date'], @meals_by_date) { |d,v| Date.parse(d).strftime("#{v[1]} (%B %e, %Y)") }
+  &rsaquo;
 
 #summary
   = wiki @meal['summary']

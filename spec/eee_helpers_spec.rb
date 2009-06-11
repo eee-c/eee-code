@@ -237,13 +237,13 @@ describe "link_to_adjacent_view_date" do
                              :href    => "/meals/2009/05",
                              :content => "foo")
     end
-    it "should link to block text + date, if block is given" do
-      link_to_adjacent_view_date("2009-04", @count_by_month) do |date|
-        "foo #{date} bar"
+    it "should link to the CouchDB view's key and value, if block is given" do
+      link_to_adjacent_view_date("2009-04", @count_by_month) do |date, value|
+        "foo #{date} bar #{value} baz"
       end.
         should have_selector("a",
                              :href    => "/meals/2009/05",
-                             :content => "foo 2009-05 bar")
+                             :content => "foo 2009-05 bar 3 baz")
     end
   end
 end

@@ -1,7 +1,7 @@
 Feature: Browse Meals
 
   So that I can find meals made on special occasions
-  As a person interested in finding meals
+  As a person interested in exploring meals and how they drive certain recipes
   I want to browse meals by date
 
   Scenario: Browsing a meal in a given year
