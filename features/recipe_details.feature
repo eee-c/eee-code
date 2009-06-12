@@ -38,3 +38,19 @@ Feature: Recipe Details
       When I view the recipe
       Then I should a nice summary of the dish
       And I should see detailed, easy-to-read instructions
+
+    Scenario: Navigating to other recipes
+
+      Given a "Spaghetti" recipe from May 30, 2009
+      And a "Pizza" recipe from June 1, 2009
+      And a "Peanut Butter and Jelly" recipe from June 11, 2009
+      When I view the "Peanut Butter and Jelly" recipe
+      Then I should see the "Peanut Butter and Jelly" title
+      When I click "Pizza"
+      Then I should see the "Pizza" title
+      When I click "Spaghetti"
+      Then I should see the "Spaghetti" title
+      When I click "Pizza"
+      Then I should see the "Pizza" title
+      When I click "Peanut Butter and Jelly"
+      Then I should see the "Peanut Butter and Jelly" title
