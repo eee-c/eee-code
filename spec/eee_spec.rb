@@ -39,6 +39,61 @@ describe "eee" do
       RestClient.delete "#{@@db}/#{@permalink}?rev=#{meal['_rev']}"
     end
 
+    describe "GET /" do
+      it "should respond OK" do
+        get "/"
+        last_response.should be_ok
+      end
+
+      it "should request the most recent 13 meals from CouchDB" do
+        RestClient.
+          should_receive(:get).
+          with(/by_date.+limit=13/).
+          and_return('{"rows": [] }')
+
+        get "/"
+      end
+
+      it "should request the most recent 13 meals from CouchDB" do
+        RestClient.
+          should_receive(:get).
+          with(/by_date.+limit=13/).
+          and_return('{"rows": [] }')
+
+        get "/"
+      end
+
+      it "should pull back full details for the first 10 meals" do
+        RestClient.
+          stub!(:get).
+          and_return('{"rows": [' +
+                     '{"key":"2009-06-10","value":["2009-06-10","Foo"]},' +
+                     '{"key":"2009-06-09","value":["2009-06-09","Foo"]},' +
+                     '{"key":"2009-06-08","value":["2009-06-08","Foo"]},' +
+                     '{"key":"2009-06-07","value":["2009-06-07","Foo"]},' +
+                     '{"key":"2009-06-06","value":["2009-06-06","Foo"]},' +
+                     '{"key":"2009-06-05","value":["2009-06-05","Foo"]},' +
+                     '{"key":"2009-06-04","value":["2009-06-04","Foo"]},' +
+                     '{"key":"2009-06-03","value":["2009-06-03","Foo"]},' +
+                     '{"key":"2009-06-02","value":["2009-06-02","Foo"]},' +
+                     '{"key":"2009-06-01","value":["2009-06-01","Foo"]},' +
+                     '{"key":"2009-05-31","value":["2009-05-31","Foo"]},' +
+                     '{"key":"2009-05-30","value":["2009-05-30","Foo"]},' +
+                     '{"key":"2009-05-29","value":["2009-05-29","Foo"]}' +
+                     ']}')
+
+        RestClient.
+          should_receive(:get).
+          with(/2009-0/).
+          exactly(10).times.
+          and_return('{"title":"foo",' +
+                      '"summary":"foo summary",' +
+                      '"menu":[]}')
+
+        get "/"
+
+      end
+    end
 
     describe "GET /meals/YYYY" do
       it "should respond OK" do

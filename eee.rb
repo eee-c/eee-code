@@ -16,6 +16,20 @@ helpers do
   include Eee::Helpers
 end
 
+get '/' do
+  url = "#{@@db}/_design/meals/_view/by_date?limit=13&descending=true"
+  data = RestClient.get url
+  @meal_view = JSON.parse(data)['rows']
+
+  @meals = @meal_view[0...10].inject([]) do |memo, couch_rec|
+    data = RestClient.get "#{@@db}/#{couch_rec['key']}"
+    meal = JSON.parse(data)
+    memo + [meal]
+  end
+
+  haml :index
+end
+
 get %r{/meals/(\d+)/(\d+)/(\d+)} do |year, month, day|
   data = RestClient.get "#{@@db}/#{year}-#{month}-#{day}"
   @meal = JSON.parse(data)
