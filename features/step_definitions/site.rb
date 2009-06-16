@@ -11,7 +11,11 @@ Given /^(\d+) yummy meals$/ do |count|
       :summary     => "meal summary",
       :description => "meal description",
       :type        => "Meal",
-      :menu        => []
+      :menu        => [],
+      :_attachments => { "meal#{i}.jpg" => {
+        :data => "R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAEBMgA7",
+        :content_type => "image/gif"}
+      }
     }
 
     RestClient.put "#{@@db}/#{date.to_s}",
@@ -42,7 +46,7 @@ Given /^1 delicious recipe for each meal$/ do
       :content_type => 'application/json'
 
     # Update the meal to include the recipe in the menu
-    meal['menu'] << "[recipe:#{permalink.gsub(/-/, '/')}"
+    meal['menu'] << "[recipe:#{permalink}]"
     RestClient.put "#{@@db}/#{meal['_id']}",
       meal.to_json,
       :content_type => 'application/json'
@@ -87,4 +91,13 @@ Then /^I should see the 10 most recent meals prominently displayed$/ do
   response.should have_selector("h2", :content => "Meal 0")
   response.should have_selector("h2", :content => "Meal 9")
   response.should_not have_selector("h2", :content => "Meal 10")
+end
+
+Then /^the prominently displayed meals should include a thumbnail image$/ do
+  response.should have_selector("img", :count => 10)
+end
+
+Then /^the prominently displayed meals should include the recipe titles$/ do
+  response.should have_selector(".menu-items",
+                                :content => "Recipe for Meal 1")
 end

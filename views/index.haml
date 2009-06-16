@@ -1,5 +1,7 @@
 .meals
   %h1 Meals
   - @meals.each do |meal|
+    = image_link meal, :width => 200, :height => 150
     %h2= meal["title"]
-    %p= wiki(meal["summary"])
+    = wiki(meal["summary"])
+    .menu-items= wiki(meal["menu"].join(", "))

@@ -58,6 +58,29 @@ _TEXTILE
   end
 end
 
+describe "recipe_link" do
+  before(:each) do
+    @json = '{"_id":"2009-06-11-recipe","title":"Recipe for Foo"}'
+    RestClient.
+      stub!(:get).
+      and_return(@json)
+  end
+  it "should link to recipe resource" do
+    recipe_link("2009-06-11-recipe").
+      should have_selector("a",
+                           :href => "/recipes/2009-06-11-recipe")
+  end
+  it "should be able to link with \"slash\" dates (e.g. 2009/06/11/recipe)" do
+    RestClient.
+      should_receive(:get).
+      with(/2009-06-11-recipe/).
+      and_return(@json)
+
+    recipe_link("2009/06/11/recipe")
+  end
+end
+
+
 describe "image_link" do
   context do
     before(:each) do
