@@ -38,6 +38,8 @@ get %r{/meals/(\d+)/(\d+)/(\d+)} do |year, month, day|
   data = RestClient.get url
   @meals_by_date = JSON.parse(data)['rows']
 
+  @recipes = @meal['menu'].map { |m| wiki_recipe(m) }.compact
+
   haml :meal
 end
 

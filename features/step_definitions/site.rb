@@ -101,3 +101,18 @@ Then /^the prominently displayed meals should include the recipe titles$/ do
   response.should have_selector(".menu-items",
                                 :content => "Recipe for Meal 1")
 end
+
+When /^I click on the first meal$/ do
+  click_link "Meal 0"
+end
+
+Then /^I should see the meal page$/ do
+  response.should have_selector("h1",
+                                :content => "Meal 0")
+end
+
+Then /^the Italian category should be highlighted$/ do
+  response.should have_selector("a",
+                                :class => "active",
+                                :content => "Italian")
+end

@@ -1,7 +1,10 @@
 .meals
   %h1 Meals
   - @meals.each do |meal|
-    = image_link meal, :width => 200, :height => 150
-    %h2= meal["title"]
+    - date = Date.parse(meal['date'])
+    %a{:href => date.strftime("/meals/%Y/%m/%d")}
+      = image_link meal, :width => 200, :height => 150
+    %h2
+      %a{:href => date.strftime("/meals/%Y/%m/%d")}= meal["title"]
     = wiki(meal["summary"])
     .menu-items= wiki(meal["menu"].join(", "))

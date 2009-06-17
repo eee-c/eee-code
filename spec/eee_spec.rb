@@ -187,9 +187,9 @@ describe "eee" do
       @permalink = @date.to_s + "-" + @title.downcase.gsub(/\W/, '-')
 
       RestClient.put "#{@@db}/#{@permalink}",
-        { :title => @title,
-          :date  => @date }.to_json,
-        :content_type => 'application/json'
+      { :title => @title,
+        :date  => @date }.to_json,
+      :content_type => 'application/json'
 
     end
 
@@ -213,8 +213,8 @@ describe "eee" do
         recipe = JSON.parse(data)
 
         RestClient.put "#{@@db}/#{@permalink}/sample.jpg?rev=#{recipe['_rev']}",
-          File.read('spec/fixtures/sample.jpg'),
-          :content_type => 'image/jpeg'
+        File.read('spec/fixtures/sample.jpg'),
+        :content_type => 'image/jpeg'
 
         get "/images/#{@permalink}/sample.jpg"
         last_response.should be_ok

@@ -13,7 +13,11 @@ module Eee
     end
 
     def recipe_category_link(recipe, category)
-      if recipe['tag_names'] && recipe['tag_names'].include?(category.downcase)
+      recipes = recipe.is_a?(Array) ? recipe : [recipe]
+      if recipes.any? { |r|
+          r['tag_names'] &&
+          r['tag_names'].include?(category.downcase)
+        }
         %Q|<a class="active">#{category}</a>|
       else
         %Q|<a>#{category}</a>|
@@ -35,6 +39,13 @@ module Eee
 
     def _db
       self.class.send(:class_variable_get, "@@db")
+    end
+
+    def wiki_recipe(text)
+      if text =~ /\[recipe:([-\/\w]+)/
+        permalink = $1.gsub(/\//, '-')
+        JSON.parse(RestClient.get("#{_db}/#{permalink}"))
+      end
     end
 
     def recipe_link(link, title=nil)

@@ -1,3 +1,17 @@
+%ul#eee-categories
+  %li= recipe_category_link(@recipes, 'Italian')
+  %li= recipe_category_link(@recipes, 'Asian')
+  %li= recipe_category_link(@recipes, 'Latin')
+  %li= recipe_category_link(@recipes, 'Breakfast')
+  %li= recipe_category_link(@recipes, 'Chicken')
+  %li= recipe_category_link(@recipes, 'Fish')
+  %li= recipe_category_link(@recipes, 'Meat')
+  %li= recipe_category_link(@recipes, 'Salad')
+  %li= recipe_category_link(@recipes, 'Vegetarian')
+  %li
+    %a Recipes
+
+
 - date = Date.parse(@meal['date'])
 .breadcrumbs
   = breadcrumbs(date, :day)

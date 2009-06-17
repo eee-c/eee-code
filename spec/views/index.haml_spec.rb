@@ -11,9 +11,16 @@ describe "index.haml" do
                        }]
   end
 
-  it "should link to the meal titles" do
+  it "should include the meal titles" do
     render("/views/index.haml")
     response.should have_selector("h2", :content => "Bar")
+  end
+
+  it "should link to the the meal titles" do
+    render("/views/index.haml")
+    response.should have_selector("a",
+                                  :href => "/meals/2009/05/15",
+                                  :content => "Bar")
   end
 
   it "should include a summary of the meals" do

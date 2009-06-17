@@ -1,5 +1,18 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper' )
 
+describe "recipe_category_link" do
+  it "should create an active link if the recipe includes the category" do
+    recipe_category_link({'tag_names' => ['italian']}, 'Italian').
+      should have_selector("a", :class => "active")
+  end
+  it "should create an active link if any recipes include the category" do
+    recipes = [{ 'tag_names' => ['italian'] },
+               { 'tag_names' => ['foo'] }]
+    recipe_category_link(recipes, 'Italian').
+      should have_selector("a", :class => "active")
+  end
+end
+
 describe "wiki" do
   it "should return simple text as unaltered text" do
     wiki("bob").should contain("bob")
@@ -55,6 +68,33 @@ _TEXTILE
                              :href    => "/recipes/id-123",
                              :content => "Different Title")
     end
+  end
+end
+
+describe "wiki_recipe" do
+  before(:each) do
+    @json = '{"_id":"2009-06-16-recipe","title":"Recipe for Foo"}'
+  end
+  it "should lookup a recipe from recipe wiki text" do
+    RestClient.
+      should_receive(:get).
+      with(/2009-06-16/).
+      and_return(@json)
+
+    wiki_recipe(" [recipe:2009/06/16]")
+  end
+  it "should return a recipe from recipe wiki text" do
+    RestClient.
+      stub!(:get).
+      and_return(@json)
+
+    wiki_recipe(" [recipe:2009/06/16]").
+      should == { "_id" => "2009-06-16-recipe",
+                  "title" => "Recipe for Foo" }
+
+  end
+  it "should return nil for non-recipe wiki text" do
+    wiki_recipe("[rcip:2009/06/16]").should be_nil
   end
 end
 
