@@ -18,6 +18,8 @@ describe "meal.haml" do
                                  "value" => ['2009-05-15', "Foo"] },
                                { "key" => "2009-05-31",
                                  "value" => ["2009-05-31", "Bar"] }]
+
+    assigns[:recipes] = []
   end
 
   it "should display a breadcrumb link to the other meals in this year" do

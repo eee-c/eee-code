@@ -12,6 +12,18 @@ module Eee
       "http://www.amazon.com/exec/obidos/ASIN/#{asin}/eeecooks-20"
     end
 
+    def categories(context)
+      categories = %w{Italian Asian Latin Breakfast Chicken Fish Meat Salad Vegetarian}
+
+      links = categories.map do |category|
+        %Q|<li>#{recipe_category_link(context, category)}</li>|
+      end
+
+      links << "<a>Recipes</a>"
+
+      %Q|<ul id="eee-categories">#{links}</ul>|
+    end
+
     def recipe_category_link(recipe, category)
       recipes = recipe.is_a?(Array) ? recipe : [recipe]
       if recipes.any? { |r|

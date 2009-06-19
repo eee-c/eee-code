@@ -1,5 +1,28 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper' )
 
+describe "categories" do
+  it "should link to the italian category" do
+    categories({}).
+      should have_selector("#eee-categories a", :content => "Italian")
+  end
+  it "should be able to highlight the link to the italian category" do
+    categories({'tag_names' => %w{italian}}).
+      should have_selector("#eee-categories a", :content => "Italian")
+  end
+  it "should link to the fish category" do
+    categories({}).
+      should have_selector("#eee-categories a", :content => "Fish")
+  end
+  it "should link to the vegetarian category" do
+    categories({}).
+      should have_selector("#eee-categories a", :content => "Vegetarian")
+  end
+  it "should link to all recipes" do
+    categories({}).
+      should have_selector("#eee-categories a", :content => "Recipes")
+  end
+end
+
 describe "recipe_category_link" do
   it "should create an active link if the recipe includes the category" do
     recipe_category_link({'tag_names' => ['italian']}, 'Italian').

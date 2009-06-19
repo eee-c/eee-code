@@ -87,6 +87,7 @@ describe "eee" do
           with(/2009-0/).
           exactly(10).times.
           and_return('{"title":"foo",' +
+                      '"date":"2009-06-17",' +
                       '"summary":"foo summary",' +
                       '"menu":[]}')
 
