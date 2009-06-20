@@ -121,8 +121,18 @@ When /^I click on the recipe in the menu$/ do
   click_link "Recipe for Meal 0"
 end
 
+When /^I click on the Italian category$/ do
+  click_link "Italian"
+end
+
+
 Then /^I should see the recipe page$/ do
   response.should have_selector("h1",
                                 :content => "Recipe for Meal 0")
 end
 
+Then /^I should see 5 Italian recipes$/ do
+  # 5 result rows + 1 header row
+  response.should have_selector("tr",
+                                :count => 6)
+end

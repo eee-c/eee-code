@@ -26,13 +26,14 @@ module Eee
 
     def recipe_category_link(recipe, category)
       recipes = recipe.is_a?(Array) ? recipe : [recipe]
+      href = "/recipes/search?q=category:#{category.downcase}"
       if recipes.any? { |r|
           r['tag_names'] &&
           r['tag_names'].include?(category.downcase)
         }
-        %Q|<a class="active">#{category}</a>|
+        %Q|<a class="active" href="#{href}">#{category}</a>|
       else
-        %Q|<a>#{category}</a>|
+        %Q|<a href="#{href}">#{category}</a>|
       end
     end
 

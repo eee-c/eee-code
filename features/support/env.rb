@@ -79,9 +79,10 @@ function(doc) {
     var ingredient_count = doc['preparations'] ? doc['preparations'].length : 0;
     ret.field('sort_ingredient', zero_pad(ingredient_count, 5), 'yes', 'not_analyzed');
 
-    ret.field('date',       doc['date'],      'yes');
-    ret.field('title',      doc['title'],     'yes');
-    ret.field('prep_time',  doc['prep_time'], 'yes');
+    ret.field('date',       doc['date'],                'yes');
+    ret.field('title',      doc['title'],               'yes');
+    ret.field('prep_time',  doc['prep_time'],           'yes');
+    ret.field('category',   (doc['tag_names'] || []).join(' '), 'yes');
 
     return ret;
   }

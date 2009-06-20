@@ -34,6 +34,11 @@ describe "recipe_category_link" do
     recipe_category_link(recipes, 'Italian').
       should have_selector("a", :class => "active")
   end
+  it "should link to the category search results" do
+    recipe_category_link({}, "Italian").
+      should have_selector("a",
+                           :href => "/recipes/search?q=category:italian")
+  end
 end
 
 describe "wiki" do
