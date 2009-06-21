@@ -1,0 +1,11 @@
+%html
+  %title= ["EEE Cooks", @title].compact.join(": ")
+%body
+  #header
+    #eee-header-logo
+      %a{:href => "/"}
+        %img{:alt => "Home", :src => "/images/eee_corner.png"}
+
+  = yield
+
+  #footer

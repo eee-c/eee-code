@@ -94,7 +94,7 @@ Then /^I should see the 10 most recent meals prominently displayed$/ do
 end
 
 Then /^the prominently displayed meals should include a thumbnail image$/ do
-  response.should have_selector("img", :count => 10)
+  response.should have_selector(".meals img", :count => 10)
 end
 
 Then /^the prominently displayed meals should include the recipe titles$/ do
@@ -106,15 +106,19 @@ When /^I click on the first meal$/ do
   click_link "Meal 0"
 end
 
+When /^I click the site logo$/ do
+  click_link "/"
+end
+
 Then /^I should see the meal page$/ do
   response.should have_selector("h1",
                                 :content => "Meal 0")
 end
 
-Then /^the Italian category should be highlighted$/ do
+Then /^the (\w+) category should be highlighted$/ do |category|
   response.should have_selector("a",
                                 :class => "active",
-                                :content => "Italian")
+                                :content => category)
 end
 
 When /^I click on the recipe in the menu$/ do
@@ -125,14 +129,21 @@ When /^I click on the Italian category$/ do
   click_link "Italian"
 end
 
+When /^I click the recipe link under the 6th meal$/ do
+  click_link "Recipe for Meal 5"
+end
 
 Then /^I should see the recipe page$/ do
   response.should have_selector("h1",
-                                :content => "Recipe for Meal 0")
+                                :content => "Recipe for Meal ")
 end
 
 Then /^I should see 5 Italian recipes$/ do
   # 5 result rows + 1 header row
   response.should have_selector("tr",
                                 :count => 6)
+end
+
+Then /^I should see the homepage$/ do
+  response.should have_selector(".meals h2", :count => 10)
 end
