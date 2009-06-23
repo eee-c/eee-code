@@ -85,7 +85,7 @@ describe "eee" do
         RestClient.
           should_receive(:get).
           with(/2009-0/).
-          exactly(10).times.
+          exactly(13).times.
           and_return('{"title":"foo",' +
                       '"date":"2009-06-17",' +
                       '"summary":"foo summary",' +

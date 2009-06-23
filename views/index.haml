@@ -1,10 +1,30 @@
 .meals
+
   %h1 Meals
   - @meals.each do |meal|
     - date = Date.parse(meal['date'])
-    %a{:href => date.strftime("/meals/%Y/%m/%d")}
-      = image_link meal, :width => 200, :height => 150
-    %h2
+    %div{:class => "meal meal#{date.day % 2}"}
+      %a{:href => date.strftime("/meals/%Y/%m/%d")}
+        = image_link meal, :width => 200, :height => 150
+      %h2
+        %a{:href => date.strftime("/meals/%Y/%m/%d")}= meal["title"]
+      %div= date.strftime("%B %e")
+      = wiki(meal["summary"])
+
+      - new_recipe_regexp = Regexp.new(date.strftime("%Y/%m/%d"))
+      - new_recipes = meal["menu"].select{ |r| r =~ new_recipe_regexp }
+      (
+      %a{:href => date.strftime("/meals/%Y/%m/%d")}
+        Read more&hellip;
+      - if new_recipes.length > 0
+        |
+      %span.menu-items= wiki(new_recipes.join(", "))
+      )
+  .other-meals
+    %i Older meals:
+    - @older_meals.each do |meal|
+      - date = Date.parse(meal['date'])
       %a{:href => date.strftime("/meals/%Y/%m/%d")}= meal["title"]
-    = wiki(meal["summary"])
-    .menu-items= wiki(meal["menu"].join(", "))
+      ,
+    - date = Date.parse(@meals[0]['date'])
+    %a{:href => date.strftime("/meals/%Y/%m")} More&hellip;

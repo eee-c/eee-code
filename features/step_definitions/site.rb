@@ -46,7 +46,7 @@ Given /^1 delicious recipe for each meal$/ do
       :content_type => 'application/json'
 
     # Update the meal to include the recipe in the menu
-    meal['menu'] << "[recipe:#{permalink}]"
+    meal['menu'] << "[recipe:#{permalink.gsub(/-/, '/')}]"
     RestClient.put "#{@@db}/#{meal['_id']}",
       meal.to_json,
       :content_type => 'application/json'

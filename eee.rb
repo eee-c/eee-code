@@ -21,11 +21,13 @@ get '/' do
   data = RestClient.get url
   @meal_view = JSON.parse(data)['rows']
 
-  @meals = @meal_view[0...10].inject([]) do |memo, couch_rec|
+  @meals = @meal_view.inject([]) do |memo, couch_rec|
     data = RestClient.get "#{@@db}/#{couch_rec['key']}"
     meal = JSON.parse(data)
     memo + [meal]
   end
+
+  @older_meals = @meals.slice!(10,3) || []
 
   haml :index
 end
