@@ -20,7 +20,7 @@ Feature: Site
     When I click on the recipe in the menu
     Then I should see the recipe page
     And the Italian category should be highlighted
-    When I click on the Italian category
+    When I click the Italian category
     Then I should see 5 Italian recipes
     When I click the site logo
     Then I should see the homepage
@@ -30,20 +30,22 @@ Feature: Site
 
   Scenario: Exploring food categories (e.g. Italian) from the homepage
 
-    Given 50 Italian recipes
+    Given 25 yummy meals
+    And 50 Italian recipes
     And 10 Breakfast recipes
     When I view the site's homepage
     And I click the Italian category
-    Then I should see 20 recipes
-    And links to 2 other pages
+    Then I should see 20 results
+    And I should see 2 pages of results
     When I click the site logo
     Then I should see the homepage
     And I click the Breakfast category
-    Then I should see 10 recipes
-    And links to 0 other pages
+    Then I should see 10 results
+    And I should see no more pages of results
 
   Scenario: Give feedback to the authors of this fantastic site
 
+    Given 25 yummy meals
     When I view the site's homepage
     And I click "Send us comments"
     Then I should see a feedback form

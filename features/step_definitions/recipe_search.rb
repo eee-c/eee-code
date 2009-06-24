@@ -127,7 +127,8 @@ Given /^(\d+) (.+) recipes$/ do |count, keyword|
       :date  => date,
       :preparations => [
         { 'ingredient' => { 'name' => 'ingredient' } }
-      ]
+      ],
+      :tag_names => [keyword.downcase]
     }
 
     RestClient.put "#{@@db}/#{permalink}",
@@ -242,8 +243,8 @@ Then /^I should see (\d+) results$/ do |count|
   response.should have_selector("table td a", :count => count.to_i)
 end
 
-Then /^I should see 3 pages of results$/ do
-  response.should have_selector(".pagination a", :content => "3")
+Then /^I should see (\d) pages of results$/ do |pages|
+  response.should have_selector(".pagination a", :content => pages)
 end
 
 Then /^I should not be able to go to a (.+) page$/ do |link_text|

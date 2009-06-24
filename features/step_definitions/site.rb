@@ -125,8 +125,8 @@ When /^I click on the recipe in the menu$/ do
   click_link "Recipe for Meal 0"
 end
 
-When /^I click on the Italian category$/ do
-  click_link "Italian"
+When /^I click the (\w+) category$/ do |category|
+  click_link category
 end
 
 When /^I click the recipe link under the 6th meal$/ do
@@ -146,4 +146,8 @@ end
 
 Then /^I should see the homepage$/ do
   response.should have_selector(".meals h2", :count => 10)
+end
+
+Then /^I should see no more pages of results$/ do
+  response.should have_selector(".inactive", :content => "Next »")
 end
