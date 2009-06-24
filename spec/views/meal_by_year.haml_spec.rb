@@ -16,7 +16,7 @@ describe "meal_by_year.haml" do
 
   it "should display a list of meals" do
     render("/views/meal_by_year.haml")
-    response.should have_selector("ul li", :count => 2)
+    response.should have_selector("ul.meals li", :count => 2)
   end
 
   it "should link to meals" do

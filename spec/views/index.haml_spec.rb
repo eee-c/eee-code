@@ -2,8 +2,13 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper' )
 
 describe "index.haml" do
   before(:each) do
-    assigns[:meals]       = [{'date' => "2009-06-23", 'menu' => []}]
+    assigns[:meals]       = []
     assigns[:older_meals] = []
+  end
+
+  it "should not link to older meals if no meals have been added yet" do
+    render("/views/index.haml")
+    response.should_not have_selector("a", :content => "More…")
   end
 
   it "should link to the listing of Italian recipes" do

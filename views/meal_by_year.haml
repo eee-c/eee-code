@@ -11,7 +11,7 @@
   |
   =link_to_adjacent_view_date(@year, @count_by_year)
 
-%ul
+%ul.meals
   - @meals["rows"].each do |meal|
     -date = Date.parse(meal['value'][0][0])
     %li

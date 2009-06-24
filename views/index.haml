@@ -30,5 +30,6 @@
       - date = Date.parse(meal['date'])
       %a{:href => date.strftime("/meals/%Y/%m/%d")}= meal["title"]
       ,
-    - date = Date.parse(@meals[0]['date'])
-    %a{:href => date.strftime("/meals/%Y/%m")} More&hellip;
+    - if @meals[0] && @meals[0]['date']
+      - date = Date.parse(@meals[0]['date'])
+      %a{:href => date.strftime("/meals/%Y/%m")} More&hellip;
