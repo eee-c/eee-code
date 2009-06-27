@@ -17,6 +17,22 @@ describe "index.haml" do
                                   :content => "Italian")
   end
 
+  it "should inlcude a left-hand column" do
+    render("/views/index.haml")
+    response.should have_selector("div.lhc")
+  end
+
+  it "should inlcude a right-hand column" do
+    render("/views/index.haml")
+    response.should have_selector("div.rhc")
+  end
+
+  it "should have a recipe search section" do
+    render("/views/index.haml")
+    response.should have_selector(".rhc h1",
+                                  :content => "About Us")
+  end
+
   context "recent meals" do
     before(:each) do
       assigns[:meals] = [{ "_id"     => "2009-05-15",

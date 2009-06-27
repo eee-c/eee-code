@@ -50,7 +50,7 @@ Feature: Site
     And I click "Send us comments"
     Then I should see a feedback form
     When I fill out the form with effusive praise
-    And click the submit button
+    And I click the "Send Comments" button
     Then I should see a thank you note
 
   Scenario: Give feedback to the authors on a yummy meal

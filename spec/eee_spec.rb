@@ -337,4 +337,33 @@ describe "eee" do
       last_response.should have_selector("input[@name=query][@value='']")
     end
   end
+
+  describe "GET /feedback" do
+    it "should respond OK" do
+      get "/feedback"
+      last_response.should be_ok
+    end
+  end
+
+  describe "POST /email" do
+    before(:each) do
+      Pony.stub!(:mail)
+    end
+
+    it "should respond OK" do
+      post "/email"
+      last_response.should be_ok
+    end
+
+    it "should send us an email" do
+      Pony.
+        should_receive(:mail).
+        with(hash_including(:subject => "Subject"))
+
+      post "/email",
+        :name    => "Bob",
+        :subject => "Subject",
+        :message => "Feedback message."
+    end
+  end
 end

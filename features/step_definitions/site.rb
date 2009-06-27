@@ -133,6 +133,19 @@ When /^I click the recipe link under the 6th meal$/ do
   click_link "Recipe for Meal 5"
 end
 
+When /^I fill out the form with effusive praise$/ do
+  fill_in "Name",    :with => "Bob"
+  fill_in "Email",   :with => "foo@example.org"
+  fill_in "Subject", :with => "Your site is awesome!"
+  fill_in "Message", :with => "The recipes are delicious and your use of CouchDB is impressive."
+end
+
+When /^I click the "([^\"]*)" button$/ do |button_text|
+  # Don't send email in tests
+  Pony.stub!(:mail)
+  click_button button_text
+end
+
 Then /^I should see the recipe page$/ do
   response.should have_selector("h1",
                                 :content => "Recipe for Meal ")
@@ -150,4 +163,13 @@ end
 
 Then /^I should see no more pages of results$/ do
   response.should have_selector(".inactive", :content => "Next »")
+end
+
+Then /^I should see a feedback form$/ do
+  response.should have_selector("h1", :content => "Feedback")
+  response.should have_selector("form")
+end
+
+Then /^I should see a thank you note$/ do
+  response.should have_selector("h1", :content => "Thank You")
 end

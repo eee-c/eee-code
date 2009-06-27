@@ -2,6 +2,7 @@ require 'rubygems'
 require 'sinatra'
 require 'rest_client'
 require 'json'
+require 'pony'
 require 'helpers'
 
 configure :test do
@@ -117,4 +118,23 @@ get '/images/:permalink/:image' do
   rescue
     404
   end
+end
+
+get '/feedback' do
+  haml :feedback
+end
+
+post '/email' do
+  message = <<"_EOM"
+From: #{params[:name]}
+Email: #{params[:email]}
+
+#{params[:message]}
+_EOM
+
+  Pony.mail(:to      => "us _at_ eeecooks.com".gsub(/\s*_at_\s*/, '@'),
+            :subject => params[:subject],
+            :body    => message)
+
+  haml :email
 end

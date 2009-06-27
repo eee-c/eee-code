@@ -12,6 +12,9 @@ require 'haml'
 # RSpec matchers
 require 'spec/expectations'
 
+# RSpec mocks / stubs
+require 'spec/mocks'
+
 # Webrat
 require 'webrat'
 Webrat.configure do |config|
@@ -26,6 +29,8 @@ World do
 end
 
 Before do
+  $rspec_mocks ||= Spec::Mocks::Space.new
+
   RestClient.put @@db, { }
 
   # TODO need to accomplish this via CouchDB migrations
@@ -149,6 +154,12 @@ _JS
 end
 
 After do
+  begin
+    $rspec_mocks.verify_all
+  ensure
+    $rspec_mocks.reset_all
+  end
+
   RestClient.delete @@db
   sleep 0.5
 end

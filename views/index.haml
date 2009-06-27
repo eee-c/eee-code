@@ -2,6 +2,20 @@
   %h1 Recipes
   = categories({})
 
+.rhc
+  .home-section
+    %h1 Recipe Search
+    %form{:action => "", :method => "get"}
+      %input{:name => "q", :type => "text", :tabindex => 1, :maxlength => 2048, :size => 15}
+      %input{:type => "submit", :tabindex => 2, :value => "Search", :name => "b"}
+
+  .home-section
+    %h1 About Us
+    %p We are a young family living in the Baltimore area. One day we decided to put our recipe box online. This is our family cookbook
+    %p
+      %a{:href => "/feedback"} Send us comments
+
+
 .meals
 
   %h1 Meals
