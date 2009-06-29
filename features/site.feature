@@ -55,4 +55,16 @@ Feature: Site
 
   Scenario: Give feedback to the authors on a yummy meal
 
-  Scenario: Give feedback to the authors on a delicious recipe
+    Given a "Yummy" meal enjoyed on 2009-06-27
+    When I view the "Yummy" meal
+    And I click "Send us feedback on this meal"
+    Then I should see a feedback form
+    And I should see a subject of "[Meal] Yummy"
+
+  Scenario: Send compliments to the chef on a delicious recipe
+
+    Given a "Yummy" recipe from 2009-06-27
+    When I view the recipe
+    And I click "Send us feedback on this recipe"
+    Then I should see a feedback form
+    And I should see a subject of "[Recipe] Yummy"

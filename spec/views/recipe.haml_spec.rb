@@ -34,6 +34,19 @@ describe "recipe.haml" do
                                   :content => "wiki #{@instructions}")
   end
 
+  it "should link to the feedback form" do
+    render("/views/recipe.haml")
+    response.should have_selector("a",
+                                  :content => "Send us feedback on this recipe")
+  end
+
+  it "should include the recipe's URL in the feedback link" do
+    render("/views/recipe.haml")
+    response.should have_selector("a",
+                                  :href => "/feedback?url=",
+                                  :content => "Send us feedback on this recipe")
+  end
+
   context "a recipe with no tools or appliances" do
     before(:each) do
       @recipe[:tools] = nil

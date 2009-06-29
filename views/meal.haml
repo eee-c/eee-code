@@ -23,3 +23,6 @@
 
 #description
   = wiki @meal['description']
+
+%div
+  %a{:href => "/feedback?url=#{Rack::Utils.escape(@url)}&subject=#{Rack::Utils.escape("[Meal] " + @meal['title'])}"} Send us feedback on this meal

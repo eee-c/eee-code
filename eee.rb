@@ -43,6 +43,8 @@ get %r{/meals/(\d+)/(\d+)/(\d+)} do |year, month, day|
 
   @recipes = @meal['menu'].map { |m| wiki_recipe(m) }.compact
 
+  @url = request.url
+
   haml :meal
 end
 
@@ -108,6 +110,8 @@ get '/recipes/:permalink' do
   data = RestClient.get "#{@@db}/#{params[:permalink]}"
   @recipe = JSON.parse(data)
 
+  @url = request.url
+
   haml :recipe
 end
 
@@ -121,6 +125,8 @@ get '/images/:permalink/:image' do
 end
 
 get '/feedback' do
+  @subject = params[:subject]
+  @url = params[:url]
   haml :feedback
 end
 

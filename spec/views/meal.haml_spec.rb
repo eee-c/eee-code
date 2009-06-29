@@ -7,6 +7,7 @@ describe "meal.haml" do
     @description = "Meal Description"
     @year = 2009
     @month = 5
+
     assigns[:meal] = @meal = {
       'date'        => "%d-%02d-31" % [@year, @month],
       'title'       => @title,
@@ -14,12 +15,15 @@ describe "meal.haml" do
       'description' => @description,
       'menu'        => ["Peanut Butter and Jelly Sandwich"]
     }
+
     assigns[:meals_by_date] = [{ "key" => "2009-05-15",
                                  "value" => ['2009-05-15', "Foo"] },
                                { "key" => "2009-05-31",
                                  "value" => ["2009-05-31", "Bar"] }]
 
     assigns[:recipes] = []
+
+    assigns[:url] = "http://example.org/recipe-1"
   end
 
   it "should display a breadcrumb link to the other meals in this year" do
@@ -89,4 +93,16 @@ describe "meal.haml" do
     response.should have_selector("#description p", :content => "paragraph 1")
   end
 
+  it "should link to the feedback form" do
+    render("/views/meal.haml")
+    response.should have_selector("a",
+                                  :content => "Send us feedback on this meal")
+  end
+
+  it "should include the recipe's URL in the feedback link" do
+    render("/views/meal.haml")
+    response.should have_selector("a",
+                                  :href => "/feedback?url=http%3A%2F%2Fexample.org%2Frecipe-1&subject=%5BMeal%5D+Meal+Title",
+                                  :content => "Send us feedback on this meal")
+  end
 end

@@ -21,4 +21,18 @@ describe "feedback.haml" do
     response.should have_selector("label",
                                   :content => "Message")
   end
+
+  it "should pre-fill the subject if supplied" do
+    @subject = "Subject"
+    render("/views/feedback.haml")
+    response.should have_selector("input",
+                                  :value => "Subject")
+  end
+
+  it "should pre-fill the url if supplied" do
+    @url = "http://example.org/foo"
+    render("/views/feedback.haml")
+    response.should have_selector("input",
+                                  :value => "http://example.org/foo")
+  end
 end

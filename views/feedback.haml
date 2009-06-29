@@ -11,8 +11,9 @@
     %input{:type => "text", :name => "email", :size => 30}
   %label
     Subject
-    %input{:type => "text", :name => "subject", :size => 50}
+    %input{:type => "text", :name => "subject", :size => 50, :value => @subject}
   %label
     Message
     %textarea{:name => "message", :rows => 8, :cols => 55}
+  %input{:type => "hidden", :name => "url", :value => @url}
   %input{:type => "submit", :name => "b", :value => "Send Comments"}
