@@ -63,8 +63,8 @@ Feature: Site
 
   Scenario: Send compliments to the chef on a delicious recipe
 
-    Given a "Yummy" recipe from 2009-06-27
+    Given a recipe for Curried Shrimp
     When I view the recipe
     And I click "Send us feedback on this recipe"
     Then I should see a feedback form
-    And I should see a subject of "[Recipe] Yummy"
+    And I should see a subject of "[Recipe] Curried Shrimp"

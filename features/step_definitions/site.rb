@@ -173,3 +173,8 @@ end
 Then /^I should see a thank you note$/ do
   response.should have_selector("h1", :content => "Thank You")
 end
+
+Then /^I should see a subject of "([^\"]*)"$/ do |subject|
+  response.should have_selector("input",
+                                :value => subject)
+end

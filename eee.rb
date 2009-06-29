@@ -138,6 +138,8 @@ Email: #{params[:email]}
 #{params[:message]}
 _EOM
 
+  message << "\nURL: #{params[:url]}\n" if params[:url]
+
   Pony.mail(:to      => "us _at_ eeecooks.com".gsub(/\s*_at_\s*/, '@'),
             :subject => params[:subject],
             :body    => message)

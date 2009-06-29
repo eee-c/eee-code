@@ -365,5 +365,46 @@ describe "eee" do
         :subject => "Subject",
         :message => "Feedback message."
     end
+
+    it "should include the email, name and message in the email" do
+      message = <<"_EOM"
+From: from
+Email: email
+
+Message
+_EOM
+
+      Pony.
+        should_receive(:mail).
+        with(hash_including(:body => message))
+
+      post "/email",
+        :name    => "from",
+        :email   => "email",
+        :subject => "Subject",
+        :message => "Message"
+    end
+
+    it "should include the URL (if supplied) in the email" do
+      message = <<"_EOM"
+From: from
+Email: email
+
+Message
+
+URL: http://example.org/
+_EOM
+
+      Pony.
+        should_receive(:mail).
+        with(hash_including(:body => message))
+
+      post "/email",
+        :name    => "from",
+        :email   => "email",
+        :subject => "Subject",
+        :message => "Message",
+        :url     => "http://example.org/"
+    end
   end
 end

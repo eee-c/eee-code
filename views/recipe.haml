@@ -44,4 +44,4 @@
   = wiki @recipe['instructions']
 
 %div
-  %a{:href => "/feedback"} Send us feedback on this recipe
+  %a{:href => "/feedback?url=#{Rack::Utils.escape(@url)}&subject=#{Rack::Utils.escape("[Recipe] " + @recipe['title'])}"} Send us feedback on this recipe

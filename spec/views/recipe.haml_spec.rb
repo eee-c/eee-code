@@ -11,6 +11,8 @@ describe "recipe.haml" do
       'summary'      => @summary,
       'instructions' => @instructions
     }
+
+    assigns[:url] = "http://example.org/recipe-1"
   end
 
   it "should display the recipe's title" do
@@ -43,7 +45,7 @@ describe "recipe.haml" do
   it "should include the recipe's URL in the feedback link" do
     render("/views/recipe.haml")
     response.should have_selector("a",
-                                  :href => "/feedback?url=",
+                                  :href => "/feedback?url=http%3A%2F%2Fexample.org%2Frecipe-1&subject=%5BRecipe%5D+Recipe+Title",
                                   :content => "Send us feedback on this recipe")
   end
 

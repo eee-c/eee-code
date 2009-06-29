@@ -112,7 +112,7 @@ end
 
 Given /^a recipe for Curried Shrimp$/ do
   @date = Date.new(2009, 4, 2)
-  @title = "Mango and Tomato Salad"
+  @title = "Curried Shrimp"
   @permalink = @date.to_s + "-" + @title.downcase.gsub(/\W/, '-')
 
   @summary = "This dish is *yummy*."

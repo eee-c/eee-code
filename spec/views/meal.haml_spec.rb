@@ -23,7 +23,7 @@ describe "meal.haml" do
 
     assigns[:recipes] = []
 
-    assigns[:url] = "http://example.org/recipe-1"
+    assigns[:url] = "http://example.org/meal-1"
   end
 
   it "should display a breadcrumb link to the other meals in this year" do
@@ -99,10 +99,10 @@ describe "meal.haml" do
                                   :content => "Send us feedback on this meal")
   end
 
-  it "should include the recipe's URL in the feedback link" do
+  it "should include the meal's URL in the feedback link" do
     render("/views/meal.haml")
     response.should have_selector("a",
-                                  :href => "/feedback?url=http%3A%2F%2Fexample.org%2Frecipe-1&subject=%5BMeal%5D+Meal+Title",
+                                  :href => "/feedback?url=http%3A%2F%2Fexample.org%2Fmeal-1&subject=%5BMeal%5D+Meal+Title",
                                   :content => "Send us feedback on this meal")
   end
 end
