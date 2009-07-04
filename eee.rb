@@ -3,7 +3,10 @@ require 'sinatra'
 require 'rest_client'
 require 'json'
 require 'pony'
+require 'rss'
 require 'helpers'
+
+ROOT_URL = "http://www.eeecooks.com"
 
 configure :test do
   @@db = "http://localhost:5984/eee-test"
@@ -33,6 +36,60 @@ get '/' do
   haml :index
 end
 
+get '/main.rss' do
+  content_type "application/rss+xml"
+
+  url = "#{@@db}/_design/meals/_view/by_date?limit=10&descending=true"
+  data = RestClient.get url
+  @meal_view = JSON.parse(data)['rows']
+
+  rss = RSS::Maker.make("2.0") do |maker|
+    maker.channel.title = "EEE Cooks: Meals"
+    maker.channel.link  = ROOT_URL
+    maker.channel.description = "Meals from a Family Cookbook"
+    @meal_view.each do |couch_rec|
+      data = RestClient.get "#{@@db}/#{couch_rec['key']}"
+      meal = JSON.parse(data)
+      date = Date.parse(meal['date'])
+      maker.items.new_item do |item|
+        item.link = ROOT_URL + date.strftime("/meals/%Y/%m/%d")
+        item.title = meal['title']
+        item.pubDate = Time.parse(meal['date'])
+        item.description = meal['summary']
+      end
+    end
+  end
+
+  rss.to_s
+end
+
+get '/recipes.rss' do
+  content_type "application/rss+xml"
+
+  url = "#{@@db}/_design/recipes/_view/by_date?limit=10&descending=true"
+  data = RestClient.get url
+  @recipe_view = JSON.parse(data)['rows']
+
+  rss = RSS::Maker.make("2.0") do |maker|
+    maker.channel.title = "EEE Cooks: Recipes"
+    maker.channel.link  = ROOT_URL
+    maker.channel.description = "Recipes from a Family Cookbook"
+
+    @recipe_view.each do |couch_rec|
+      data = RestClient.get "#{@@db}/#{couch_rec['value'][0]}"
+      recipe = JSON.parse(data)
+      maker.items.new_item do |item|
+        item.link = ROOT_URL + "/recipes/recipe['id']"
+        item.title = recipe['title']
+        item.pubDate = Time.parse(recipe['date'])
+        item.description = recipe['summary']
+      end
+    end
+  end
+
+  rss.to_s
+end
+
 get %r{/meals/(\d+)/(\d+)/(\d+)} do |year, month, day|
   data = RestClient.get "#{@@db}/#{year}-#{month}-#{day}"
   @meal = JSON.parse(data)
@@ -47,7 +104,6 @@ get %r{/meals/(\d+)/(\d+)/(\d+)} do |year, month, day|
 
   haml :meal
 end
-
 
 get %r{/meals/(\d+)/(\d+)} do |year, month|
   url = "#{@@db}/_design/meals/_view/by_month?group=true&key=%22#{year}-#{month}%22"

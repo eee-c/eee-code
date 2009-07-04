@@ -124,6 +124,7 @@ Given /^(\d+) (.+) recipes$/ do |count, keyword|
 
     recipe = {
       :title => "#{keyword} recipe #{i}",
+      :summary => "recipe summary",
       :date  => date,
       :preparations => [
         { 'ingredient' => { 'name' => 'ingredient' } }

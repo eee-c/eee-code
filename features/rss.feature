@@ -10,6 +10,8 @@ Feature: RSS
     When I access the meal RSS feed
     Then I should see the 10 most recent meals
     And I should see the summary of each meal
+    And I should see a meal link
+    And I should see a meal published date
 
   Scenario: Recipe RSS
 

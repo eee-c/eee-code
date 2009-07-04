@@ -15,6 +15,14 @@ require 'spec/expectations'
 # RSpec mocks / stubs
 require 'spec/mocks'
 
+
+module WebRat
+  class Session
+    def xml_content_type?; raise "here"; true end
+  end
+end
+
+
 # Webrat
 require 'webrat'
 Webrat.configure do |config|
@@ -25,6 +33,11 @@ World do
   session = Webrat::SinatraSession.new
   session.extend(Webrat::Matchers)
   session.extend(Webrat::HaveTagMatcher)
+
+  # def session.xml_content_type?
+  #   raise "here"
+  # end
+
   session
 end
 
@@ -150,6 +163,25 @@ _JS
 
   RestClient.put "#{@@db}/_design/meals",
     meals_view,
+    :content_type => 'application/json'
+
+  recipes_view = <<_JS
+{
+  "views": {
+    "by_date": {
+      "map": "function (doc) {
+        if (typeof(doc['preparations']) != 'undefined') {
+          emit(doc['date'], [doc['_id'], doc['title']]);
+        }
+      }"
+    },
+  },
+  "language": "javascript"
+}
+_JS
+
+  RestClient.put "#{@@db}/_design/recipes",
+    recipes_view,
     :content_type => 'application/json'
 end
 

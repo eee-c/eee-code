@@ -54,15 +54,6 @@ describe "eee" do
         get "/"
       end
 
-      it "should request the most recent 13 meals from CouchDB" do
-        RestClient.
-          should_receive(:get).
-          with(/by_date.+limit=13/).
-          and_return('{"rows": [] }')
-
-        get "/"
-      end
-
       it "should pull back full details for the first 10 meals" do
         RestClient.
           stub!(:get).
@@ -95,6 +86,58 @@ describe "eee" do
 
       end
     end
+
+    describe "GET /main.rss" do
+      it "should respond OK" do
+        get "/main.rss"
+        last_response.should be_ok
+      end
+
+      it "should be the meals rss feed" do
+        get "/main.rss"
+        last_response.
+          should have_selector("channel title",
+                               :content => "EEE Cooks: Meals")
+      end
+
+      it "should request the 10 most recent meals from CouchDB" do
+        RestClient.
+          should_receive(:get).
+          with(/by_date.+limit=10/).
+          and_return('{"rows": [] }')
+
+        get "/main.rss"
+      end
+
+      it "should pull back full details for the 10 meals" do
+        RestClient.
+          stub!(:get).
+          and_return('{"rows": [' +
+                     '{"key":"2009-06-10","value":["2009-06-10","Foo"]},' +
+                     '{"key":"2009-06-09","value":["2009-06-09","Foo"]},' +
+                     '{"key":"2009-06-08","value":["2009-06-08","Foo"]},' +
+                     '{"key":"2009-06-07","value":["2009-06-07","Foo"]},' +
+                     '{"key":"2009-06-06","value":["2009-06-06","Foo"]},' +
+                     '{"key":"2009-06-05","value":["2009-06-05","Foo"]},' +
+                     '{"key":"2009-06-04","value":["2009-06-04","Foo"]},' +
+                     '{"key":"2009-06-03","value":["2009-06-03","Foo"]},' +
+                     '{"key":"2009-06-02","value":["2009-06-02","Foo"]},' +
+                     '{"key":"2009-06-01","value":["2009-06-01","Foo"]}' +
+                     ']}')
+
+        RestClient.
+          should_receive(:get).
+          with(/2009-06-/).
+          exactly(10).times.
+          and_return('{"title":"foo",' +
+                      '"date":"2009-06-17",' +
+                      '"summary":"foo summary",' +
+                      '"menu":[]}')
+
+        get "/main.rss"
+      end
+    end
+
 
     describe "GET /meals/YYYY" do
       it "should respond OK" do
@@ -406,5 +449,60 @@ _EOM
         :message => "Message",
         :url     => "http://example.org/"
     end
+  end
+end
+
+describe "GET /recipe.rss" do
+  before(:each) do
+    RestClient.stub!(:get).and_return('{"rows": [] }')
+  end
+
+  it "should respond OK" do
+    get "/recipes.rss"
+    last_response.should be_ok
+  end
+
+  it "should be the meals rss feed" do
+    get "/recipes.rss"
+    last_response.
+      should have_selector("channel title",
+                           :content => "EEE Cooks: Recipes")
+  end
+
+  it "should request the 10 most recent meals from CouchDB" do
+    RestClient.
+      should_receive(:get).
+      with(/by_date.+limit=10/).
+      and_return('{"rows": [] }')
+
+    get "/recipes.rss"
+  end
+
+  it "should pull back full details for the 10 meals" do
+    RestClient.
+      stub!(:get).
+      and_return('{"rows": [' +
+                 '{"key":"2009-06-10","value":["2009-06-10","Foo"]},' +
+                 '{"key":"2009-06-09","value":["2009-06-09","Foo"]},' +
+                 '{"key":"2009-06-08","value":["2009-06-08","Foo"]},' +
+                 '{"key":"2009-06-07","value":["2009-06-07","Foo"]},' +
+                 '{"key":"2009-06-06","value":["2009-06-06","Foo"]},' +
+                 '{"key":"2009-06-05","value":["2009-06-05","Foo"]},' +
+                 '{"key":"2009-06-04","value":["2009-06-04","Foo"]},' +
+                 '{"key":"2009-06-03","value":["2009-06-03","Foo"]},' +
+                 '{"key":"2009-06-02","value":["2009-06-02","Foo"]},' +
+                 '{"key":"2009-06-01","value":["2009-06-01","Foo"]}' +
+                 ']}')
+
+    RestClient.
+      should_receive(:get).
+      with(/2009-06-/).
+      exactly(10).times.
+      and_return('{"title":"foo",' +
+                 '"date":"2009-06-17",' +
+                 '"summary":"foo summary",' +
+                 '"menu":[]}')
+
+    get "/recipes.rss"
   end
 end
