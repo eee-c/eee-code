@@ -194,5 +194,31 @@ module Eee
 
       crumbs.join(" &gt; ")
     end
+
+    def rss_for_date_view(feed)
+      url = "#{_db}/_design/#{feed}/_view/by_date?limit=10&descending=true"
+      data = RestClient.get url
+      view = JSON.parse(data)['rows']
+
+      rss = RSS::Maker.make("2.0") do |maker|
+        maker.channel.title = "EEE Cooks: #{feed.capitalize}"
+        maker.channel.link  = ROOT_URL
+        maker.channel.description = "#{feed.capitalize} from a Family Cookbook"
+
+        view.each do |couch_rec|
+          data = RestClient.get "#{_db}/#{couch_rec['value'][0]}"
+          record = JSON.parse(data)
+          maker.items.new_item do |item|
+            item.title = record['title']
+            item.pubDate = Time.parse(record['date'])
+            item.description = record['summary']
+
+            yield item, record
+          end
+        end
+      end
+
+      rss.to_s
+    end
   end
 end
