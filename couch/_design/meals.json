@@ -1,0 +1,45 @@
+{
+  "views": {
+    "by_year": {
+      "map": "function (doc) {
+        if (doc['type'] == 'Meal') {
+          emit(doc['date'].substring(0, 4), [doc['_id'], doc['title']]);
+        }
+      }",
+      "reduce": "function(keys, values, rereduce) { return values; }"
+    },
+    "by_month": {
+      "map": "function (doc) {
+        if (doc['type'] == 'Meal') {
+          emit(doc['date'].substring(0, 4) + '-' + doc['date'].substring(5, 7), doc);
+        }
+      }",
+      "reduce": "function(keys, values, rereduce) { return values; }"
+    },
+    "by_date": {
+      "map": "function (doc) {
+        if (doc['type'] == 'Meal') {
+          emit(doc['date'], [doc['_id'], doc['title']]);
+        }
+      }"
+    },
+    "count_by_year": {
+      "map": "function (doc) {
+        if (doc['type'] == 'Meal') {
+          emit(doc['date'].substring(0, 4), 1);
+        }
+      }",
+      "reduce": "function(keys, values, rereduce) { return sum(values); }"
+    },
+    "count_by_month": {
+      "map": "function (doc) {
+        if (doc['type'] == 'Meal') {
+          emit(doc['date'].substring(0, 4) + '-' + doc['date'].substring(5, 7), 1);
+
+        }
+      }",
+      "reduce": "function(keys, values, rereduce) { return sum(values); }"
+    }
+  },
+  "language": "javascript"
+}
