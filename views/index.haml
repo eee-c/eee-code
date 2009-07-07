@@ -6,8 +6,15 @@
   .home-section
     %h1 Recipe Search
     %form{:action => "", :method => "get"}
-      %input{:name => "q", :type => "text", :tabindex => 1, :maxlength => 2048, :size => 15}
-      %input{:type => "submit", :tabindex => 2, :value => "Search", :name => "b"}
+      %input{:name      => "q",
+             :type      => "text",
+             :tabindex  => 1,
+             :maxlength => 2048,
+             :size      => 15}
+      %input{:type     => "submit",
+             :tabindex => 2,
+             :value    => "Search",
+             :name     => "b"}
 
   .home-section
     %h1 About Us
