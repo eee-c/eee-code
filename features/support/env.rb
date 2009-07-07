@@ -33,11 +33,6 @@ World do
   session = Webrat::SinatraSession.new
   session.extend(Webrat::Matchers)
   session.extend(Webrat::HaveTagMatcher)
-
-  # def session.xml_content_type?
-  #   raise "here"
-  # end
-
   session
 end
 
