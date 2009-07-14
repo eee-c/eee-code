@@ -15,6 +15,8 @@ require 'spec/expectations'
 # RSpec mocks / stubs
 require 'spec/mocks'
 
+# For easy management of design docs
+require 'couch_design_docs'
 
 module WebRat
   class Session
@@ -40,17 +42,11 @@ Before do
   # For mocking & stubbing in Cucumber
   $rspec_mocks ||= Spec::Mocks::Space.new
 
+  # Create the DB
   RestClient.put @@db, { }
 
-  Dir.glob("couch/_design/*.json").each do |filename|
-    document_name = File.basename(filename, ".json")
-    file = File.new(filename)
-    json = file.read
-
-    RestClient.put "#{@@db}/_design/#{document_name}",
-      json,
-      :content_type => 'application/json'
-  end
+  # Upload the design documents with a super-easy gem :)
+  CouchDesignDocs.upload_dir(@@db, 'couch/_design')
 end
 
 After do
@@ -60,6 +56,7 @@ After do
     $rspec_mocks.reset_all
   end
 
+  # Delete the DB
   RestClient.delete @@db
   sleep 0.5
 end

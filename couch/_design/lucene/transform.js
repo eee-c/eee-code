@@ -1,5 +1,4 @@
-{
-  "transform": "function(doc) {
+function(doc) {
   var ret = new Document();
 
   function zero_pad(i, number_of_zeroes) {
@@ -55,5 +54,4 @@
 
     return ret;
   }
-}"
 }

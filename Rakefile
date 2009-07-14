@@ -16,3 +16,8 @@ task :view_specs do
   $stderr.puts "\n==\nView specs"
   system("spec ./spec/views/*.haml_spec.rb")
 end
+
+require 'couch_design_docs'
+task :load_design_docs do
+  CouchDesignDocs.upload_dir("http://localhost:5984/eee", "couch/_design")
+end
