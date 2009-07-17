@@ -5,6 +5,7 @@ require 'json'
 require 'pony'
 require 'rss'
 require 'helpers'
+require 'pp'
 
 ROOT_URL = "http://www.eeecooks.com"
 
@@ -26,7 +27,7 @@ get '/' do
   @meal_view = JSON.parse(data)['rows']
 
   @meals = @meal_view.inject([]) do |memo, couch_rec|
-    data = RestClient.get "#{@@db}/#{couch_rec['key']}"
+    data = RestClient.get "#{@@db}/#{couch_rec['id']}"
     meal = JSON.parse(data)
     memo + [meal]
   end

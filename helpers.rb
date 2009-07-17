@@ -116,9 +116,9 @@ module Eee
 
       links <<
         if current_page == last_page
-          %Q|<span class="inactive">Next »</span>|
+          %Q|<span class="inactive">Next &raquo;</span>|
         else
-          %Q|<a href="#{link}&page=#{current_page + 1}">Next »</a>|
+          %Q|<a href="#{link}&page=#{current_page + 1}">Next &raquo;</a>|
         end
 
       %Q|<div class="pagination">#{links.join}</div>|
