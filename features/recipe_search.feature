@@ -12,6 +12,7 @@ Feature: Search for recipes
       When I search for "chocolate"
       Then I should see the "pancake" recipe in the search results
       And I should not see the "french toast" recipe in the search results
+      And I should see the search field for refining my search
 
     Scenario: Matching a word in the recipe summary
 
