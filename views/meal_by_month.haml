@@ -12,8 +12,7 @@
   =link_to_adjacent_view_date(@month, @count_by_year) { |d,v| month_text(d) }
 
 .meals
-  - @meals["rows"].each do |meal_result|
-    - meal = meal_result['value'][0]
+  - @meals.each do |meal|
     - date = Date.parse(meal['date'])
     = image_link meal, :width => 200, :height => 150
     %h2

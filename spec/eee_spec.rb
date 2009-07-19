@@ -148,7 +148,7 @@ describe "eee" do
       it "should ask CouchDB for meal from year YYYY" do
         RestClient.
           should_receive(:get).
-          with(/key=...2009/).
+          with(%r{by_date.+startkey=.+2009/00/00.+endkey=.+2009/99/99}).
           and_return('{"rows": [] }')
 
         get "/meals/2009"
@@ -171,10 +171,10 @@ describe "eee" do
         last_response.should be_ok
       end
 
-      it "should ask CouchDB for meal from year YYYY and month MM" do
+      it "should ask CouchDB for meals from year YYYY and month MM" do
         RestClient.
           should_receive(:get).
-          with(/key=...2009-05/).
+          with(%r{by_date.+startkey=.+2009/05/00.+endkey=.+2009/05/99}).
           and_return('{"rows": [] }')
 
         get "/meals/2009/05"

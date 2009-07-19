@@ -2,26 +2,22 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper' )
 
 describe "meal_by_month.haml" do
   before(:each) do
-    assigns[:meals] = {
-      'rows' => [
-        { "value" => [{ "_id"     => '2009-05-14',
-                        "date"    => '2009-05-14',
-                        "title"   => 'Meal 1',
-                        "summary" => 'Meal 1 Summary',
-                        "menu"    => [],
-                        "_attachments" => {"image1.jpg" => { }}
-                      }]
-        },
-        { "value" => [{ "_id"     => '2009-05-15',
-                        "date"    => '2009-05-15',
-                        "title"   => 'Meal 2',
-                        "summary" => 'Meal 2 Summary',
-                        "menu"    => %w(foo bar baz),
-                        "_attachments" => {"image2.jpg" => { }}
-                      }]
-        }
-      ]
-    }
+    assigns[:meals] =
+      [{ "_id"     => '2009-05-14',
+         "date"    => '2009-05-14',
+         "title"   => 'Meal 1',
+         "summary" => 'Meal 1 Summary',
+         "menu"    => [],
+         "_attachments" => {"image1.jpg" => { }}
+       },
+       { "_id"     => '2009-05-15',
+         "date"    => '2009-05-15',
+         "title"   => 'Meal 2',
+         "summary" => 'Meal 2 Summary',
+         "menu"    => %w(foo bar baz),
+         "_attachments" => {"image2.jpg" => { }}
+       }]
+
     assigns[:year]  = 2009
     assigns[:month] = '05'
     assigns[:count_by_year] = [{"key" => "2009-04", "value" => 3},
@@ -63,7 +59,7 @@ describe "meal_by_month.haml" do
   end
 
   it "should include recipe titles in the menu items" do
-    assigns[:meals]['rows'][0]['value'][0]["menu"] =
+    assigns[:meals][0]["menu"] =
       [" Salad with [recipe:2009/05/23/lemon_dressing] "]
 
     self.stub!(:_db).and_return("")

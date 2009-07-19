@@ -2,12 +2,12 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper' )
 
 describe "meal_by_year.haml" do
   before(:each) do
-    assigns[:meals] = {
-      'rows' => [
-        { "value" => [['2009-05-14', 'Meal 1']]},
-        { "value" => [['2009-05-15', 'Meal 2']]},
-      ]
-    }
+    assigns[:meals] =
+      [{ 'date'  => '2009-05-14',
+         'title' => 'Meal 1'},
+       { 'date'  => '2009-05-15',
+         'title' => 'Meal 2'}]
+
     assigns[:year] = 2009
     assigns[:count_by_year] = [{"key" => "2008", "value" => 3},
                                {"key" => "2009", "value" => 3}]

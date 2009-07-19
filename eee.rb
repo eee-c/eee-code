@@ -70,9 +70,11 @@ get %r{/meals/(\d+)/(\d+)/(\d+)} do |year, month, day|
 end
 
 get %r{/meals/(\d+)/(\d+)} do |year, month|
-  url = "#{@@db}/_design/meals/_view/by_month?group=true&key=%22#{year}-#{month}%22"
+  url = "#{@@db}/_design/meals/_view/by_date?" +
+    "startkey=%22#{year}/#{month}/00%22&" +
+    "endkey=%22#{year}/#{month}/99%22"
   data = RestClient.get url
-  @meals = JSON.parse(data)
+  @meals = JSON.parse(data)['rows'].map{|r| r['value']}
   @month = "#{year}-#{month}"
 
   url = "#{@@db}/_design/meals/_view/count_by_month?group=true"
@@ -83,9 +85,11 @@ get %r{/meals/(\d+)/(\d+)} do |year, month|
 end
 
 get %r{/meals/(\d+)} do |year|
-  url = "#{@@db}/_design/meals/_view/by_year?group=true&key=%22#{year}%22"
+  url = "#{@@db}/_design/meals/_view/by_date?" +
+    "startkey=%22#{year}/00/00%22&" +
+    "endkey=%22#{year}/99/99%22"
   data = RestClient.get url
-  @meals = JSON.parse(data)
+  @meals = JSON.parse(data)['rows'].map{|r| r['value']}
   @year  = year
 
   url = "#{@@db}/_design/meals/_view/count_by_year?group=true"

@@ -12,7 +12,7 @@
   =link_to_adjacent_view_date(@year, @count_by_year)
 
 %ul.meals
-  - @meals["rows"].each do |meal|
-    -date = Date.parse(meal['value'][0][0])
+  - @meals.each do |meal|
+    -date = Date.parse(meal['date'])
     %li
-      %a{:href => date.strftime("/meals/%Y/%m/%d")}= meal['value'][0][1]
+      %a{:href => date.strftime("/meals/%Y/%m/%d")}= meal['title']
