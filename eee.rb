@@ -54,11 +54,19 @@ get '/recipes.rss' do
   end
 end
 
+# get '/benchmarking' do
+#   url = "#{@@db}/_design/meals/_view/by_date_short"
+#   data = RestClient.get url
+#   JSON.parse(data)
+
+#   ""
+# end
+
 get %r{/meals/(\d+)/(\d+)/(\d+)} do |year, month, day|
   data = RestClient.get "#{@@db}/#{year}-#{month}-#{day}"
   @meal = JSON.parse(data)
 
-  url = "#{@@db}/_design/meals/_view/by_date"
+  url = "#{@@db}/_design/meals/_view/by_date_short"
   data = RestClient.get url
   @meals_by_date = JSON.parse(data)['rows']
 

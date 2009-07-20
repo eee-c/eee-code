@@ -206,7 +206,7 @@ module Eee
         maker.channel.description = "#{feed.capitalize} from a Family Cookbook"
 
         view.each do |couch_rec|
-          data = RestClient.get "#{_db}/#{couch_rec['value'][0]}"
+          data = RestClient.get "#{_db}/#{couch_rec['id']}"
           record = JSON.parse(data)
           maker.items.new_item do |item|
             item.title = record['title']
