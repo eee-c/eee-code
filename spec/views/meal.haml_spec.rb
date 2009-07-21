@@ -17,9 +17,9 @@ describe "meal.haml" do
     }
 
     assigns[:meals_by_date] = [{ "key" => "2009-05-15",
-                                 "value" => ['2009-05-15', "Foo"] },
+                                 "value" => {'date' => '2009-05-15', 'title' => "Foo"} },
                                { "key" => "2009-05-31",
-                                 "value" => ["2009-05-31", "Bar"] }]
+                                 "value" => {'date' => "2009-05-31", 'title' => "Bar"} }]
 
     assigns[:recipes] = []
 
