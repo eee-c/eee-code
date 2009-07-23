@@ -287,7 +287,7 @@ describe "eee" do
 
     it "should not include the \"all\" field when performing fielded searches" do
       RestClient.should_receive(:get).
-        with(/q=title:eggs/).
+        with(/q=title%3Aeggs/).
         and_return('{"total_rows":1,"skip":0,"limit":20,"rows":[]}')
 
       get "/recipes/search?q=title:eggs"
@@ -343,6 +343,14 @@ describe "eee" do
       get "/recipes/search?q=title:egg&sort=sort_foo&order=desc"
     end
 
+    it "should be able to search multiple terms" do
+      RestClient.should_receive(:get).
+        with(/q=foo\+bar/).
+        and_return('{"total_rows":30,"skip":0,"limit":20,"rows":[]}')
+
+      get "/recipes/search?q=foo+bar"
+    end
+
     it "should display a helpful message when no results" do
       RestClient.stub!(:get).
         and_return('{"total_rows":0,"skip":0,"limit":20,"rows":[]}')
@@ -377,7 +385,7 @@ describe "eee" do
 
       get "/recipes/search?q=title:egg"
 
-      last_response.should have_selector("input[@name=query][@value='']")
+      last_response.should have_selector("input[@name=q][@value='']")
     end
   end
 

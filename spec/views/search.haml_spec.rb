@@ -12,6 +12,16 @@ describe "search.haml" do
         { '_id' => 'id-three', 'title' => 'Three', 'date' => '2009-04-13' },
       ]
     }
+
+    assigns[:query] = "foo"
+  end
+
+  it "should display a form to refine your search" do
+    render("/views/search.haml")
+    response.should have_selector("form",
+                                  :action => "/recipes/search") do |form|
+      form.should have_selector("input", :name => "q")
+    end
   end
 
   it "should display the recipe's title" do

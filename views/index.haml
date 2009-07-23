@@ -5,7 +5,7 @@
 .rhc
   .home-section
     %h1 Recipe Search
-    %form{:action => "", :method => "get"}
+    %form{:action => "/recipes/search", :method => "get"}
       %input{:name      => "q",
              :type      => "text",
              :tabindex  => 1,

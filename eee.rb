@@ -21,6 +21,10 @@ helpers do
   include Eee::Helpers
 end
 
+before do
+  content_type 'text/html', :charset => 'UTF-8'
+end
+
 get '/' do
   url = "#{@@db}/_design/meals/_view/by_date?limit=13&descending=true"
   data = RestClient.get url
@@ -114,7 +118,7 @@ get '/recipes/search' do
   skip = (page < 2) ? 0 : ((page - 1) * 20)
 
   couchdb_url = "#{@@db}/_fti?limit=20" +
-    "&q=#{@query}" +
+    "&q=#{Rack::Utils.escape(@query)}" +
     "&skip=#{skip}"
 
   if params[:sort] =~ /\w/
@@ -126,6 +130,7 @@ get '/recipes/search' do
     data = RestClient.get couchdb_url
     @results = JSON.parse(data)
   rescue Exception
+    #puts Rack::Utils.escape(@query)
     @query = ""
     @results = { 'total_rows' => 0, 'rows' => [] }
   end
