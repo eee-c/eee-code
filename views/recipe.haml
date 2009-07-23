@@ -6,17 +6,17 @@
 %h1
   = @recipe['title']
 
-#eee-summary
+#summary
   = image_link @recipe
   = wiki @recipe['summary']
 
-.eee-recipe-meta
+.recipe-meta
   %div= "Preparation Time: " + hours(@recipe['prep_time'])
   - if @recipe['inactive_time']
     %div= "Inactive Time: " + hours(@recipe['inactive_time'])
 
 - if @recipe['tools']
-  .eee-recipe-tools
+  .recipe-tools
     %h2= "Tools and Appliances Used"
     %ul
       - @recipe['tools'].each do |tool|
@@ -40,7 +40,7 @@
           %span.brand
             = "(" + preparation['brand'] + ")"
 
-#eee-instructions
+#instructions
   = wiki @recipe['instructions']
 
 %div

@@ -24,7 +24,7 @@ describe "recipe.haml" do
     self.stub!(:wiki).and_return("wiki #{@summary}")
 
     render("/views/recipe.haml")
-    response.should have_selector("#eee-summary",
+    response.should have_selector("#summary",
                                   :content => "wiki #{@summary}")
   end
 
@@ -32,7 +32,7 @@ describe "recipe.haml" do
     self.stub!(:wiki).and_return("wiki #{@instructions}")
 
     render("/views/recipe.haml")
-    response.should have_selector("#eee-instructions",
+    response.should have_selector("#instructions",
                                   :content => "wiki #{@instructions}")
   end
 
@@ -56,7 +56,7 @@ describe "recipe.haml" do
 
     it "should not render an ingredient preparations" do
       render("views/recipe.haml")
-      response.should_not have_selector(".eee-recipe-tools")
+      response.should_not have_selector(".recipe-tools")
     end
   end
 
@@ -78,7 +78,7 @@ describe "recipe.haml" do
 
     it "should not have any active categories" do
       render("views/recipe.haml")
-      response.should_not have_selector("#eee-categories a.active")
+      response.should_not have_selector("#categories a.active")
     end
   end
 
@@ -295,7 +295,7 @@ describe "recipe.haml" do
     it "should include an image in the recipe summary" do
       self.stub!(:image_link).and_return("<img/>")
       render("views/recipe.haml")
-      response.should have_selector("#eee-summary > img")
+      response.should have_selector("#summary > img")
     end
 
   end
@@ -304,7 +304,7 @@ describe "recipe.haml" do
     it "should not include an image" do
       self.stub!(:image_link).and_return(nil)
       render("views/recipe.haml")
-      response.should_not have_selector("#eee-summary > img")
+      response.should_not have_selector("#summary > img")
     end
   end
 end

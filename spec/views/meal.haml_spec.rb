@@ -105,4 +105,21 @@ describe "meal.haml" do
                                   :href => "/feedback?url=http%3A%2F%2Fexample.org%2Fmeal-1&subject=%5BMeal%5D+Meal+Title",
                                   :content => "Send us feedback on this meal")
   end
+
+  context "a meal with an image" do
+    it "should include an image in the meal summary" do
+      self.stub!(:image_link).and_return("<img/>")
+      render("views/meal.haml")
+      response.should have_selector("#summary > img")
+    end
+
+  end
+
+  context "a meal without an image" do
+    it "should not include an image" do
+      self.stub!(:image_link).and_return(nil)
+      render("views/meal.haml")
+      response.should_not have_selector("#summary > img")
+    end
+  end
 end
