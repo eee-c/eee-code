@@ -6,6 +6,13 @@
 %h1
   = @recipe['title']
 
+%div.navigation
+  &lsaquo;
+  =link_to_adjacent_view_date(@recipe['date'], @recipes_by_date, :previous => true) { |r| Date.parse(r['date']).strftime(%Q|<a href="/recipes/#{r['id']}">#{r['title']} (%B %e, %Y)</a>|) }
+  |
+  =link_to_adjacent_view_date(@recipe['date'], @recipes_by_date) { |r| Date.parse(r['date']).strftime(%Q|<a href="/recipes/#{r['id']}">#{r['title']} (%B %e, %Y)</a>|) }
+  &rsaquo;
+
 #summary
   = image_link @recipe
   = wiki @recipe['summary']

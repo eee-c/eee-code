@@ -146,22 +146,31 @@ module Eee
       %Q|<a href="#{url}" id="#{id}">#{text}</a>|
     end
 
+    # TODO: use CouchDB view directly here, with limit=1 to determine
+    # the next record
     def link_to_adjacent_view_date(current, couch_view, options={})
+      # If looking for the record previous to this one, then we seek a
+      # date prior to the current one - build a Proc capable of
+      # finding that
       compare = options[:previous] ?
         Proc.new { |date_fragment, current| date_fragment < current} :
         Proc.new { |date_fragment, current| date_fragment > current}
 
+      # If looking for the record previous to this one, then we need
+      # to reverse the list before using the compare Proc to detect
+      # the record
       next_result = couch_view.
         send(options[:previous] ? :reverse : :map).
         detect{|result| compare[result['key'], current.to_s]}
 
+      # If a next record was found, then return link text
       if next_result
-        next_uri = next_result['key'].gsub(/-/, '/')
-        link_text = block_given? ?
-          yield(next_result['key'], next_result['value']) :
-          next_result['key']
-
-        %Q|<a href="/meals/#{next_uri}">#{link_text}</a>|
+        if block_given?
+          yield next_result['value']
+        else
+          next_uri = next_result['key'].gsub(/-/, '/')
+          %Q|<a href="/meals/#{next_uri}">#{next_result['key']}</a>|
+        end
       else
         ""
       end

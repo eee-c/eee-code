@@ -147,6 +147,10 @@ get '/recipes/:permalink' do
   data = RestClient.get "#{@@db}/#{params[:permalink]}"
   @recipe = JSON.parse(data)
 
+  url = "#{@@db}/_design/recipes/_view/by_date_short"
+  data = RestClient.get url
+  @recipes_by_date = JSON.parse(data)['rows']
+
   @url = request.url
 
   haml :recipe

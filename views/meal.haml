@@ -9,9 +9,9 @@
 
 %div.navigation
   &lsaquo;
-  =link_to_adjacent_view_date(@meal['date'], @meals_by_date, :previous => true) { |d,v| Date.parse(d).strftime("#{v['title']} (%B %e, %Y)") }
+  =link_to_adjacent_view_date(@meal['date'], @meals_by_date, :previous => true) { |m| Date.parse(m['date']).strftime(%Q|<a href="/meals/%Y/%m/%d">#{m['title']} (%B %e, %Y)</a>|) }
   |
-  =link_to_adjacent_view_date(@meal['date'], @meals_by_date) { |d,v| Date.parse(d).strftime("#{v['title']} (%B %e, %Y)") }
+  =link_to_adjacent_view_date(@meal['date'], @meals_by_date) { |m| Date.parse(m['date']).strftime(%Q|<a href="/meals/%Y/%m/%d">#{m['title']} (%B %e, %Y)</a>|) }
   &rsaquo;
 
 #summary

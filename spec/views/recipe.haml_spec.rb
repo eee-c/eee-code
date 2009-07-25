@@ -12,6 +12,19 @@ describe "recipe.haml" do
       'instructions' => @instructions
     }
 
+    assigns[:recipes_by_date] = [{ "key" => "2009-06-01",
+                                   "value" => {
+                                     'id'    => "2009-06-01-foo",
+                                     'date'  => '2009-06-01',
+                                     'title' => "Foo"
+                                   } },
+                                 { "key" => "2009-06-12",
+                                   "value" => {
+                                     'id'    => "2009-06-12-bar",
+                                     'date'  => "2009-06-12",
+                                     'title' => "Bar"}
+                                 }]
+
     assigns[:url] = "http://example.org/recipe-1"
   end
 
@@ -26,6 +39,20 @@ describe "recipe.haml" do
     render("/views/recipe.haml")
     response.should have_selector("#summary",
                                   :content => "wiki #{@summary}")
+  end
+
+  it "should link to previous recipe" do
+    render("/views/recipe.haml")
+    response.should have_selector("a",
+                                  :href => "/recipes/2009-06-01-foo",
+                                  :content => "June  1, 2009")
+  end
+
+  it "should link to previous recipe title" do
+    render("/views/recipe.haml")
+    response.should have_selector("a",
+                                  :href => "/recipes/2009-06-01-foo",
+                                  :content => "Foo")
   end
 
   it "should display the recipe's instructions" do
