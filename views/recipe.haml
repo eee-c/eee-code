@@ -17,19 +17,21 @@
   = image_link @recipe
   = wiki @recipe['summary']
 
-.recipe-meta
-  %div= "Preparation Time: " + hours(@recipe['prep_time'])
-  - if @recipe['inactive_time']
-    %div= "Inactive Time: " + hours(@recipe['inactive_time'])
+#recipe-meta
+  .recipe-stats
+    %h2= "Servings and Times"
+    %div= "Preparation Time: " + hours(@recipe['prep_time'])
+    - if @recipe['inactive_time']
+      %div= "Inactive Time: " + hours(@recipe['inactive_time'])
 
-- if @recipe['tools']
-  .recipe-tools
-    %h2= "Tools and Appliances Used"
-    %ul
-      - @recipe['tools'].each do |tool|
-        %li
-          %a{:href => amazon_url(tool['asin'])}
-            = tool['title']
+  - if @recipe['tools']
+    .recipe-tools
+      %h2= "Tools and Appliances"
+      %ul
+        - @recipe['tools'].each do |tool|
+          %li
+            %a{:href => amazon_url(tool['asin'])}
+              = tool['title']
 
 - if @recipe['preparations']
   %ul.preparations
