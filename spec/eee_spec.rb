@@ -6,7 +6,7 @@ describe "eee" do
   before(:all) do
     RestClient.put @@db, { }
     # Upload the design documents with a super-easy gem :)
-    CouchDesignDocs.upload_dir(@@db, 'couch/_design')
+    CouchDesignDocs.upload_dir(@@db, 'couch')
   end
 
   after(:all) do
