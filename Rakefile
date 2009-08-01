@@ -44,6 +44,6 @@ namespace :couchdb do
 
   desc "Load (replacing any existing) all design documents"
   task :load_design_docs do
-    CouchDesignDocs.upload_dir(DB, "couch/_design")
+    CouchDesignDocs.upload_dir(DB, "couch")
   end
 end
