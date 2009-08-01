@@ -24,6 +24,8 @@ describe "meal.haml" do
     assigns[:recipes] = []
 
     assigns[:url] = "http://example.org/meal-1"
+
+    stub!(:partial)
   end
 
   it "should display a breadcrumb link to the other meals in this year" do

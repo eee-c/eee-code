@@ -96,6 +96,23 @@ _TEXTILE
                              :href    => "/recipes/id-123",
                              :content => "Different Title")
     end
+
+    it "should wikify meal URIs" do
+      RestClient.stub!(:get).
+        and_return('{"_id":"2009-07-29","title":"Title"}')
+
+      wiki("[meal:2009/07/29]").
+        should have_selector("a",
+                             :href    => "/meals/2009/07/29",
+                             :content => "Title")
+    end
+
+    it "should wikify meal URIs, using supplied text for the link" do
+      wiki("[meal:2009/07/29 Different Title]").
+        should have_selector("a",
+                             :href    => "/meals/2009/07/29",
+                             :content => "Different Title")
+    end
   end
 end
 

@@ -11,12 +11,14 @@
   |
   =link_to_adjacent_view_date(@month, @count_by_year) { |d,v| month_text(d) }
 
-.meals
+#meals_by_month
   - @meals.each do |meal|
-    - date = Date.parse(meal['date'])
-    = image_link meal, :width => 200, :height => 150
-    %h2
-      %span.date= meal['date']
-      %a.title{:href => date.strftime("/meals/%Y/%m/%d")}= meal['title']
-    %p= meal['summary']
-    .menu= wiki(meal['menu'].join(', '))
+    .meal
+      - date = Date.parse(meal['date'])
+      = image_link meal, :width => 200, :height => 150
+      %h2
+        %span.date= meal['date']
+        %a.title{:href => date.strftime("/meals/%Y/%m/%d")}= meal['title']
+      %p= wiki(meal['summary'])
+      .menu= wiki(meal['menu'].join(', '))
+      %hr

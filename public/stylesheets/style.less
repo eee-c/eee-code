@@ -1,6 +1,7 @@
 @italian_red:   #d00;
 @italian_green: #090;
 @soft_green: #7CCD7C;
+@soft_gray: #EEEEEE;
 
 .rounded_header {
   -moz-border-radius-bottomleft: 0;
@@ -9,17 +10,28 @@
   -moz-border-radius-topright: 0;
 }
 
+.section_header {
+  background-color: @italian_green;
+  color: white;
+  a {color: white;}
+}
 
 h1 {
   margin: 0px;
   border: 1px solid white;
 }
 
+table {
+  width: 100%;
+  th { .section_header; }
+  td { padding: 1px 5px; }
+ .row1 { background-color: @soft_gray; }
+}
+
 #homepage {
   h1 {
-    background-color: @italian_green;
-    color: white;
     font-size: 1.2em;
+    .section_header;
     .rounded_header;
   }
 }
@@ -62,7 +74,12 @@ ul#eee-categories {
   }
 }
 
+#search {
+  float:right;
+}
+
 .navigation {
+  margin: 5px;
   font-size: 0.8em;
   font-style: italic;
   a { color: @italian_green; }
@@ -75,14 +92,13 @@ ul#eee-categories {
 
 .recipe-tools, .recipe-stats {
   border: 2px solid @italian_green;
-  margin-bottom: 10px;
+  margin-top: 10px;
 
   h2 {
-    color: white;
-    background-color: @italian_green;
     font-size: medium;
     padding: 2px;
     margin: 0px;
+    .section_header;
   }
 
   ul, li {
@@ -91,6 +107,13 @@ ul#eee-categories {
     margin: 1px;
   }
 
+  div {
+    padding: 1px 3px;
+  }
+
+  .label {
+    font-style: italic;
+  }
 }
 
 #summary {
@@ -99,4 +122,74 @@ ul#eee-categories {
     border: 1px solid black;
     margin: 0 0 10px 5px;
   }
+}
+
+#refine-search {
+  form { margin: 10px 0px 0px; }
+  clear: both;
+}
+
+.numeric {
+  text-align: right;
+}
+
+.pagination {
+  float: right;
+  margin-top: 10px;
+  font-size: 0.8em;
+
+  a, .current {
+    border: 1px solid @italian_green;
+    margin: 2px;
+    padding: 2px 4px;
+    color: @italian_green;
+    text-decoration: none;
+  }
+  .current {
+    background-color: @italian_green;
+    color: white;
+  }
+  .inactive {
+    border:1px solid #eee;
+    color: #ddd;
+    margin: 2px;
+    padding: 2px 3px;
+  }
+}
+
+
+#meals_by_month {
+  h2 {
+    color: @italian_green;
+    font-style: italic;
+    margin: 0px;
+    a {
+      color: @italian_green;
+      font-style: normal;
+    }
+  }
+
+  img {
+    float: right;
+    margin-left: 10px;
+    border: 1px solid black;
+  }
+
+  .meal {
+    clear: both;
+    margin-bottom: 50px;
+  }
+
+  hr {
+    color: black;
+    height: 1px;
+    border-bottom: 0px;
+    width: 50%;
+  }
+}
+
+#feedback {
+  h1 { clear: both }
+  label, input, textarea { display: block; }
+  label { margin-top: 8px }
 }

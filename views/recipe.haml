@@ -3,8 +3,15 @@
 .breadcrumbs
   = breadcrumbs(Date.parse(@recipe['date']))
 
+#search
+  = partial :_search_form
+
 %h1
   = @recipe['title']
+
+#summary
+  = image_link @recipe
+  = wiki @recipe['summary']
 
 %div.navigation
   &lsaquo;
@@ -13,16 +20,23 @@
   =link_to_adjacent_view_date(@recipe['date'], @recipes_by_date) { |r| Date.parse(r['date']).strftime(%Q|<a href="/recipes/#{r['id']}">#{r['title']} (%B %e, %Y)</a>|) }
   &rsaquo;
 
-#summary
-  = image_link @recipe
-  = wiki @recipe['summary']
-
 #recipe-meta
   .recipe-stats
     %h2= "Servings and Times"
-    %div= "Preparation Time: " + hours(@recipe['prep_time'])
+    %div
+      %span.label Serves:
+      = @recipe['serves']
+    %div
+      %span.label Preparation Time:
+      = hours(@recipe['prep_time'])
     - if @recipe['inactive_time']
-      %div= "Inactive Time: " + hours(@recipe['inactive_time'])
+      %div
+        %span.label Inactive Time:
+        = hours(@recipe['inactive_time'])
+    - if @recipe['cook_time']
+      %div
+        %span.label Cooking Time:
+        = hours(@recipe['cook_time'])
 
   - if @recipe['tools']
     .recipe-tools

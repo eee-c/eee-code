@@ -43,6 +43,8 @@ module Eee
       text.gsub!(/\[kid:(\w+)\]/m) { |kid| kid_nicknames[$1] }
       text.gsub!(/\[recipe:(\S+)\]/m) { |r| recipe_link($1) }
       text.gsub!(/\[recipe:(\S+)\s(.+?)\]/m) { |r| recipe_link($1, $2) }
+      text.gsub!(/\[meal:(\S+)\]/m) { |m| meal_link($1) }
+      text.gsub!(/\[meal:(\S+)\s(.+?)\]/m) { |m| meal_link($1, $2) }
       RedCloth.new(text).to_html
     end
 
@@ -65,6 +67,12 @@ module Eee
       permalink = link.gsub(/\//, '-')
       recipe = JSON.parse(RestClient.get("#{_db}/#{permalink}"))
       %Q|<a href="/recipes/#{recipe['_id']}">#{title || recipe['title']}</a>|
+    end
+
+    def meal_link(link, title=nil)
+      permalink = link.gsub(/\//, '-')
+      title ||= JSON.parse(RestClient.get("#{_db}/#{permalink}"))['title']
+      %Q|<a href="/meals/#{link}">#{title}</a>|
     end
 
     def image_link(doc, options={ })
@@ -228,6 +236,12 @@ module Eee
       end
 
       rss.to_s
+    end
+
+    # Swiped from the Sinatra Book
+    # Usage: partial :foo
+    def partial(page, options={})
+      haml page, options.merge!(:layout => false)
     end
   end
 end

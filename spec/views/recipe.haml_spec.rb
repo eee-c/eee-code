@@ -26,6 +26,8 @@ describe "recipe.haml" do
                                  }]
 
     assigns[:url] = "http://example.org/recipe-1"
+
+    stub!(:partial)
   end
 
   it "should display the recipe's title" do
@@ -237,11 +239,11 @@ describe "recipe.haml" do
     end
 
     it "should include preparation time" do
-      response.should contain(/Preparation Time: 45 minutes/)
+      response.should contain(/Preparation Time:\s+45 minutes/)
     end
 
     it "should include inactive time" do
-      response.should contain(/Inactive Time: 30 minutes/)
+      response.should contain(/Inactive Time:\s+30 minutes/)
     end
   end
 
@@ -261,7 +263,7 @@ describe "recipe.haml" do
       render("views/recipe.haml")
     end
     it "should display 5 hours of Inactive Time" do
-      response.should contain(/Inactive Time: 5 hours/)
+      response.should contain(/Inactive Time:\s+5 hours/)
     end
   end
 

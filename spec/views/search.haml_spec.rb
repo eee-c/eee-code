@@ -14,14 +14,18 @@ describe "search.haml" do
     }
 
     assigns[:query] = "foo"
+
+    stub!(:partial)
   end
 
   it "should display a form to refine your search" do
+    should_receive(:partial).
+      with(:_search_form)
     render("/views/search.haml")
-    response.should have_selector("form",
-                                  :action => "/recipes/search") do |form|
-      form.should have_selector("input", :name => "q")
-    end
+    # response.should have_selector("form",
+    #                               :action => "/recipes/search") do |form|
+    #   form.should have_selector("input", :name => "q")
+    # end
   end
 
   it "should display the recipe's title" do

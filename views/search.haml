@@ -1,15 +1,7 @@
 = categories({})
 
-%form{:method => "get", :action => "/recipes/search"}
-  %input{:type      => "text",
-         :value     => @query,
-         :name      => "q",
-         :size      => 31,
-         :maxlength => 2048}
-  %input{:type  => "submit",
-         :value => "Search",
-         :name  => "s"}
-
+#refine-search
+  = partial :_search_form
 
 %table
   %tr
@@ -27,7 +19,7 @@
         %a{:href => "/recipes/#{result['_id']}"}= result['title']
       %td
         %span.date= result['date']
-      %td
+      %td{:class => "numeric"}
         %span.prep= result['prep_time'].to_i
       %td
         %span.ingredients= result['ingredient']
