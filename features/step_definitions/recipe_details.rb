@@ -163,11 +163,11 @@ Then /^I should see an ingredient of "(.+)"$/ do |ingredient|
 end
 
 Then /^I should see 15 minutes of prep time$/ do
-  response.should contain("Preparation Time: 15 minutes")
+  response.should contain(/Preparation Time:\s+15 minutes/)
 end
 
 Then /^I should see that it requires 5 hours of non\-active cook time$/ do
-  response.should contain("Inactive Time: 5 hours")
+  response.should contain(/Inactive Time:\s+5 hours/)
 end
 
 Then /^I should see that it requires (.+) to prepare$/ do |tool_list|
