@@ -21,8 +21,10 @@ helpers do
   include Eee::Helpers
 end
 
-before do
-  content_type 'text/html', :charset => 'UTF-8'
+if ENV['RACK_ENV'] != 'test'
+  before do
+    content_type 'text/html', :charset => 'UTF-8'
+  end
 end
 
 get '/' do
