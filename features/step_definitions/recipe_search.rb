@@ -322,5 +322,5 @@ Then /^no result headings$/ do
 end
 
 Then /^I should see an empty query string$/ do
-  response.should have_selector("input[@name=query][@value='']")
+  response.should have_selector("input[@name=q][@value='']")
 end
