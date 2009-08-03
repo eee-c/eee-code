@@ -7,9 +7,9 @@
 %h1= "Meals from #{month_text(@month)}"
 
 %div.navigation
-  =link_to_adjacent_view_date(@month, @count_by_year, :previous => true) { |d,v| month_text(d) }
+  =link_to_adjacent_view_date(@month, @count_by_year, :previous => true) { |d, v| %Q|<a href="/meals/#{d.gsub(/-/, '/')}">#{month_text(d)}</a>| }
   |
-  =link_to_adjacent_view_date(@month, @count_by_year) { |d,v| month_text(d) }
+  =link_to_adjacent_view_date(@month, @count_by_year) { |d, v| %Q|<a href="/meals/#{d.gsub(/-/, '/')}">#{month_text(d)}</a>| }
 
 #meals_by_month
   - @meals.each do |meal|

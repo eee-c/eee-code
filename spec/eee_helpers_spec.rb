@@ -329,8 +329,8 @@ describe "link_to_adjacent_view_date" do
   end
   context "couchdb view by_month" do
     before(:each) do
-      @by_month = [{"key" => "2009-04", "value" => "foo"},
-                   {"key" => "2009-05", "value" => "bar"}]
+      @by_month = [{"key" => "2009-04", "value" => "1"},
+                   {"key" => "2009-05", "value" => "2"}]
     end
     it "should link to the next month after the current one" do
       link_to_adjacent_view_date("2009-04", @by_month).
@@ -338,12 +338,12 @@ describe "link_to_adjacent_view_date" do
                              :href => "/meals/2009/05")
     end
     it "should link to the CouchDB view's key and value, if block is given" do
-      link_to_adjacent_view_date("2009-04", @by_month) do |rec|
-        %Q|<a href="/foo">#{rec}</a>|
+      link_to_adjacent_view_date("2009-04", @by_month) do |key, value|
+        %Q|<a href="/foo">#{key}</a>|
       end.
         should have_selector("a",
                              :href    => "/foo",
-                             :content => "bar")
+                             :content => "2009-05")
     end
   end
 end

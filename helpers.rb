@@ -171,10 +171,10 @@ module Eee
         send(options[:previous] ? :reverse : :map).
         detect{|result| compare[result['key'], current.to_s]}
 
-      # If a next record was found, then return link text
+      # If a next record was found, then return link text - either by
       if next_result
         if block_given?
-          yield next_result['value']
+          yield next_result['key'], next_result['value']
         else
           next_uri = next_result['key'].gsub(/-/, '/')
           %Q|<a href="/meals/#{next_uri}">#{next_result['key']}</a>|
