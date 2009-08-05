@@ -19,7 +19,7 @@ module Eee
         %Q|<li>#{recipe_category_link(context, category)}</li>|
       end
 
-      links << "<a>Recipes</a>"
+      links << %Q|<li><a href="/recipes/search?q=">Recipes</a></li>|
 
       %Q|<ul id="eee-categories">#{links}</ul>|
     end

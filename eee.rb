@@ -8,6 +8,7 @@ require 'helpers'
 require 'pp'
 
 ROOT_URL = "http://www.eeecooks.com"
+DEFAULT_QUERY = "type:Recipe"
 
 configure :test do
   @@db = "http://localhost:5984/eee-test"
@@ -114,7 +115,8 @@ get %r{/meals/(\d+)} do |year|
 end
 
 get '/recipes/search' do
-  @query = params[:q]
+  @query = params[:q] == '' ? DEFAULT_QUERY  : params[:q]
+  @sort  = params[:q] == '' ? "%5Csort_date" : params[:sort]
 
   page = params[:page].to_i
   skip = (page < 2) ? 0 : ((page - 1) * 20)
@@ -123,9 +125,9 @@ get '/recipes/search' do
     "&q=#{Rack::Utils.escape(@query)}" +
     "&skip=#{skip}"
 
-  if params[:sort] =~ /\w/
+  if @sort =~ /\w/
     order = params[:order] =~ /desc/ ? "%5C" : ""
-    couchdb_url += "&sort=#{order}#{params[:sort]}"
+    couchdb_url += "&sort=#{order}#{@sort}"
   end
 
   begin

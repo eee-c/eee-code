@@ -8,4 +8,11 @@ describe "_search_form.haml" do
       form.should have_selector("input", :name => "q")
     end
   end
+
+  it "should display an empty search when searching for all recipes" do
+    assigns[:query] = "type:Recipe"
+    render("/views/_search_form.haml")
+    response.should have_selector("input", :name => "q", :value => "")
+  end
+
 end

@@ -1,6 +1,6 @@
-%form{:method => "get", :action => "/recipes/search"}
+%form{:method => "get", :action => "/recipes/search", :id => "search-form"}
   %input{:type      => "text",
-         :value     => @query,
+         :value     => @query.to_s.gsub(%r{#{DEFAULT_QUERY}}, ''),
          :name      => "q",
          :size      => 31,
          :maxlength => 2048}

@@ -129,7 +129,8 @@ Given /^(\d+) (.+) recipes$/ do |count, keyword|
       :preparations => [
         { 'ingredient' => { 'name' => 'ingredient' } }
       ],
-      :tag_names => [keyword.downcase]
+      :tag_names => [keyword.downcase],
+      :type => 'Recipe'
     }
 
     RestClient.put "#{@@db}/#{permalink}",

@@ -296,6 +296,22 @@ describe "eee" do
       get "/recipes/search?q=title:eggs"
     end
 
+    it "should search for all docs of type recipe when given an empty string" do
+      RestClient.should_receive(:get).
+        with(/q=type%3ARecipe/).
+        and_return('{"total_rows":1,"skip":0,"limit":20,"rows":[]}')
+
+      get "/recipes/search?q="
+    end
+
+    it "should sort by date when given an empty string" do
+      RestClient.should_receive(:get).
+        with(/sort_date/).
+        and_return('{"total_rows":1,"skip":0,"limit":20,"rows":[]}')
+
+      get "/recipes/search?q="
+    end
+
     it "should have page sizes of 20 records" do
       RestClient.should_receive(:get).
         with(/limit=20/).
