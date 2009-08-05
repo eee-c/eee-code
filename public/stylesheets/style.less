@@ -29,10 +29,79 @@ table {
 }
 
 #homepage {
-  h1 {
-    font-size: 1.2em;
-    .section_header;
-    .rounded_header;
+  background:transparent url(/images/family.gif) no-repeat scroll 780px -10px;
+
+  #content {
+    margin:10px 10px 75px;
+    padding:0 5px;
+    position:relative;
+    width:800px;
+
+    h1 {
+      font-size: 1.2em;
+      padding: 0px 10px;
+      .section_header;
+      .rounded_header;
+    }
+
+    ul#eee-categories {
+      float: none;
+      padding: 0px;
+      text-align: right;
+
+      li {
+        display: block;
+        padding: 0px;
+        a {
+          font-weight: normal;
+          color: @italian_green;
+        }
+      }
+    }
+
+    .lhc {
+      left:0;
+      position:absolute;
+      top:0;
+      width:12%;
+    }
+
+    .rhc {
+      margin:0 0 0 80%;
+      position:absolute;
+      right:0;
+      top:0;
+      width:30%;
+    }
+
+    .meals {
+      left:13%;
+      padding-bottom:10px;
+      position:relative;
+      width:56%;
+
+      .meal0 img, .meal1 img { border: 0px; margin: 0px 5px; }
+      .meal0 img { float: left; }
+      .meal1 img { float: right; }
+
+      .meal {
+        border: 1px solid black;
+        margin: 4px 1px 8px;
+        padding: 3px;
+        clear: both;
+
+        h2 {
+          font-size: 1.25em;
+          margin: 0px;
+          a {
+            color: @italian_green;
+            text-decoration: none;
+          }
+        }
+        div { font-style: italic; }
+        .links p { display: inline; font-style: normal; }
+      }
+    }
   }
 }
 

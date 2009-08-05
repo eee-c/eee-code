@@ -21,8 +21,16 @@ table th {
 table th a { color: white; }
 table td { padding: 1px 5px; }
 table .row1 { background-color: #eeeeee; }
-#homepage h1 {
+#homepage { background: transparent url(/images/family.gif) no-repeat scroll 780px -10px; }
+#homepage #content {
+  margin: 10px 10px 75px;
+  padding: 0 5px;
+  position: relative;
+  width: 800px;
+}
+#homepage #content h1 {
   font-size: 1.2em;
+  padding: 0px 10px;
   background-color: #009900;
   color: white;
   -moz-border-radius-bottomleft: 0;
@@ -30,7 +38,68 @@ table .row1 { background-color: #eeeeee; }
   -moz-border-radius-topleft: 4px;
   -moz-border-radius-topright: 0;
 }
-#homepage h1 a { color: white; }
+#homepage #content h1 a { color: white; }
+#homepage #content ul#eee-categories {
+  float: none;
+  padding: 0px;
+  text-align: right;
+}
+#homepage #content ul#eee-categories li {
+  display: block;
+  padding: 0px;
+}
+#homepage #content ul#eee-categories li a {
+  font-weight: normal;
+  color: #009900;
+}
+#homepage #content .lhc {
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 12%;
+}
+#homepage #content .rhc {
+  margin: 0 0 0 80%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 30%;
+}
+#homepage #content .meals {
+  left: 13%;
+  padding-bottom: 10px;
+  position: relative;
+  width: 56%;
+}
+#homepage #content .meals .meal0 img {
+  border: 0px;
+  margin: 0px 5px;
+}
+#homepage #content .meals .meal1 img {
+  border: 0px;
+  margin: 0px 5px;
+}
+#homepage #content .meals .meal0 img { float: left; }
+#homepage #content .meals .meal1 img { float: right; }
+#homepage #content .meals .meal {
+  border: 1px solid black;
+  margin: 4px 1px 8px;
+  padding: 3px;
+  clear: both;
+}
+#homepage #content .meals .meal h2 {
+  font-size: 1.25em;
+  margin: 0px;
+}
+#homepage #content .meals .meal h2 a {
+  color: #009900;
+  text-decoration: none;
+}
+#homepage #content .meals .meal div { font-style: italic; }
+#homepage #content .meals .meal .links p {
+  display: inline;
+  font-style: normal;
+}
 #header {
   margin: 0px 2px;
   border-bottom: 1px solid black;
