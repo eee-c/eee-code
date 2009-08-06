@@ -96,6 +96,27 @@ module Eee
       last_page    = (total + limit - 1) / limit
       current_page = skip / limit + 1
 
+      link = base_pagination_link(query, results)
+
+      links = []
+      links << edge_page_link(current_page == 1, link, current_page-1, "&laquo; Previous")
+
+      links << page_link(link, 1) if current_page != 1
+
+      links << (2...current_page).map { |p| page_link(link, p) }
+
+      links << %Q|<span class="current">#{current_page}</span>|
+
+      links << (current_page+1...last_page).map { |p| page_link(link, p) }
+
+      links << page_link(link, last_page) if current_page != last_page
+
+      links << edge_page_link(current_page == last_page, link, current_page+1, "Next &raquo;")
+
+      %Q|<div class="pagination">#{links.join}</div>|
+    end
+
+    def base_pagination_link(query, results)
       link = "/recipes/search?q=#{query}"
 
       if results['sort_order']
@@ -104,32 +125,17 @@ module Eee
           link += "&order=desc"
         end
       end
+      return link
+    end
 
-      links = []
+    def edge_page_link(disabled, link, page, text)
+      disabled ?
+        %Q|<span class="inactive">#{text}</span>| :
+        page_link(link, page, text)
+    end
 
-      links <<
-        if current_page == 1
-          %Q|<span class="inactive">&laquo; Previous</span>|
-        else
-          %Q|<a href="#{link}&page=#{current_page - 1}">&laquo; Previous</a>|
-        end
-
-      links << (1..last_page).map do |page|
-        if page == current_page
-          %Q|<span class="current">#{page}</span>|
-        else
-          %Q|<a href="#{link}&page=#{page}">#{page}</a>|
-        end
-      end
-
-      links <<
-        if current_page == last_page
-          %Q|<span class="inactive">Next &raquo;</span>|
-        else
-          %Q|<a href="#{link}&page=#{current_page + 1}">Next &raquo;</a>|
-        end
-
-      %Q|<div class="pagination">#{links.join}</div>|
+    def page_link(link, page, text=nil)
+      %Q|<a href="#{link}&page=#{page}">#{text || page}</a>|
     end
 
     def sort_link(text, sort_field, results, options = { })
