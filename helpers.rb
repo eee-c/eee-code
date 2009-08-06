@@ -103,7 +103,8 @@ module Eee
 
       links << page_link(link, 1) if current_page != 1
 
-      links << (2...current_page).map { |p| page_link(link, p) }
+      start_window = current_page < 3 ? 1 : current_page - 3
+      links << (start_window...current_page).map { |p| page_link(link, p) }
 
       links << %Q|<span class="current">#{current_page}</span>|
 

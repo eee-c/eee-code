@@ -237,6 +237,22 @@ describe "pagination" do
     pagination(@query, @results).
       should have_selector("span.current", :content => "1")
   end
+
+  context "in the middle (page 15) of a large result sets (42 pages)" do
+    before(:each) do
+      @results['skip'] = 300
+      @results['total_rows'] = 841
+    end
+    it "should have a link to page 1" do
+      pagination(@query, @results).
+        should have_selector("a", :content => "1")
+    end
+    it "should not have a link to page 2" do
+      pagination(@query, @results).
+        should_not have_selector("a", :href => "/recipes/search?q=foo&amp;page=2")
+    end
+  end
+
   context "with sorting applied" do
     before(:each) do
       @results["sort_order"] = [{ "field"   => "sort_foo",
