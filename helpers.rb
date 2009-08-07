@@ -103,12 +103,15 @@ module Eee
 
       links << page_link(link, 1) if current_page != 1
 
-      start_window = current_page < 3 ? 1 : current_page - 3
+      start_window = current_page > 4 ? current_page - 3 : 2
+      links << "..." if start_window > 2
       links << (start_window...current_page).map { |p| page_link(link, p) }
 
       links << %Q|<span class="current">#{current_page}</span>|
 
-      links << (current_page+1...last_page).map { |p| page_link(link, p) }
+      end_window = current_page + 3 < last_page ? current_page + 3 : last_page - 1
+      links << (current_page+1..end_window).map { |p| page_link(link, p) }
+      links << "..." if end_window < last_page - 1
 
       links << page_link(link, last_page) if current_page != last_page
 

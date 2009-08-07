@@ -238,10 +238,10 @@ describe "pagination" do
       should have_selector("span.current", :content => "1")
   end
 
-  context "in the middle (page 15) of a large result sets (42 pages)" do
+  context "in the middle (page 21) of a large result sets (42 pages)" do
     before(:each) do
-      @results['skip'] = 300
-      @results['total_rows'] = 841
+      @results['skip'] = 400
+      @results['total_rows'] = 821
     end
     it "should have a link to page 1" do
       pagination(@query, @results).
@@ -249,7 +249,50 @@ describe "pagination" do
     end
     it "should not have a link to page 2" do
       pagination(@query, @results).
-        should_not have_selector("a", :href => "/recipes/search?q=foo&amp;page=2")
+        should_not have_selector("a", :href => "/recipes/search?q=foo&page=2")
+    end
+    it "should not have a link to page 17" do
+      pagination(@query, @results).
+        should_not have_selector("a", :href => "/recipes/search?q=foo&page=17")
+    end
+    it "should have a link to page 18" do
+      pagination(@query, @results).
+        should have_selector("a", :href => "/recipes/search?q=foo&page=18")
+    end
+
+    it "should not have a link to page 41" do
+      pagination(@query, @results).
+        should_not have_selector("a", :href => "/recipes/search?q=foo&page=41")
+    end
+    it "should not have a link to page 25" do
+      pagination(@query, @results).
+        should_not have_selector("a", :href => "/recipes/search?q=foo&page=25")
+    end
+    it "should have a link to page 24" do
+      pagination(@query, @results).
+        should have_selector("a", :href => "/recipes/search?q=foo&page=24")
+    end
+  end
+
+  context "at the beginning (page 2) of a large result sets (42 pages)" do
+    before(:each) do
+      @results['skip'] = 20
+      @results['total_rows'] = 821
+    end
+    it "should not have a link to page 0" do
+      pagination(@query, @results).
+        should_not have_selector("a", :href => "/recipes/search?q=foo&page=0")
+    end
+  end
+
+  context "at the end (page 41) of a large result sets (42 pages)" do
+    before(:each) do
+      @results['skip'] = 800
+      @results['total_rows'] = 821
+    end
+    it "should not have a link to page 43" do
+      pagination(@query, @results).
+        should_not have_selector("a", :href => "/recipes/search?q=foo&page=43")
     end
   end
 
