@@ -23,7 +23,8 @@ end
 
 
 DB = "http://localhost:5984/eee"
-require 'restclient'
+require 'rubygems'
+require 'rest_client'
 
 namespace :couchdb do
 
@@ -40,10 +41,15 @@ namespace :couchdb do
     RestClient.delete DB
   end
 
-  require 'couch_design_docs'
+  require 'couch_docs'
 
   desc "Load (replacing any existing) all design documents"
   task :load_design_docs do
-    CouchDesignDocs.upload_dir(DB, "couch")
+    CouchDocs.upload_dir(DB, "couch")
+  end
+
+  desc "Dump seed data from the database"
+  task :dump_docs do
+    CouchDocs.dump(DB, "couch/seed")
   end
 end
