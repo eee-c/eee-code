@@ -142,7 +142,8 @@ Given /^a "([^\"]*)" recipe from (.+)$/ do |title, date_str|
     :title        => title,
     :date         => date,
     :summary      => "#{title} summary",
-    :instructions => "#{title} instructions"
+    :instructions => "#{title} instructions",
+    :type => "Recipe"
   }
 
   RestClient.put "#{@@db}/#{@recipe_permalink}",
@@ -153,6 +154,11 @@ end
 When /^I view the recipe$/ do
   visit("/recipes/#{@permalink}")
 end
+
+When /^I view the "([^\"]*)" recipe$/ do |title|
+  visit("/recipes/#{@recipe_permalink}")
+end
+
 
 Then /^I should see an ingredient of "(.+)"$/ do |ingredient|
   matcher = ingredient.

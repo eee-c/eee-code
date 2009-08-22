@@ -199,6 +199,7 @@ Given /^a ([.\d]+) second wait/ do |seconds|
 end
 
 When /^I search for "(.*)"$/ do |keyword|
+  @keyword = keyword
   @query = "/recipes/search?q=#{keyword}"
   visit(@query)
 end
@@ -324,4 +325,8 @@ end
 
 Then /^I should see an empty query string$/ do
   response.should have_selector("input[@name=q][@value='']")
+end
+
+Then /^I should see the search field for refining my search$/ do
+  response.should have_selector("input[@name=q][@value='#{@keyword}']")
 end
