@@ -143,7 +143,8 @@ Given /^a "([^\"]*)" recipe from (.+)$/ do |title, date_str|
     :date         => date,
     :summary      => "#{title} summary",
     :instructions => "#{title} instructions",
-    :type => "Recipe"
+    :type => "Recipe",
+    :published => true
   }
 
   RestClient.put "#{@@db}/#{@recipe_permalink}",
