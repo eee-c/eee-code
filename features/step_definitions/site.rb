@@ -38,7 +38,9 @@ Given /^1 delicious recipe for each meal$/ do
       :date  => meal['date'],
       :preparations => [
         { 'ingredient' => { 'name' => 'ingredient' } }
-      ]
+      ],
+      :type => 'Recipe',
+      :published => true
     }
 
     RestClient.put "#{@@db}/#{permalink}",

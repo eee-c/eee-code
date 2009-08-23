@@ -36,7 +36,8 @@ function(doc) {
     }
   }
 
-  if (doc['preparations']) {
+  if (doc['type'] == 'Recipe' && doc['published']) {
+//  if (doc['type'] == 'Recipe') {
     idx(doc);
 
     ret.field('sort_title', doc['title'],     'yes', 'not_analyzed');

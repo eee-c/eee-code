@@ -27,6 +27,11 @@ When /^I am asked for the next recipe$/ do
   click_link "Recipe #"
 end
 
+When /^I show all recipes via search$/ do
+  sleep 0.5
+  visit("/recipes/search?q=")
+end
+
 Then /^there should be no link to "([^\"]*)"$/ do |title|
   response.should_not have_selector("a", :content => title)
 end
@@ -41,4 +46,18 @@ end
 
 Then /^there should be a link to "([^\"]*)"$/ do |title|
   response.should have_selector("a", :content => title)
+end
+
+Then /^"([^\"]*)" should be included in the search results$/ do |recipes_str|
+  recipes = recipes_str.split(/\s*and\s*/)
+  recipes.each do |recipe|
+    response.should have_selector("a", :content => recipe)
+  end
+end
+
+Then /^"([^\"]*)" should not be included in the search results$/ do |recipes_str|
+  recipes = recipes_str.split(/\s*and\s*/)
+  recipes.each do |recipe|
+    response.should_not have_selector("a", :content => recipe)
+  end
 end

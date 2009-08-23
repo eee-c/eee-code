@@ -12,7 +12,9 @@ Given /^a "(.+)" recipe with "chocolate chips" in it$/ do |title|
           'name' => 'chocolate chips'
         }
       }
-    ]
+    ],
+    :type => 'Recipe',
+    :published => true
   }
 
   RestClient.put "#{@@db}/#{permalink}",
@@ -32,7 +34,9 @@ Given /^a "(.+)" recipe with "eggs" in it$/ do |title|
         'quantity' => '1',
         'ingredient' => { 'name' => 'egg'}
       }
-    ]
+    ],
+    :type => 'Recipe',
+    :published => true
   }
 
   RestClient.put "#{@@db}/#{permalink}",
@@ -50,7 +54,9 @@ Given /^a "(.+)" recipe with a "(.+)" summary$/ do |title, keyword|
     :summary => "This is #{keyword}",
     :preparations => [
       { 'ingredient' => { 'name' => 'ingredient' } }
-    ]
+    ],
+    :type => 'Recipe',
+    :published => true
   }
 
   RestClient.put "#{@@db}/#{permalink}",
@@ -68,7 +74,9 @@ Given /^a "(.+)" recipe with instructions "(.+)"$/ do |title, instructions|
     :instructions => instructions,
     :preparations => [
       { 'ingredient' => { 'name' => 'ingredient' } }
-    ]
+    ],
+    :type => 'Recipe',
+    :published => true
   }
 
   RestClient.put "#{@@db}/#{permalink}",
@@ -85,7 +93,9 @@ Given /^a "(.+)" recipe$/ do |title|
     :date  => date,
     :preparations => [
       { 'ingredient' => { 'name' => 'ingredient' } }
-    ]
+    ],
+    :type => 'Recipe',
+    :published => true
   }
 
   RestClient.put "#{@@db}/#{permalink}",
@@ -108,7 +118,9 @@ Given /^a "(.+)" recipe with "(.+)" in it and a summary of "(.+)"$/ do |title, i
           'name' => ingredient
         }
       }
-    ]
+    ],
+    :type => 'Recipe',
+    :published => true
   }
 
   RestClient.put "#{@@db}/#{permalink}",
@@ -130,7 +142,8 @@ Given /^(\d+) (.+) recipes$/ do |count, keyword|
         { 'ingredient' => { 'name' => 'ingredient' } }
       ],
       :tag_names => [keyword.downcase],
-      :type => 'Recipe'
+      :type => 'Recipe',
+      :published => true
     }
 
     RestClient.put "#{@@db}/#{permalink}",
@@ -151,7 +164,9 @@ Given /^(\d+) "([^\"]*)" recipes with ascending names, dates, preparation times,
       :prep_time => i,
       :preparations =>
         (1..count.to_i).
-        map {|j| { :ingredient => { :name => "ingredient #{j}"}} }
+        map {|j| { :ingredient => { :name => "ingredient #{j}"}} },
+      :type => 'Recipe',
+      :published => true
     }
 
     RestClient.put "#{@@db}/#{permalink}",
