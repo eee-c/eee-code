@@ -11,7 +11,8 @@ Given /^a "([^\"]*)" meal enjoyed [io]n (.+)$/ do |title, date_str|
     :summary     => "meal summary",
     :description => "meal description",
     :type        => "Meal",
-    :menu        => []
+    :menu        => [],
+    :published   => true
   }
 
   RestClient.put "#{@@db}/#{@meal_permalink}",
@@ -30,7 +31,8 @@ Given /^a "([^\"]*)" meal with the "([^\"]*)" recipe on the menu$/ do |title, re
     :summary     => "meal summary",
     :description => "meal description",
     :type        => "Meal",
-    :menu        => ["[recipe:#{@recipe_permalink}]"]
+    :menu        => ["[recipe:#{@recipe_permalink}]"],
+    :published   => true
   }
 
   RestClient.put "#{@@db}/#{@meal_permalink}",

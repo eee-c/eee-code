@@ -12,6 +12,7 @@ Given /^(\d+) yummy meals$/ do |count|
       :description => "meal description",
       :type        => "Meal",
       :menu        => [],
+      :published   => true,
       :_attachments => { "meal#{i}.jpg" => {
         :data => "R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAEBMgA7",
         :content_type => "image/gif"}
