@@ -62,5 +62,7 @@ namespace :couchdb do
   end
 end
 
-desc "Migrate the DB by reloading all design documents"
-task :migrate => "couchdb:load_design_docs"
+namespace :db do
+  desc "Migrate the DB by reloading all design documents"
+  task :migrate => "couchdb:load_design_docs"
+end
