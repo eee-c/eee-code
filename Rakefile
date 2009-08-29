@@ -1,3 +1,11 @@
+begin
+  require "vlad"
+  $: << "#{File.dirname(__FILE__)}/lib"
+  Vlad.load(:web => nil, :app => :god, :scm => :git)
+rescue LoadError
+  # do nothing
+end
+
 task :default => [:test]
 
 desc "Run all tests"
@@ -53,3 +61,6 @@ namespace :couchdb do
     CouchDocs.dump(DB, "couch/seed")
   end
 end
+
+desc "Migrate the DB by reloading all design documents"
+task :migrate => "couchdb:load_design_docs"
