@@ -114,6 +114,14 @@ get %r{/meals/(\d+)} do |year|
   haml :meal_by_year
 end
 
+get %r{/mini/.*} do
+  url = "#{@@db}/_design/meals/_view/count_by_month?group=true\&limit=1\&descending=true"
+  data = RestClient.get url
+  @last_month = JSON.parse(data)['rows'].first['key']
+
+  "<h1>#{@last_month}</h1>"
+end
+
 get '/recipes/search' do
   @query = params[:q] == '' ? DEFAULT_QUERY  : params[:q]
   @sort  = params[:q] == '' ? "%5Csort_date" : params[:sort]

@@ -533,3 +533,33 @@ describe "GET /recipe.rss" do
     get "/recipes.rss"
   end
 end
+
+context "/mini" do
+  describe "GET /mini/" do
+    before(:each) do
+      RestClient.
+        stub!(:get).
+        and_return('{"rows": [{"key":"2009-08","value":3}]}')
+    end
+
+    it "should respond OK" do
+      get "/mini/"
+      last_response.should be_ok
+    end
+
+    it "should retrieve the most recent month with a meal" do
+      RestClient.
+        should_receive(:get).
+        with(/meals.+count_by_month.+descending=true/).
+        and_return('{"rows": [{"key":"2009-08","value":3}]}')
+
+      get "/mini/"
+    end
+
+    it "should display the month" do
+      get "/mini/"
+      last_response.
+        should have_selector("h1", :content => "2009-08")
+    end
+  end
+end
