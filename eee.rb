@@ -129,7 +129,7 @@ get %r{/mini/(.*)} do |date_str|
     memo
   end
 
-  haml :mini_calendar
+  haml :mini_calendar, :layout => false
 end
 
 get '/recipes/search' do
