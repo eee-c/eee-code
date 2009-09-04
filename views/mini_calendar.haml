@@ -29,7 +29,7 @@
               - if @meals_by_date.include?(date.to_s)
                 %a{:href => date.strftime("/meals/%Y/%m/%d"),
                    :title => @meals_by_date[date.to_s]}
-                = date.mday
+                  = date.mday
               - else
                 = date.mday
       - week = week + 1
