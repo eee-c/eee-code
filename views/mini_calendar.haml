@@ -1,7 +1,6 @@
 %html
-  %title= ["EEE Cooks", @title].compact.join(": ")
   %link{:rel => "stylesheet", :type => "text/css", :href => "/stylesheets/style.css"}
-%body
+%body{:id => 'mini-calendar'}
   - day1 = Date.parse("#{@month}-01")
   %h1
     %span.previous

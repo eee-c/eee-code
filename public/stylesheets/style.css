@@ -254,3 +254,19 @@ ul#eee-categories li a.active { color: #dd0000; }
 #feedback input { display: block; }
 #feedback textarea { display: block; }
 #feedback label { margin-top: 8px; }
+#mini-calendar h1 {
+  background-color: #009900;
+  color: white;
+  font-size: 1.2em;
+  text-align: center;
+  -moz-border-radius-bottomleft: 0;
+  -moz-border-radius-bottomright: 0;
+  -moz-border-radius-topleft: 4px;
+  -moz-border-radius-topright: 0;
+}
+#mini-calendar h1 a { color: white; }
+#mini-calendar table th { background-color: #7ccd7c; }
+#mini-calendar a {
+  color: #009900;
+  font-weight: bold;
+}
