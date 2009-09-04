@@ -114,12 +114,22 @@ get %r{/meals/(\d+)} do |year|
   haml :meal_by_year
 end
 
-get %r{/mini/.*} do
-  url = "#{@@db}/_design/meals/_view/count_by_month?group=true\&limit=1\&descending=true"
+get %r{/mini/(.*)} do |date_str|
+  url = "#{@@db}/_design/meals/_view/count_by_month?group=true"
   data = RestClient.get url
-  @last_month = JSON.parse(data)['rows'].first['key']
+  @count_by_month = JSON.parse(data)['rows']
+  @month = date_str == '' ? @count_by_month.last['key'] : date_str.sub(/\//, '-')
 
-  "<h1>#{@last_month}</h1>"
+  url = "#{@@db}/_design/meals/_view/by_date_short?" +
+    "startkey=%22#{@month.sub(/\d\d$/, '')}00%22&" +
+    "endkey=%22#{@month.sub(/\d\d$/, '')}99%22"
+  data = RestClient.get url
+  @meals_by_date = JSON.parse(data)['rows'].inject({ }) do |memo, m|
+    memo[m['value']['date']] = m['value']['title']
+    memo
+  end
+
+  haml :mini_calendar
 end
 
 get '/recipes/search' do

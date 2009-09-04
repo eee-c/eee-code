@@ -1,0 +1,31 @@
+- day1 = Date.parse("#{@month}-01")
+%h1
+  %span.previous
+    = @month > @count_by_month.first['key'] ? %Q|<a href="#{(day1 - 1).strftime("/mini/%Y/%m")}">&lt;</a>| : "&lt;"
+  = month_text @month
+  %span.next
+    = @month < @count_by_month.last['key'] ? %Q|<a href="#{(day1 + 32).strftime("/mini/%Y/%m")}">&gt;</a>| : "&gt;"
+
+- sunday0 = day1 - day1.wday
+%table#mini-calendar
+  %tr.day-names
+    %th Su
+    %th M
+    %th Tu
+    %th W
+    %th Th
+    %th F
+    %th Sa
+  - week = 0
+  - while ((sunday0 + week*7).mon <= day1.mon)
+    %tr{:class => "week#{week+1}"}
+      - (0..6).map{|d| sunday0 + d + week*7}.each do |date|
+        %td{:id => date.to_s}
+          - if date.mon == day1.mon
+            - if @meals_by_date.include?(date.to_s)
+              %a{:href => date.strftime("/meals/%Y/%m/%d"),
+                 :title => @meals_by_date[date.to_s]}
+              = date.mday
+            - else
+              = date.mday
+    - week = week + 1

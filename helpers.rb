@@ -190,7 +190,7 @@ module Eee
           %Q|<a href="/meals/#{next_uri}">#{next_result['key']}</a>|
         end
       else
-        ""
+        nil
       end
     end
 
