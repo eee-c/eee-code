@@ -121,8 +121,8 @@ get %r{/mini/(.*)} do |date_str|
   @month = date_str == '' ? @count_by_month.last['key'] : date_str.sub(/\//, '-')
 
   url = "#{@@db}/_design/meals/_view/by_date_short?" +
-    "startkey=%22#{@month.sub(/\d\d$/, '')}00%22&" +
-    "endkey=%22#{@month.sub(/\d\d$/, '')}99%22"
+    "startkey=%22#{@month}-00%22&" +
+    "endkey=%22#{@month}-99%22"
   data = RestClient.get url
   @meals_by_date = JSON.parse(data)['rows'].inject({ }) do |memo, m|
     memo[m['value']['date']] = m['value']['title']
