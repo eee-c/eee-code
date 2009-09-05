@@ -96,4 +96,15 @@ describe "mini_calendar.haml" do
                                     :content => ">")
     end
   end
+
+  context "January" do
+    before(:each) do
+      assigns[:month] = "2008-01"
+    end
+
+    it "should have weeks (probing boundary condition)" do
+      render("views/mini_calendar.haml")
+      response.should have_selector("td")
+    end
+  end
 end

@@ -23,3 +23,14 @@ Feature: Mini-calendar
       And there should be 1 links to meals
       And there should be a link to the next month
       And there should not be a link to the previous month
+
+   Scenario: Navigating boundary conditions
+
+     Given a "Test" meal enjoyed on 2008-01-23
+       And a "Test" meal enjoyed on 2007-12-15
+      When I visit the mini-calendar
+      Then I should see the calendar for January 2008
+       And there should be 1 links to meals
+      When I click on the link to the previous month
+      Then I should see the calendar for December 2007
+       And there should be 1 links to meals

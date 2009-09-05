@@ -20,7 +20,7 @@
       %th F
       %th Sa
     - week = 0
-    - while ((sunday0 + week*7).mon <= day1.mon)
+    - while ((sunday0 + week*7).strftime("%Y-%m") <= day1.strftime("%Y-%m"))
       %tr{:class => "week#{week+1}"}
         - (0..6).map{|d| sunday0 + d + week*7}.each do |date|
           %td{:id => date.to_s}
