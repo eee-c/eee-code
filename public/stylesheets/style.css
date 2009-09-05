@@ -270,3 +270,7 @@ ul#eee-categories li a.active { color: #dd0000; }
   color: #009900;
   font-weight: bold;
 }
+#mini-calendar-frame {
+  height: 16.5em;
+  width: 100%;
+}
