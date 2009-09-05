@@ -1,5 +1,7 @@
 %html
-  %link{:rel => "stylesheet", :type => "text/css", :href => "/stylesheets/style.css"}
+  %head
+    %link{:rel => "stylesheet", :type => "text/css", :href => "/stylesheets/style.css"}
+    %base{:target => "_top"}
 %body{:id => 'mini-calendar'}
   - day1 = Date.parse("#{@month}-01")
   %h1
