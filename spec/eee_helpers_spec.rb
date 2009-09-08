@@ -383,7 +383,7 @@ describe "link_to_adjacent_view_date" do
     end
     it "should return empty if there are no more years" do
       link_to_adjacent_view_date(2009, @by_year).
-        should == ""
+        should be_nil
     end
   end
   context "couchdb view by_month" do
@@ -475,5 +475,39 @@ describe "breadcrumbs" do
       breadcrumbs(Date.new(2009, 6, 2)).
         should have_selector("a", :href => "/meals/2009/06/02")
     end
+  end
+end
+
+describe "recipe_update_of" do
+  it "should ask CouchDB" do
+    RestClient.
+      should_receive(:get).
+      with(/update_of.+key=.+2009-09-07-recipe/).
+      and_return('{"rows": [] }')
+    recipe_update_of('2009-09-07-recipe')
+  end
+  it "should return the value from the JSON" do
+    RestClient.
+      stub!(:get).
+      and_return('{"rows": [{"value": ["2000-09-07-recipe"]}] }')
+    recipe_update_of('2009-09-07-recipe').
+      should == ['2000-09-07-recipe']
+  end
+end
+
+describe "recipe_updated_by" do
+  it "should ask CouchDB" do
+    RestClient.
+      should_receive(:get).
+      with(/updated_by.+key=.+2000-09-07-recipe/).
+      and_return('{"rows": [] }')
+    recipe_updated_by('2000-09-07-recipe')
+  end
+  it "should return the value from the JSON" do
+    RestClient.
+      stub!(:get).
+      and_return('{"rows": [{"value": "2009-09-07-recipe"}] }')
+    recipe_updated_by('2000-09-07-recipe').
+      should == '2009-09-07-recipe'
   end
 end

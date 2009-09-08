@@ -15,18 +15,18 @@ Feature: Updating recipes in our cookbook
 
     Given a "Buttermilk Pancake" recipe with "buttermilk" in it
     And a "Buttermilk Pancake" recipe on another day with "lowfat milk" in it
-    When the recipe with "buttermilk" is marked as update of the previous recipe
+    When the "buttermilk" recipe is marked as update of the "lowfat milk" recipe
     And I visit the recipe with "buttermilk" in it
     Then I should see a link to the previous recipe with "lowfat milk" in it
     And I should not see updated versions of the recipe
-    And I visit the recipe with "lowfat milk" in it
+    When I visit the recipe with "lowfat milk" in it
     Then I should see a link to the updated recipe with "buttermilk" in it
     And I should not see previous versions of the recipe
 
   Scenario: Searching for a recipe with an update
     Given a "Buttermilk Pancake" recipe with "buttermilk" in it
     And a "Buttermilk Pancake" recipe on another day with "lowfat milk" in it
-    When the recipe with "buttermilk" is marked as update of the previous recipe
+    When the "buttermilk" recipe is marked as update of the "lowfat milk" recipe
     And I search for "pancake"
     Then I should see the "buttermilk" recipe in the results
     And I should not see the "lowfat milk" recipe in the results

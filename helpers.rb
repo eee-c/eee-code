@@ -222,6 +222,20 @@ module Eee
       crumbs.join(" &gt; ")
     end
 
+    def recipe_update_of(permalink)
+      url = "#{_db}/_design/recipes/_view/update_of?key=%22#{permalink}%22"
+      data = RestClient.get url
+      results = JSON.parse(data)['rows']
+      results.first && results.first['value']
+    end
+
+    def recipe_updated_by(permalink)
+      url = "#{_db}/_design/recipes/_view/updated_by?key=%22#{permalink}%22"
+      data = RestClient.get url
+      results = JSON.parse(data)['rows']
+      results.first && results.first['value']
+    end
+
     def rss_for_date_view(feed)
       url = "#{_db}/_design/#{feed}/_view/by_date?limit=10&descending=true"
       data = RestClient.get url
