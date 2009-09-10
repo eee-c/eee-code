@@ -42,3 +42,13 @@ end
 Then /^I should not see updated versions of the recipe$/ do
   response.should_not contain 'This recipe has been updated'
 end
+
+Then /^I should see that the recipe is an update to the recipe with "([^\"]*)" in it$/ do |ingredient|
+  response.should have_selector(".update-of a",
+                                :href => "/recipes/#{@permalink_identified_by[ingredient]}")
+end
+
+Then /^I should see that the recipe was updated by the recipe with "([^\"]*)" in it$/ do |ingredient|
+  response.should have_selector(".update a",
+                                :href => "/recipes/#{@permalink_identified_by[ingredient]}")
+end

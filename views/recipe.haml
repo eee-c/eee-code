@@ -46,6 +46,10 @@
           %li
             %a{:href => amazon_url(tool['asin'])}
               = tool['title']
+%div
+  = recipe_updated_by(@recipe['_id'])
+%div
+  = recipe_update_of(@recipe['_id'])
 
 - if @recipe['preparations']
   %ul.preparations

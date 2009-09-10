@@ -222,18 +222,46 @@ module Eee
       crumbs.join(" &gt; ")
     end
 
-    def recipe_update_of(permalink)
+    def couch_recipe_update_of(permalink)
       url = "#{_db}/_design/recipes/_view/update_of?key=%22#{permalink}%22"
       data = RestClient.get url
       results = JSON.parse(data)['rows']
       results.first && results.first['value']
     end
 
-    def recipe_updated_by(permalink)
+    def recipe_update_of(permalink)
+      previous = couch_recipe_update_of(permalink)
+      if previous
+        links = previous.map do |update_permalink|
+          date_str = Date.parse(update_permalink).strftime("%B %e, %Y")
+          %Q|<a href="/recipes/#{update_permalink}">#{date_str}</a>|
+        end
+
+        %Q|<span class="update-of">| +
+          %Q|This is an update of a previous recipe: | +
+          links.join(", ") +
+          %Q|</span>|
+      end
+    end
+
+    def couch_recipe_updated_by(permalink)
       url = "#{_db}/_design/recipes/_view/updated_by?key=%22#{permalink}%22"
       data = RestClient.get url
       results = JSON.parse(data)['rows']
       results.first && results.first['value']
+    end
+
+    def recipe_updated_by(permalink)
+      update = couch_recipe_updated_by(permalink)
+      if update
+        date_str = Date.parse(update).strftime("%B %e, %Y")
+        link = %Q|<a href="/recipes/#{update}">#{date_str}</a>|
+
+        %Q|<span class="update">| +
+          %Q|This recipe has been updated: | +
+          link +
+          %Q|</span>|
+      end
     end
 
     def rss_for_date_view(feed)

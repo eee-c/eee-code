@@ -6,6 +6,7 @@ describe "recipe.haml" do
     @summary = "Recipe Summary"
     @instructions = "Recipe Instructions"
     assigns[:recipe] = @recipe = {
+      'id'           => '2009-06-02-recipe',
       'date'         => '2009-06-02',
       'title'        => @title,
       'summary'      => @summary,
@@ -28,6 +29,8 @@ describe "recipe.haml" do
     assigns[:url] = "http://example.org/recipe-1"
 
     stub!(:partial)
+    stub!(:recipe_update_of)
+    stub!(:recipe_updated_by)
   end
 
   it "should display the recipe's title" do

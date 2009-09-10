@@ -478,36 +478,76 @@ describe "breadcrumbs" do
   end
 end
 
-describe "recipe_update_of" do
+describe "couch_recipe_update_of" do
   it "should ask CouchDB" do
     RestClient.
       should_receive(:get).
       with(/update_of.+key=.+2009-09-07-recipe/).
       and_return('{"rows": [] }')
-    recipe_update_of('2009-09-07-recipe')
+    couch_recipe_update_of('2009-09-07-recipe')
   end
   it "should return the value from the JSON" do
     RestClient.
       stub!(:get).
       and_return('{"rows": [{"value": ["2000-09-07-recipe"]}] }')
-    recipe_update_of('2009-09-07-recipe').
+    couch_recipe_update_of('2009-09-07-recipe').
       should == ['2000-09-07-recipe']
   end
 end
 
-describe "recipe_updated_by" do
+describe "recipe_update_of" do
+  it "should include links to previous recipes" do
+    stub!(:couch_recipe_update_of).and_return(['2000-09-07-recipe'])
+    recipe_update_of('2009-09-07-recipe').
+      should have_selector('span.update-of a',
+                           :href => "/recipes/2000-09-07-recipe")
+  end
+  it "should link to a pretty formatted date" do
+    stub!(:couch_recipe_update_of).and_return(['2000-09-07-recipe'])
+    recipe_update_of('2009-09-07-recipe').
+      should have_selector('span.update-of a',
+                           :content => "September  7, 2000")
+  end
+  it "should do nothing if this is not an update" do
+    stub!(:couch_recipe_update_of)
+    recipe_update_of('2009-09-07-recipe').
+      should be_nil
+  end
+end
+
+describe "couch_recipe_updated_by" do
   it "should ask CouchDB" do
     RestClient.
       should_receive(:get).
       with(/updated_by.+key=.+2000-09-07-recipe/).
       and_return('{"rows": [] }')
-    recipe_updated_by('2000-09-07-recipe')
+    couch_recipe_updated_by('2000-09-07-recipe')
   end
   it "should return the value from the JSON" do
     RestClient.
       stub!(:get).
       and_return('{"rows": [{"value": "2009-09-07-recipe"}] }')
-    recipe_updated_by('2000-09-07-recipe').
+    couch_recipe_updated_by('2000-09-07-recipe').
       should == '2009-09-07-recipe'
+  end
+end
+
+describe "recipe_updated_by" do
+  it "should have a link to the recipe update" do
+    stub!(:couch_recipe_updated_by).and_return('2009-09-07-recipe')
+    recipe_updated_by('2000-09-07-recipe').
+      should have_selector('span.update a',
+                           :href => "/recipes/2009-09-07-recipe")
+  end
+  it "should link to a pretty formatted date" do
+    stub!(:couch_recipe_updated_by).and_return('2009-09-07-recipe')
+    recipe_updated_by('2000-09-07-recipe').
+      should have_selector('span.update a',
+                           :content => "September  7, 2009")
+  end
+  it "should do nothing if this is not an update" do
+    stub!(:couch_recipe_updated_by)
+    recipe_updated_by('2000-09-07-recipe').
+      should be_nil
   end
 end
