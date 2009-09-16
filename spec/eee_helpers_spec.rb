@@ -570,7 +570,7 @@ describe "couch_alternatives" do
   end
 end
 
-describe "alternative_preparations" do
+describe "alternate_preparations" do
   before(:each) do
     stub!(:couch_alternatives).
       and_return([])
@@ -579,10 +579,10 @@ describe "alternative_preparations" do
   end
   it "should retrieve IDs" do
     should_receive(:couch_alternatives).and_return([])
-    alternative_preparations('2009-09-13')
+    alternate_preparations('2009-09-13')
   end
   it "should return nothing if there are no alternate preparations" do
-    alternative_preparations('2009-09-14').
+    alternate_preparations('2009-09-14').
       should be_nil
   end
 
@@ -597,11 +597,11 @@ describe "alternative_preparations" do
                    ])
     end
     it "should have two links" do
-      alternative_preparations('2009-09-14').
+      alternate_preparations('2009-09-14').
         should have_selector("a", :count => 2)
     end
     it "should label the alternate preparations as such" do
-      alternative_preparations('2009-09-14').
+      alternate_preparations('2009-09-14').
         should contain("Alternate Preparations:")
     end
   end

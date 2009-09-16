@@ -16,7 +16,7 @@ Feature: Alternate preparations for recipes
     Given a "Hearty Pancake" recipe with "wheat germ"
     And a "Buttermilk Pancake" recipe with "buttermilk"
     And a "Pancake" recipe with "chocolate chips"
-    When the three pancake recipes are alternate preparations of each other
+    And the three pancake recipes are alternate preparations of each other
     And I visit the "Hearty Pancake" recipe
     Then I should see a link to the "Buttermilk Pancake" recipe
     And I should see a link to the "Pancake" recipe

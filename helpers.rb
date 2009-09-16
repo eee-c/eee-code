@@ -271,7 +271,7 @@ module Eee
       results.first && results.first['value']
     end
 
-    def alternative_preparations(permalink)
+    def alternate_preparations(permalink)
       ids = couch_alternatives(permalink)
       if ids && ids.size > 0
         %Q|<span class="label">Alternate Preparations:</span> | +

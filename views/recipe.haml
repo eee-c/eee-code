@@ -50,6 +50,8 @@
   = recipe_updated_by(@recipe['_id'])
 %div
   = recipe_update_of(@recipe['_id'])
+#recipe-alternates
+  = alternate_preparations(@recipe['_id'])
 
 - if @recipe['preparations']
   %ul.preparations

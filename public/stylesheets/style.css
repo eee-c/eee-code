@@ -274,3 +274,9 @@ ul#eee-categories li a.active { color: #dd0000; }
   height: 16.5em;
   width: 100%;
 }
+#recipe-alternates {
+  margin: 0 8px;
+  padding-left: 10px;
+  text-indent: -10px;
+}
+.label { font-weight: bold; }

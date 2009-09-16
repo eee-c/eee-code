@@ -31,6 +31,7 @@ describe "recipe.haml" do
     stub!(:partial)
     stub!(:recipe_update_of)
     stub!(:recipe_updated_by)
+    stub!(:alternate_preparations)
   end
 
   it "should display the recipe's title" do
