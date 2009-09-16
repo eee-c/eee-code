@@ -6,16 +6,16 @@ Feature: Alternate preparations for recipes
 
   Scenario: No alternate preparation
 
-    Given a "pancake" recipe with "buttermilk" in it
+    Given a "pancake" recipe with "buttermilk"
     And no other recipes
     When I view the recipe
     Then I should see no alternate preparations
 
   Scenario: Alternate preparation
 
-    Given a "Hearty Pancake" recipe with "wheat germ" in it
-    And a "Buttermilk Pancake" recipe with "buttermilk" in it
-    And a "Pancake" recipe with "chocolate chips" in it
+    Given a "Hearty Pancake" recipe with "wheat germ"
+    And a "Buttermilk Pancake" recipe with "buttermilk"
+    And a "Pancake" recipe with "chocolate chips"
     When the three pancake recipes are alternate preparations of each other
     And I visit the "Hearty Pancake" recipe
     Then I should see a link to the "Buttermilk Pancake" recipe

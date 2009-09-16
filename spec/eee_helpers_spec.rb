@@ -551,3 +551,86 @@ describe "recipe_updated_by" do
       should be_nil
   end
 end
+
+describe "couch_alternatives" do
+  it "should ask CouchDB for alternates" do
+    RestClient.
+      should_receive(:get).
+      with(/alternatives.+key=.+2000-09-13-recipe/).
+      and_return('{"rows": [] }')
+    couch_alternatives('2000-09-13-recipe')
+  end
+  it "should be a list of IDs" do
+    RestClient.
+      stub!(:get).
+      and_return('{"rows": [{"value": ["2000-09-13-recipe"]}] }')
+
+    couch_alternatives('2009-09-13-recipe').
+      should == ['2000-09-13-recipe']
+  end
+end
+
+describe "alternative_preparations" do
+  before(:each) do
+    stub!(:couch_alternatives).
+      and_return([])
+    stub!(:couch_recipe_titles).
+      and_return([])
+  end
+  it "should retrieve IDs" do
+    should_receive(:couch_alternatives).and_return([])
+    alternative_preparations('2009-09-13')
+  end
+  it "should return nothing if there are no alternate preparations" do
+    alternative_preparations('2009-09-14').
+      should be_nil
+  end
+
+  context "recipe with two alternate preparations" do
+    before(:each) do
+      stub!(:couch_alternatives).
+        and_return(%w{2007-09-14-recipe 2008-09-14-recipe})
+      stub!(:couch_recipe_titles).
+        and_return([
+                    {:id => "2007-09-14-recipe", :title => "Recipe #1"},
+                    {:id => "2008-09-14-recipe", :title => "Recipe #2"}
+                   ])
+    end
+    it "should have two links" do
+      alternative_preparations('2009-09-14').
+        should have_selector("a", :count => 2)
+    end
+    it "should label the alternate preparations as such" do
+      alternative_preparations('2009-09-14').
+        should contain("Alternate Preparations:")
+    end
+  end
+end
+
+describe "couch_recipe_titles" do
+  it "should retrieve multiple recipe titles, given IDs" do
+    RestClient.
+      should_receive(:post).
+      with(/titles/, '{"keys":["2008-09-14-recipe","2009-09-14-recipe"]}').
+      and_return('{"rows": [] }')
+    couch_recipe_titles(%w{2008-09-14-recipe 2009-09-14-recipe})
+  end
+
+  it "should return a list of recipe IDs and titles" do
+    RestClient.
+      stub!(:post).
+      and_return <<"_JSON"
+{"total_rows":578,"offset":175,"rows":[
+{"id":"2008-09-14-recipe","key":"2008-09-14-recipe","value":"Recipe #1"},
+{"id":"2009-09-14-recipe","key":"2009-09-14-recipe","value":"Recipe #2"}
+]}
+_JSON
+
+    couch_recipe_titles(%w{2008-09-14-recipe 2009-09-14-recipe}).
+      should == [
+                 {:id => "2008-09-14-recipe", :title => "Recipe #1"},
+                 {:id => "2009-09-14-recipe", :title => "Recipe #2"}
+                ]
+
+  end
+end

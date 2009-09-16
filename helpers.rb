@@ -264,6 +264,32 @@ module Eee
       end
     end
 
+    def couch_alternatives(permalink)
+      url = "#{_db}/_design/recipes/_view/alternatives?key=%22#{permalink}%22"
+      data = RestClient.get url
+      results = JSON.parse(data)['rows']
+      results.first && results.first['value']
+    end
+
+    def alternative_preparations(permalink)
+      ids = couch_alternatives(permalink)
+      if ids && ids.size > 0
+        %Q|<span class="label">Alternate Preparations:</span> | +
+        couch_recipe_titles(ids).
+          map{ |recipe| %Q|<a href="/recipes/#{recipe[:id]}">#{recipe[:title]}</a>|}.
+          join(", ")
+      end
+    end
+
+    def couch_recipe_titles(ids)
+      data = RestClient.post "#{_db}/_design/recipes/_view/titles",
+        %Q|{"keys":[#{ids.map{|id| "\"#{id}\""}.join(',')}]}|
+
+      JSON.parse(data)['rows'].map do |recipe|
+        { :id => recipe["id"], :title => recipe["value"] }
+      end
+    end
+
     def rss_for_date_view(feed)
       url = "#{_db}/_design/#{feed}/_view/by_date?limit=10&descending=true"
       data = RestClient.get url

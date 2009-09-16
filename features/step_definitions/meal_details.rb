@@ -92,11 +92,11 @@ Then /^I should see a "(.+)" recipe link in the menu$/ do |recipe_title|
   response.should have_selector("a", :content => recipe_title)
 end
 
-Then /^I should see a link to (.+)$/ do |date|
+Then /^I should see a link to ([^\"]+)$/ do |date|
   response.should have_selector("a", :content => date)
 end
 
-Then /^I should not see a link to (.+)$/ do |date|
+Then /^I should not see a link to ([^\"]+)$/ do |date|
   response.should_not have_selector("a", :content => date)
 end
 

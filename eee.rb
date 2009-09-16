@@ -7,6 +7,8 @@ require 'rss'
 require 'helpers'
 require 'pp'
 
+$: << File.expand_path(File.dirname(__FILE__) + '/lib')
+
 ROOT_URL = "http://www.eeecooks.com"
 DEFAULT_QUERY = "type:Recipe"
 

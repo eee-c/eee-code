@@ -1,4 +1,4 @@
-Given /^a "([^\"]*)" recipe (.*)with "([^\"]*)" in it$/ do |title, on, ingredient|
+Given /^a "([^\"]*)" recipe (.*)with "([^\"]*)"$/ do |title, on, ingredient|
   date = (on == "") ? Date.new(2009, 9, 5) : Date.new(2000, 9, 5)
   permalink = date.to_s + "-" + title.downcase.gsub(/\W/, '-')
 
@@ -7,6 +7,8 @@ Given /^a "([^\"]*)" recipe (.*)with "([^\"]*)" in it$/ do |title, on, ingredien
 
   recipe = {
     :title => title,
+    :type  => 'Recipe',
+    :published => true,
     :date  => date,
     :preparations => [{'ingredient' => {'name' => ingredient}}]
   }
@@ -51,4 +53,15 @@ end
 Then /^I should see that the recipe was updated by the recipe with "([^\"]*)" in it$/ do |ingredient|
   response.should have_selector(".update a",
                                 :href => "/recipes/#{@permalink_identified_by[ingredient]}")
+end
+
+Then /^I should see the recipe with "([^\"]*)" in the search results$/ do |ingredient|
+  response.should have_selector(".ingredients",
+                                :content => ingredient)
+end
+
+Then /^I should not see the recipe with "([^\"]*)" in the search results$/ do |ingredient|
+  pending "figure out how to exclude documents, based on other documents"
+  response.should_not have_selector(".ingredients",
+                                    :content => ingredient)
 end
