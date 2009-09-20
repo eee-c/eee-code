@@ -37,7 +37,7 @@ module Eee
       end
     end
 
-    def wiki(original)
+    def wiki(original, convert_textile=true)
       text = (original || '').dup
       text.gsub!(/\b(\d+)F/, "\\1° F")
       text.gsub!(/\[kid:(\w+)\]/m) { |kid| kid_nicknames[$1] }
@@ -45,7 +45,7 @@ module Eee
       text.gsub!(/\[recipe:(\S+)\s(.+?)\]/m) { |r| recipe_link($1, $2) }
       text.gsub!(/\[meal:(\S+)\]/m) { |m| meal_link($1) }
       text.gsub!(/\[meal:(\S+)\s(.+?)\]/m) { |m| meal_link($1, $2) }
-      RedCloth.new(text).to_html
+      convert_textile ? RedCloth.new(text).to_html : text
     end
 
     def kid_nicknames

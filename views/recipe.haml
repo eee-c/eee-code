@@ -54,6 +54,7 @@
   = alternate_preparations(@recipe['_id'])
 
 - if @recipe['preparations']
+  %h2= "Ingredients"
   %ul.preparations
     - @recipe['preparations'].each do |preparation|
       %li.ingredient
@@ -64,7 +65,7 @@
         %span.kind
           = preparation['ingredient']['kind']
         %span.name
-          = preparation['ingredient']['name']
+          = wiki(preparation['ingredient']['name'], false)
         - if preparation['brand'] =~ /\S/
           %span.brand
             = "(" + preparation['brand'] + ")"

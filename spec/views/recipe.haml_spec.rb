@@ -214,6 +214,27 @@ describe "recipe.haml" do
     end
   end
 
+  context "a recipe with another recipe on the ingredient list" do
+    before(:each) do
+      @recipe['preparations'] =
+        [ { 'quantity' => 1,
+            'ingredient' => {
+              'name' => '[recipe:2009/09/18/recipe Recipe]'
+            }
+          } ]
+
+      self.stub!(:wiki)
+    end
+
+    it "should wiki-fy the link to the other recipe" do
+      self.should_receive(:wiki).
+        with("[recipe:2009/09/18/recipe Recipe]", false).
+        and_return(%Q|<a href="http://example.org/">Bar</a>|)
+
+      render("views/recipe.haml")
+    end
+  end
+
   # TODO: this should not be necessary.  The blank brands are an
   # artifact of the import-from-rails process
   context "a recipe with a blank brand" do
@@ -287,7 +308,7 @@ describe "recipe.haml" do
     end
     it "should contain a link to the colander on Amazon" do
       response.should have_selector("a", :content => "Colander",
-        :href => "http://www.amazon.com/exec/obidos/ASIN/ASIN-1234/eeecooks-20")
+                                    :href => "http://www.amazon.com/exec/obidos/ASIN/ASIN-1234/eeecooks-20")
     end
     it "should contain a link to the pot on Amazon" do
       response.should have_selector("a", :content => "Pot",

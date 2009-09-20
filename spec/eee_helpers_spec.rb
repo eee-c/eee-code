@@ -63,6 +63,11 @@ _TEXTILE
     end
   end
 
+  it "should skip converting textile to HTML if arg2 is false" do
+    RedCloth.should_not_receive(:new)
+    wiki("textile", false)
+  end
+
   it "should wikify temperatures" do
     wiki("250F").should contain("250° F")
   end
