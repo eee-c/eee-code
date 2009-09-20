@@ -9,6 +9,8 @@ require 'pp'
 
 $: << File.expand_path(File.dirname(__FILE__) + '/lib')
 
+require 'float'
+
 ROOT_URL = "http://www.eeecooks.com"
 DEFAULT_QUERY = "type:Recipe"
 
