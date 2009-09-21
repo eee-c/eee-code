@@ -16,7 +16,7 @@ Given /^a recipe for Buttermilk Chocolate Chip Pancakes$/ do
         }
       },
       {
-        'quantity' => '¼',
+        'quantity' => '0.25',
         'unit'     => 'teaspoons',
         'ingredient' => { 'name' => 'salt'}
       },

@@ -13,6 +13,10 @@ h1 {
   margin: 0px;
   border: 1px solid white;
 }
+h2 {
+  margin-bottom: 0px;
+  font-size: 1.2em;
+}
 table { width: 100%; }
 table th {
   background-color: #009900;
@@ -21,6 +25,7 @@ table th {
 table th a { color: white; }
 table td { padding: 1px 5px; }
 table .row1 { background-color: #eeeeee; }
+ul { margin-top: 0px; }
 #homepage { background: transparent url(/images/family.gif) no-repeat scroll 780px -10px; }
 #homepage #content {
   margin: 10px 10px 75px;
@@ -139,6 +144,7 @@ ul#eee-categories li a.active { color: #dd0000; }
 #recipe-meta {
   float: right;
   width: 250px;
+  margin: 3px 8px;
 }
 .recipe-tools {
   border: 2px solid #009900;
@@ -188,11 +194,15 @@ ul#eee-categories li a.active { color: #dd0000; }
 }
 .recipe-stats div { padding: 1px 3px; }
 .recipe-stats .label { font-style: italic; }
+.preparations { color: #555555; }
+.preparations .brand { font-style: italic; }
+.preparations .name { color: black; }
 #summary img {
   float: right;
   border: 1px solid black;
   margin: 0 0 10px 5px;
 }
+#instructions { width: 50em; }
 #refine-search { clear: both; }
 #refine-search form { margin: 10px 0px 0px; }
 .numeric { text-align: right; }
@@ -280,3 +290,10 @@ ul#eee-categories li a.active { color: #dd0000; }
   text-indent: -10px;
 }
 .label { font-weight: bold; }
+#footer {
+  text-align: center;
+  border-top: 1px solid black;
+  padding-top: 8px;
+  font-size: 0.8em;
+}
+#footer img { border: 0px; }

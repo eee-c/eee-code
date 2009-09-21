@@ -21,11 +21,20 @@ h1 {
   border: 1px solid white;
 }
 
+h2 {
+  margin-bottom: 0px;
+  font-size: 1.2em;
+}
+
 table {
   width: 100%;
   th { .section_header; }
   td { padding: 1px 5px; }
  .row1 { background-color: @soft_gray; }
+}
+
+ul {
+  margin-top: 0px;
 }
 
 #homepage {
@@ -157,6 +166,7 @@ ul#eee-categories {
 #recipe-meta {
   float: right;
   width: 250px;
+  margin: 3px 8px;
 }
 
 .recipe-tools, .recipe-stats {
@@ -185,12 +195,27 @@ ul#eee-categories {
   }
 }
 
+.preparations {
+  color: #555;
+  .brand {
+    font-style: italic;
+  }
+  .name {
+    color: black;
+    /* background-color: #FFFFe0; */
+  }
+}
+
 #summary {
   img {
     float: right;
     border: 1px solid black;
     margin: 0 0 10px 5px;
   }
+}
+
+#instructions {
+  width: 50em;
 }
 
 #refine-search {
@@ -296,4 +321,14 @@ ul#eee-categories {
 
 .label {
   font-weight: bold;
+}
+
+#footer {
+  text-align: center;
+  border-top: 1px solid black;
+  padding-top: 8px;
+  font-size: 0.8em;
+  img {
+    border: 0px;
+  }
 }

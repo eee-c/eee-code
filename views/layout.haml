@@ -10,3 +10,20 @@
   = yield
 
   #footer
+    %div
+      %a{:href => '/'}= "Home"
+      |
+      %a{:href => '/feedback'}= "Contact"
+      |
+      %a{:href => '/recipes/search?q='}= "Recipe List"
+
+    %div
+      All content (images and text) Copyright © Robin and Chris Strom 2009.
+
+    %div
+      This work is licensed under a
+      %a{:href => "http://creativecommons.org/licenses/by-nc/1.0/"}= "Creative Commons License"
+
+      %a{:href => "http://creativecommons.org/licenses/by-nc/1.0/"}
+        %img{:alt => "Creative Commons License",
+             :src => "/images/somerights.gif"}
