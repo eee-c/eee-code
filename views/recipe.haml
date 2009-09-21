@@ -59,15 +59,15 @@
     - @recipe['preparations'].each do |preparation|
       %li.ingredient
         %span.quantity
-          = preparation['quantity']
+          = preparation['quantity'].to_f.to_s
         %span.unit
           = preparation['unit']
         %span.kind
-          = preparation['ingredient']['kind']
+          = wiki(preparation['ingredient']['kind'], false)
         %span.name
           = wiki(preparation['ingredient']['name'], false)
         - if preparation['brand'] =~ /\S/
-          %span.brand
+          %span.brand{:title => 'brand used'}
             = "(" + preparation['brand'] + ")"
 
 #instructions
