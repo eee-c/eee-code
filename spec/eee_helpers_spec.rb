@@ -63,6 +63,16 @@ _TEXTILE
     end
   end
 
+  it "should not have line breaks in paragraphs" do
+    textile = <<_TEXTILE
+paragraph 1 *bold text*
+paragraph 2
+_TEXTILE
+
+    wiki(textile).
+      should_not have_selector("br")
+  end
+
   it "should skip converting textile to HTML if arg2 is false" do
     RedCloth.should_not_receive(:new)
     wiki("textile", false)

@@ -45,7 +45,13 @@ module Eee
       text.gsub!(/\[recipe:(\S+)\s(.+?)\]/m) { |r| recipe_link($1, $2) }
       text.gsub!(/\[meal:(\S+)\]/m) { |m| meal_link($1) }
       text.gsub!(/\[meal:(\S+)\s(.+?)\]/m) { |m| meal_link($1, $2) }
-      convert_textile ? RedCloth.new(text).to_html : text
+      if convert_textile
+        textile = RedCloth.new(text)
+        textile.hard_breaks = false
+        textile.to_html
+      else
+        text
+      end
     end
 
     def kid_nicknames
@@ -220,6 +226,23 @@ module Eee
       end
 
       crumbs.join(" &gt; ")
+    end
+
+    def google(term)
+      query = Rack::Utils.escape(term)
+      "Search " +
+        %Q|<span class="google">| +
+        %Q|<span class="blue">G</span>| +
+        %Q|<span class="red">o</span>| +
+        %Q|<span class="yellow">o</span>| +
+        %Q|<span class="blue">g</span>| +
+        %Q|<span class="green">l</span>| +
+        %Q|<span class="red">e</span>| +
+        %Q|</span>| +
+        %Q| for other | +
+        %Q|<a href="http://www.google.com/search?q=#{query}">| +
+        term +
+        %Q|</a>|
     end
 
     def couch_recipe_update_of(permalink)
