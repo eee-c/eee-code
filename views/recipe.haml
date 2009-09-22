@@ -75,3 +75,5 @@
 
 %div
   %a{:href => "/feedback?url=#{Rack::Utils.escape(@url)}&subject=#{Rack::Utils.escape("[Recipe] " + @recipe['title'])}"} Send us feedback on this recipe
+%div
+  = google(@recipe['title']) + " recipes"
