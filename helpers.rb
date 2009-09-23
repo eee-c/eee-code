@@ -245,6 +245,30 @@ module Eee
         %Q|</a>|
     end
 
+    def google_ads
+      <<_EOM
+<div id="eee-google-ads">
+<script type="text/javascript"><!--
+google_ad_client = "pub-2549261339485273";
+google_ad_width = 728;
+google_ad_height = 90;
+google_ad_format = "728x90_as";
+google_color_border = "CCCCCC";
+google_color_bg = "FFFFFF";
+google_color_link = "000000";
+google_color_url = "666666";
+google_color_text = "333333";
+//--></script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+_EOM
+    end
+
+    def amazon_cookbook(keyword)
+      %Q|<a href="http://www.amazon.com/gp/search?ie=UTF8&keywords=#{Rack::Utils.escape(keyword)}%20cookbook&tag=eeecooks-20&index=books&linkCode=ur2&camp=1789&creative=9325">#{keyword.capitalize}</a>|
+    end
+
     def couch_recipe_update_of(permalink)
       url = "#{_db}/_design/recipes/_view/update_of?key=%22#{permalink}%22"
       data = RestClient.get url

@@ -11,6 +11,7 @@ $: << File.expand_path(File.dirname(__FILE__) + '/lib')
 
 require 'float'
 
+AMAZON_ASSOCIATE_ID = "eeecooks-20"
 ROOT_URL = "http://www.eeecooks.com"
 DEFAULT_QUERY = "type:Recipe"
 
