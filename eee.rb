@@ -77,6 +77,7 @@ end
 get %r{/meals/(\d+)/(\d+)/(\d+)} do |year, month, day|
   data = RestClient.get "#{@@db}/#{year}-#{month}-#{day}"
   @meal = JSON.parse(data)
+  etag(@meal['_rev'])
 
   url = "#{@@db}/_design/meals/_view/by_date_short"
   data = RestClient.get url
@@ -173,6 +174,7 @@ end
 get '/recipes/:permalink' do
   data = RestClient.get "#{@@db}/#{params[:permalink]}"
   @recipe = JSON.parse(data)
+  etag(@recipe['_rev'])
 
   url = "#{@@db}/_design/recipes/_view/by_date_short"
   data = RestClient.get url

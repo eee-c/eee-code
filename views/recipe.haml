@@ -91,6 +91,6 @@
     Amazon.com
   \:
   =" "
-  = @recipe['tag_names'].map{|tag| amazon_cookbook(tag)}.join(", ")
+  = (@recipe['tag_names'] || []).map{|tag| amazon_cookbook(tag)}.join(", ")
 
 =google_ads

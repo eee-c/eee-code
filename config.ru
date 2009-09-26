@@ -2,38 +2,12 @@
 require 'eee.rb'
 require 'rubygems'
 require 'sinatra'
+require 'rack/cache'
 
-
-module Rack
-  class Interstitial
-    def initialize app
-      @app = app
-    end
-
-    def call env
-      session = env["rack.session"]
-      session[:count] = session[:count].to_i + 1
-      if session[:count] % 5 == 0
-        return [200, { }, session[:count].to_s]
-      end
-      code, headers, body = @app.call env
-      if session[:count] % 3 == 0
-        ret = []
-        body.each do |line|
-          ret << line.gsub(/grits/i, '<span style="color:red">fizz</span>')
-        end
-      else
-        ret = body
-      end
-      [code, headers, ret]
-    end
-  end
-end
-
-
-#use Rack::Session::Cookie
-
-#use Rack::Interstitial
+use Rack::Cache,
+  :verbose     => true,
+  :metastore   => 'file:/var/cache/rack/meta',
+  :entitystore => 'file:/var/cache/rack/body'
 
 root_dir = File.dirname(__FILE__)
 

@@ -227,6 +227,29 @@ describe "eee" do
     end
   end
 
+  context "cached documents" do
+    describe 'GET /meals/2009/09/25' do
+      it "should etag with the CouchDB document's revision" do
+        RestClient.
+          should_receive(:get).
+          once.
+          and_return('{"_rev":1234}')
+
+        get "/meals/2009/09/25", { }, { 'HTTP_IF_NONE_MATCH' => '"1234"' }
+      end
+    end
+    describe 'GET /recipes/permalink' do
+      it "should etag with the CouchDB document's revision" do
+        RestClient.
+          should_receive(:get).
+          once.
+          and_return('{"_rev":1234}')
+
+        get "/recipes/foo", { }, { 'HTTP_IF_NONE_MATCH' => '"1234"' }
+      end
+    end
+  end
+
   describe "a CouchDB recipe" do
     before (:each) do
       @date = Date.today
@@ -237,7 +260,6 @@ describe "eee" do
       { :title => @title,
         :date  => @date }.to_json,
       :content_type => 'application/json'
-
     end
 
     after(:each) do
