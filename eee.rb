@@ -87,6 +87,7 @@ get %r{/meals/(\d+)/(\d+)/(\d+)} do |year, month, day|
 
   @url = request.url
 
+  @title = @meal['title'] + ' (Meal)'
   haml :meal
 end
 
@@ -102,6 +103,7 @@ get %r{/meals/(\d+)/(\d+)} do |year, month|
   data = RestClient.get url
   @count_by_year = JSON.parse(data)['rows']
 
+  @title = "Meals from #{year}-#{month}"
   haml :meal_by_month
 end
 
@@ -117,6 +119,7 @@ get %r{/meals/(\d+)} do |year|
   data = RestClient.get url
   @count_by_year = JSON.parse(data)['rows']
 
+  @title = "Meals from #{year}"
   haml :meal_by_year
 end
 
@@ -168,6 +171,7 @@ get '/recipes/search' do
     return
   end
 
+  @title = "Recipes"
   haml @results['total_rows'] == 0 ? :no_results : :search
 end
 
@@ -182,6 +186,7 @@ get '/recipes/:permalink' do
 
   @url = request.url
 
+  @title = @recipe['title'] + ' (Recipe)'
   haml :recipe
 end
 
