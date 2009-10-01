@@ -597,3 +597,65 @@ context "/mini" do
     end
   end
 end
+
+describe "GET /foo-bar" do
+  context "without an associated CouchDB document" do
+    it "should not be found" do
+      get "/foo-bar"
+      last_response.status.should == 404
+    end
+  end
+
+  context "with an associated CouchDB document" do
+    before(:each) do
+      RestClient.
+        stub!(:get).
+        and_return('{"content":"*bar*"}')
+    end
+
+    it "should be found" do
+      get "/foo-bar"
+      last_response.should be_ok
+    end
+
+    it "should convert textile in the CouchDB doc to HTML" do
+      get "/foo-bar"
+      last_response.
+        should have_selector("strong", :content => "bar")
+    end
+
+    it "should insert the document into the normal site layout" do
+      get "/foo-bar"
+      last_response.
+        should have_selector("title", :content => "EEE Cooks")
+    end
+  end
+end
+
+describe "GET /ingredients" do
+  before(:each) do
+    RestClient.
+      stub!(:get).
+      and_return('{"rows": [] }')
+  end
+
+  it "should respond OK" do
+    get "/ingredients"
+    last_response.should be_ok
+  end
+
+  it "should ask CouchDB for a list of ingredients" do
+    RestClient.
+      should_receive(:get).
+      with(%r{by_ingredients}).
+      and_return('{"rows": [] }')
+
+    get "/ingredients"
+  end
+
+  it "should be named \"Ingredient Index\"" do
+    get "/ingredients"
+    last_response.
+      should have_selector("title", :content => "EEE Cooks: Ingredient Index")
+  end
+end

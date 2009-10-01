@@ -221,3 +221,21 @@ _EOM
 
   haml :email
 end
+
+get '/ingredients' do
+  url = "#{@@db}/_design/recipes/_view/by_ingredients?group=true"
+  data = RestClient.get url
+  @ingredients = JSON.parse(data)['rows']
+
+  "<title>EEE Cooks: Ingredient Index</title>"
+end
+
+get %r{^/([\-\w]+)$} do |doc_id|
+  begin
+    data = RestClient.get "#{@@db}/#{doc_id}"
+    @doc = JSON.parse(data)
+  rescue RestClient::ResourceNotFound
+    pass
+  end
+  haml RedCloth.new(@doc['content']).to_html
+end
