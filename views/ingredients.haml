@@ -1,0 +1,6 @@
+= @ingredients.each do |ingredient|
+  %p
+    %span.ingredient
+      = ingredient.keys.first
+    %span.recipes
+      = ingredient.values.first.map{|recipe| recipe[1]}.join(", ")
