@@ -227,7 +227,9 @@ get '/ingredients' do
   data = RestClient.get url
   @ingredients = JSON.parse(data)['rows']
 
-  "<title>EEE Cooks: Ingredient Index</title>"
+  @title = "Ingredient Index"
+
+  haml :ingredients
 end
 
 get %r{^/([\-\w]+)$} do |doc_id|

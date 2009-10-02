@@ -1,12 +1,16 @@
-%table
-  %tr
-    - col = 0
-    - @ingredients.each_slice((@ingredients.size.to_f/2).round) do |batch|
-      - col = col + 1
-      %td{:class => "col#{col}"}
-        = batch.each do |ingredient|
-          %p
-            %span.ingredient
-              = ingredient.keys.first
-            %span.recipes
-              = ingredient.values.first.map{|recipe| %Q|<a href="/recipes/#{recipe[0]}">#{recipe[1]}</a>|}.join(", ")
+%h1
+  = @title
+
+- if !@ingredients.empty?
+  %table
+    %tr
+      - col = 0
+      - @ingredients.each_slice((@ingredients.size.to_f/2).round) do |batch|
+        - col = col + 1
+        %td{:class => "col#{col}"}
+          = batch.each do |ingredient|
+            %p
+              %span.ingredient
+                = ingredient.keys.first
+              %span.recipes
+                = ingredient.values.first.map{|recipe| %Q|<a href="/recipes/#{recipe[0]}">#{recipe[1]}</a>|}.join(", ")
