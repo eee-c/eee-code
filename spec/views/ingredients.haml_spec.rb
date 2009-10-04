@@ -2,13 +2,15 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper' )
 
 describe "ingredients.haml" do
   before(:each) do
-    @ingredients = [{'butter' =>
+    @ingredients = [{ 'key' => 'butter',
+                      'value' =>
                       [
                        ['recipe-id-1', 'title 1'],
                        ['recipe-id-2', 'title 2']
                       ]
                     },
-                    {'sugar' =>
+                    { 'key' => 'sugar',
+                      'value' =>
                       [
                        ['recipe-id-2', 'title 2']
                       ]

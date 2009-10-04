@@ -11,6 +11,6 @@
           = batch.each do |ingredient|
             %p
               %span.ingredient
-                = ingredient.keys.first
+                = ingredient['key']
               %span.recipes
-                = ingredient.values.first.map{|recipe| %Q|<a href="/recipes/#{recipe[0]}">#{recipe[1]}</a>|}.join(", ")
+                = ingredient['value'].map{|recipe| %Q|<a href="/recipes/#{recipe['id']}">#{recipe['title']}</a>|}.join(", ")
