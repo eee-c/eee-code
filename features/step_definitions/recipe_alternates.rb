@@ -31,5 +31,6 @@ Then /^I should see a link to the "([^\"]*)" recipe$/ do |title|
 end
 
 Then /^I should not see a link to the "([^\"]*)" recipe$/ do |title|
-  response.should_not have_selector("a", :content => title)
+  response.should_not have_selector("#recipe-alternates a",
+                                    :content => title)
 end
