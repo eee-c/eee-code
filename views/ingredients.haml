@@ -2,7 +2,7 @@
   = @title
 
 - if !@ingredients.empty?
-  %table
+  %table{:id => "index-of-ingredients"}
     %tr
       - col = 0
       - @ingredients.each_slice((@ingredients.size.to_f/2).round) do |batch|

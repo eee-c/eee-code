@@ -284,6 +284,12 @@ ul#eee-categories li a.active { color: #dd0000; }
   height: 16.5em;
   width: 100%;
 }
+#index-of-ingredients td { vertical-align: top; }
+#index-of-ingredients .ingredient { font-weight: bold; }
+#index-of-ingredients p {
+  padding-left: 10px;
+  text-indent: -10px;
+}
 #recipe-alternates {
   margin: 0 8px;
   padding-left: 10px;
