@@ -8,7 +8,7 @@
       - @ingredients.each_slice((@ingredients.size.to_f/2).round) do |batch|
         - col = col + 1
         %td{:class => "col#{col}"}
-          = batch.each do |ingredient|
+          - batch.reject{|i| i['value'].empty?}.each do |ingredient|
             %p
               %span.ingredient
                 = ingredient['key']

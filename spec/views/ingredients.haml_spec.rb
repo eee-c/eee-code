@@ -5,14 +5,14 @@ describe "ingredients.haml" do
     @ingredients = [{ 'key' => 'butter',
                       'value' =>
                       [
-                       ['recipe-id-1', 'title 1'],
-                       ['recipe-id-2', 'title 2']
+                       {'id' => 'recipe-id-1', 'title' => 'title 1'},
+                       {'id' => 'recipe-id-2', 'title' => 'title 2'}
                       ]
                     },
                     { 'key' => 'sugar',
                       'value' =>
                       [
-                       ['recipe-id-2', 'title 2']
+                       {'id' => 'recipe-id-2', 'title' => 'title 2'}
                       ]
                     }]
   end
