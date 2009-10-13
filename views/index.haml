@@ -37,7 +37,7 @@
         - date = Date.parse(meal['date'])
         %div{:class => "meal meal#{date.day % 2}"}
           %a{:href => date.strftime("/meals/%Y/%m/%d")}
-            = image_link meal, :width => 200, :height => 150
+            = (image_link meal, {:width => 200, :height => 150}, {:thumbnail => 1})
           %h2
             %a{:href => date.strftime("/meals/%Y/%m/%d")}= meal["title"]
           %div= date.strftime("%B %e")

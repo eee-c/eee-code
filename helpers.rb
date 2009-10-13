@@ -81,7 +81,7 @@ module Eee
       %Q|<a href="/meals/#{link}">#{title}</a>|
     end
 
-    def image_link(doc, options={ })
+    def image_link(doc, options={ }, query_params={ })
       return nil unless doc['_attachments']
 
       filename = doc['_attachments'].
@@ -91,7 +91,8 @@ module Eee
       return nil unless filename
 
       attrs = options.map{|kv| %Q|#{kv.first}="#{kv.last}"|}.join(" ")
-      %Q|<img #{attrs} src="/images/#{doc['_id']}/#{filename}"/>|
+      query = query_params.empty? ? "" : "?" + Rack::Utils.build_query(query_params)
+      %Q|<img #{attrs} src="/images/#{doc['_id']}/#{filename}#{query}"/>|
     end
 
     def pagination(query, results)

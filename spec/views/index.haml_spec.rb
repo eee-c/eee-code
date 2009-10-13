@@ -78,7 +78,7 @@ describe "index.haml" do
     it "should include a thumbnail image of the meal" do
       render("/views/index.haml")
       response.should have_selector("img",
-                                    :src    => "/images/2009-05-15/image1.jpg",
+                                    :src    => "/images/2009-05-15/image1.jpg?thumbnail=1",
                                     :width  => "200",
                                     :height => "150")
     end

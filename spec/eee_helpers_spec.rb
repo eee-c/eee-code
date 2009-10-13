@@ -182,7 +182,7 @@ end
 
 
 describe "image_link" do
-  context do
+  context "a document with an image attachment" do
     before(:each) do
       @doc = {
         '_id'          => "foo",
@@ -197,6 +197,11 @@ describe "image_link" do
     it "should include image attributes" do
       image_link(@doc, :alt => "foo").
         should have_selector("img", :alt => "foo")
+    end
+    it "should include query parameters" do
+      image_link(@doc, { }, :foo => 1).
+        should have_selector("img",
+                             :src => "/images/#{@doc['_id']}/sample.jpg?foo=1")
     end
   end
 
