@@ -17,8 +17,7 @@ use Rack::Cache,
 # Thumbnail
 
 require 'rack/thumbnailer'
-use Rack::ThumbNailer,
-  :cache_dir => '/tmp/rack/thumbnails'
+use Rack::ThumbNailer
 
 ###
 # Sinatra App
