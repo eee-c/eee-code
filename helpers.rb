@@ -354,7 +354,7 @@ _EOM
           maker.items.new_item do |item|
             item.title = record['title']
             item.pubDate = Time.parse(record['date'])
-            item.description = record['summary']
+            item.description = wiki record['summary']
 
             yield item, record
           end
