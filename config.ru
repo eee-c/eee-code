@@ -3,11 +3,25 @@ require 'eee.rb'
 require 'rubygems'
 require 'sinatra'
 require 'rack/cache'
+require 'image_science'
+
+###
+# Cache
 
 use Rack::Cache,
   :verbose     => true,
   :metastore   => 'file:/var/cache/rack/meta',
   :entitystore => 'file:/var/cache/rack/body'
+
+###
+# Thumbnail
+
+require 'rack/thumbnailer'
+use Rack::ThumbNailer,
+  :cache_dir => '/tmp/rack/thumbnails'
+
+###
+# Sinatra App
 
 root_dir = File.dirname(__FILE__)
 
