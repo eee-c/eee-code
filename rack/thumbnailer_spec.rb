@@ -32,14 +32,11 @@ describe "ThumbNailer" do
       before(:each) do
         file = mock("File", :read => "Thumbnail")
 
-        File.
-          stub!(:new).
-          and_return(file)
+        File.stub!(:new).and_return(file)
+        File.stub!(:exists?).and_return(false)
 
         Rack::ThumbNailer.stub!(:mk_thumbnail)
-        Rack::ThumbNailer.
-          stub!(:rack_image).
-          and_return("image data")
+        Rack::ThumbNailer.stub!(:rack_image).and_return("image data")
       end
 
       it "should pull the image from the target application" do
@@ -58,6 +55,17 @@ describe "ThumbNailer" do
       it "should return a thumbnail" do
         get "/foo.jpg", :thumbnail => 1
         last_response.body.should contain("Thumbnail")
+      end
+
+      context "and a previously generated thumbnail" do
+        before(:each) do
+          File.stub!(:exists?).and_return(true)
+        end
+        it "should not make a new thumbnail" do
+          Rack::ThumbNailer.
+            should_not_receive(:mk_thumbnail)
+          get "/foo.jpg", :thumbnail => 1
+        end
       end
     end
   end

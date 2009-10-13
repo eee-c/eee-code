@@ -1,5 +1,4 @@
 require 'image_science'
-require 'pp'
 
 module Rack
   class ThumbNailer
@@ -15,8 +14,10 @@ module Rack
       if !req.params['thumbnail'].blank?
         filename = @options[:cache_dir] + req.path_info
 
-        image = ThumbNailer.rack_image(@app, env)
-        ThumbNailer.mk_thumbnail(filename, image)
+        unless ::File.exists?(filename)
+          image = ThumbNailer.rack_image(@app, env)
+          ThumbNailer.mk_thumbnail(filename, image)
+        end
 
         thumbnail = ::File.new(filename).read
         [200, { }, thumbnail]
@@ -42,8 +43,8 @@ module Rack
       FileUtils.mkdir_p(path)
 
       ImageScience.with_image_from_memory(image_data) do |img|
-        img.resize(200, 150) do |small|
-          small.save cache_filename
+        img.thumbnail(200) do |small|
+          small.save filename
         end
       end
     end
