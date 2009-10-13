@@ -31,7 +31,7 @@ When /^I show "Meal #1"$/ do
 end
 
 When /^I am asked for the next recipe$/ do
-  click_link "Recipe #"
+  click_link "next-recipe"
 end
 
 When /^I am asked for the next meal$/ do
