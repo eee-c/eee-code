@@ -66,7 +66,7 @@ describe "meal_by_month.haml" do
 
     RestClient.
       stub!(:get).
-      and_return('{"title":"Lemon Dressing"}')
+      and_return('{"_id":"foo","title":"Lemon Dressing"}')
 
     render("/views/meal_by_month.haml")
     response.should have_selector(".menu",

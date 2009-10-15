@@ -72,7 +72,7 @@ module Eee
     def recipe_link(link, title=nil)
       permalink = link.gsub(/\//, '-')
       recipe = JSON.parse(RestClient.get("#{_db}/#{permalink}"))
-      %Q|<a href="/recipes/#{recipe['_id']}">#{title || recipe['title']}</a>|
+      %Q|<a href="/recipes/#{recipe['_id'].gsub(/-/, '/')}">#{title || recipe['title']}</a>|
     end
 
     def meal_link(link, title=nil)

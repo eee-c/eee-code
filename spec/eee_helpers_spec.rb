@@ -98,7 +98,7 @@ _TEXTILE
 
       wiki("[recipe:id-123]").
         should have_selector("a",
-                             :href    => "/recipes/id-123",
+                             :href    => "/recipes/id/123",
                              :content => "Title")
     end
 
@@ -108,7 +108,7 @@ _TEXTILE
 
       wiki("[recipe:id-123 Different Title]").
         should have_selector("a",
-                             :href    => "/recipes/id-123",
+                             :href    => "/recipes/id/123",
                              :content => "Different Title")
     end
 
@@ -168,7 +168,7 @@ describe "recipe_link" do
   it "should link to recipe resource" do
     recipe_link("2009-06-11-recipe").
       should have_selector("a",
-                           :href => "/recipes/2009-06-11-recipe")
+                           :href => "/recipes/2009/06/11/recipe")
   end
   it "should be able to link with \"slash\" dates (e.g. 2009/06/11/recipe)" do
     RestClient.

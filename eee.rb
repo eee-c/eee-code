@@ -175,8 +175,8 @@ get '/recipes/search' do
   haml @results['total_rows'] == 0 ? :no_results : :search
 end
 
-get '/recipes/:permalink' do
-  data = RestClient.get "#{@@db}/#{params[:permalink]}"
+get %r{/recipes/(\d+)/(\d+)/(\d+)/?(.*)} do |year, month, day, short_name|
+  data = RestClient.get "#{@@db}/#{year}-#{month}-#{day}-#{short_name}"
   @recipe = JSON.parse(data)
   etag(@recipe['_rev'])
 

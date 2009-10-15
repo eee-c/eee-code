@@ -238,14 +238,14 @@ describe "eee" do
         get "/meals/2009/09/25", { }, { 'HTTP_IF_NONE_MATCH' => '"1234"' }
       end
     end
-    describe 'GET /recipes/permalink' do
+    describe 'GET /recipes/YYYY/MM/DD/short_name' do
       it "should etag with the CouchDB document's revision" do
         RestClient.
           should_receive(:get).
           once.
           and_return('{"_rev":1234}')
 
-        get "/recipes/foo", { }, { 'HTTP_IF_NONE_MATCH' => '"1234"' }
+        get "/recipes/2009/10/14", { }, { 'HTTP_IF_NONE_MATCH' => '"1234"' }
       end
     end
   end
@@ -254,7 +254,7 @@ describe "eee" do
     before (:each) do
       @date = Date.today
       @title = "Recipe Title"
-      @permalink = @date.to_s + "-" + @title.downcase.gsub(/\W/, '-')
+      @permalink = @date.to_s + "-" + @title.downcase.gsub(/\W/, '_')
 
       RestClient.put "#{@@db}/#{@permalink}",
       { :title => @title,
@@ -269,9 +269,9 @@ describe "eee" do
       RestClient.delete "#{@@db}/#{@permalink}?rev=#{recipe['_rev']}"
     end
 
-    describe 'GET /recipes/permalink' do
+    describe 'GET /recipes/YYYY/MM/DD/short_name' do
       it "should respond OK" do
-        get "/recipes/#{@permalink}"
+        get "/recipes/#{@permalink.gsub(/-/, '/')}"
         last_response.should be_ok
       end
     end
