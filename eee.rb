@@ -241,3 +241,11 @@ get %r{^/([\-\w]+)$} do |doc_id|
   end
   haml RedCloth.new(@doc['content']).to_html
 end
+
+not_found do
+  haml :'404'
+end
+
+error do
+  haml :'500'
+end
