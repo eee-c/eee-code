@@ -62,7 +62,7 @@ get '/recipes.rss' do
   content_type "application/rss+xml"
 
   rss_for_date_view("recipes") do |rss_item, recipe|
-    rss_item.link = ROOT_URL + "/recipes/#{recipe['id']}"
+    rss_item.link = ROOT_URL + "/recipes/#{url_from_permalink(recipe['_id'])}"
   end
 end
 
