@@ -3,7 +3,7 @@ Given /^"([^\"]*)", (\w+) on ([-\d]+)$/ do |title, status, date_str|
 
   type = title.split.first
   permalink = date.to_s
-  permalink += "-" + title.downcase.gsub(/[#\W]+/, '-') if type == 'Recipe'
+  permalink += "-" + title.downcase.gsub(/[#\W]+/, '_') if type == 'Recipe'
 
   var_name = '@' + title.downcase.gsub(/[#\W]+/, '_') + '_permalink'
   instance_variable_set(var_name.to_sym, permalink)
@@ -23,7 +23,7 @@ Given /^"([^\"]*)", (\w+) on ([-\d]+)$/ do |title, status, date_str|
 end
 
 When /^I show "Recipe #1"$/ do
-  visit("/recipes/#{@recipe_1_permalink}")
+  visit("/recipes/#{@recipe_1_permalink.gsub('-', '/')}")
 end
 
 When /^I show "Meal #1"$/ do

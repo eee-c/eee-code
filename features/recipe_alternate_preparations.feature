@@ -8,7 +8,7 @@ Feature: Alternate preparations for recipes
 
     Given a "pancake" recipe with "buttermilk"
     And no other recipes
-    When I view the recipe
+    When I visit the recipe with "buttermilk" in it
     Then I should see no alternate preparations
 
   Scenario: Alternate preparation

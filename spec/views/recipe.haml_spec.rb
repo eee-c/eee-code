@@ -50,14 +50,14 @@ describe "recipe.haml" do
   it "should link to previous recipe" do
     render("/views/recipe.haml")
     response.should have_selector("a",
-                                  :href => "/recipes/2009-06-01-foo",
+                                  :href => "/recipes/2009/06/01/foo",
                                   :content => "June  1, 2009")
   end
 
   it "should link to previous recipe title" do
     render("/views/recipe.haml")
     response.should have_selector("a",
-                                  :href => "/recipes/2009-06-01-foo",
+                                  :href => "/recipes/2009/06/01/foo",
                                   :content => "Foo")
   end
 

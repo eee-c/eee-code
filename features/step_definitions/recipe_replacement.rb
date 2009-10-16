@@ -1,6 +1,6 @@
 Given /^a "([^\"]*)" recipe (.*)with "([^\"]*)"$/ do |title, on, ingredient|
   date = (on == "") ? Date.new(2009, 9, 5) : Date.new(2000, 9, 5)
-  permalink = date.to_s + "-" + title.downcase.gsub(/\W/, '-')
+  permalink = date.to_s + "-" + title.downcase.gsub(/\W/, '_')
 
   @permalink_identified_by ||= { }
   @permalink_identified_by[ingredient] = permalink
@@ -34,7 +34,7 @@ When /^the "([^\"]*)" recipe is marked as update of the "([^\"]*)" recipe$/ do |
 end
 
 When /^I visit the recipe with "([^\"]*)" in it$/ do |ingredient|
-  visit "/recipes/#{@permalink_identified_by[ingredient]}"
+  visit "/recipes/#{@permalink_identified_by[ingredient].gsub(/-/, '/')}"
 end
 
 Then /^I should not see previous versions of the recipe$/ do
@@ -47,7 +47,7 @@ end
 
 Then /^I should see that the recipe is an update to the recipe with "([^\"]*)" in it$/ do |ingredient|
   response.should have_selector(".update-of a",
-                                :href => "/recipes/#{@permalink_identified_by[ingredient]}")
+                                :href => "/recipes/#{@permalink_identified_by[ingredient].gsub(/-/, '/')}")
 end
 
 Then /^I should see that the recipe was updated by the recipe with "([^\"]*)" in it$/ do |ingredient|

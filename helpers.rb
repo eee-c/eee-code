@@ -69,10 +69,15 @@ module Eee
       end
     end
 
+    def url_from_permalink(permalink)
+      permalink.split(/-/, 4).join('/')
+    end
+
     def recipe_link(link, title=nil)
       permalink = link.gsub(/\//, '-')
       recipe = JSON.parse(RestClient.get("#{_db}/#{permalink}"))
-      %Q|<a href="/recipes/#{recipe['_id'].gsub(/-/, '/')}">#{title || recipe['title']}</a>|
+      url = "/recipes/" + url_from_permalink(recipe['_id'])
+      %Q|<a href="#{url}">#{title || recipe['title']}</a>|
     end
 
     def meal_link(link, title=nil)
@@ -282,7 +287,8 @@ _EOM
       if previous
         links = previous.map do |update_permalink|
           date_str = Date.parse(update_permalink).strftime("%B %e, %Y")
-          %Q|<a href="/recipes/#{update_permalink}">#{date_str}</a>|
+          url = "/recipes/" + url_from_permalink(update_permalink)
+          %Q|<a href="#{url}">#{date_str}</a>|
         end
 
         %Q|<span class="update-of">| +
@@ -324,7 +330,7 @@ _EOM
       if ids && ids.size > 0
         %Q|<span class="label">Alternate Preparations:</span> | +
         couch_recipe_titles(ids).
-          map{ |recipe| %Q|<a href="/recipes/#{recipe[:id]}">#{recipe[:title]}</a>|}.
+          map{ |recipe| %Q|<a href="/recipes/#{url_from_permalink(recipe[:id])}">#{recipe[:title]}</a>|}.
           join(", ")
       end
     end

@@ -19,7 +19,7 @@ Given /^the three pancake recipes are alternate preparations of each other$/ do
 end
 
 When /^I visit the "Hearty Pancake" recipe$/ do
-  visit "/recipes/#{@permalink_identified_by['wheat germ']}"
+  visit "/recipes/#{@permalink_identified_by['wheat germ'].gsub(/-/, '/')}"
 end
 
 Then /^I should see no alternate preparations$/ do

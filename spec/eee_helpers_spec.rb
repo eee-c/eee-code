@@ -520,7 +520,7 @@ describe "recipe_update_of" do
     stub!(:couch_recipe_update_of).and_return(['2000-09-07-recipe'])
     recipe_update_of('2009-09-07-recipe').
       should have_selector('span.update-of a',
-                           :href => "/recipes/2000-09-07-recipe")
+                           :href => "/recipes/2000/09/07/recipe")
   end
   it "should link to a pretty formatted date" do
     stub!(:couch_recipe_update_of).and_return(['2000-09-07-recipe'])

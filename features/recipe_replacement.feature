@@ -7,7 +7,7 @@ Feature: Updating recipes in our cookbook
   Scenario: No previous or next version of a recipe
 
     Given a "Buttermilk Pancake" recipe with "buttermilk"
-    When I view the recipe
+    When I visit the recipe with "buttermilk" in it
     Then I should not see previous versions of the recipe
     And I should not see updated versions of the recipe
 

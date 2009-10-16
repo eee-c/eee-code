@@ -1,7 +1,7 @@
 Given /^a recipe for Buttermilk Chocolate Chip Pancakes$/ do
   @date = Date.new(2009, 3, 24)
   @title = "Buttermilk Chocolate Chip Pancakes"
-  @permalink = @date.to_s + "-" + @title.downcase.gsub(/\W/, '-')
+  @permalink = @date.to_s + "-" + @title.downcase.gsub(/\W/, '_')
 
   recipe = {
     :title => @title,
@@ -38,7 +38,7 @@ end
 Given /^a recipe for Crockpot Lentil Andouille Soup$/ do
   @date = Date.new(2009, 3, 24)
   @title = "Crockpot Lentil Andouille Soup"
-  @permalink = @date.to_s + "-" + @title.downcase.gsub(/\W/, '-')
+  @permalink = @date.to_s + "-" + @title.downcase.gsub(/\W/, '_')
 
   recipe = {
     :title         => @title,
@@ -55,7 +55,7 @@ end
 Given /^a recipe for Chicken Noodle Soup$/ do
   @date = Date.new(2009, 4, 1)
   @title = "Chicken Noodle Soup"
-  @permalink = @date.to_s + "-" + @title.downcase.gsub(/\W/, '-')
+  @permalink = @date.to_s + "-" + @title.downcase.gsub(/\W/, '_')
 
   recipe = {
     :title => @title,
@@ -97,7 +97,7 @@ end
 Given /^a recipe for Mango and Tomato Salad$/ do
   @date = Date.new(2009, 4, 2)
   @title = "Mango and Tomato Salad"
-  @permalink = @date.to_s + "-" + @title.downcase.gsub(/\W/, '-')
+  @permalink = @date.to_s + "-" + @title.downcase.gsub(/\W/, '_')
 
   recipe = {
     :title => @title,
@@ -113,7 +113,7 @@ end
 Given /^a recipe for Curried Shrimp$/ do
   @date = Date.new(2009, 4, 2)
   @title = "Curried Shrimp"
-  @permalink = @date.to_s + "-" + @title.downcase.gsub(/\W/, '-')
+  @permalink = @date.to_s + "-" + @title.downcase.gsub(/\W/, '_')
 
   @summary = "This dish is *yummy*."
   @instructions = <<_EOM
@@ -136,7 +136,7 @@ end
 
 Given /^a "([^\"]*)" recipe from (.+)$/ do |title, date_str|
   date = Date.parse(date_str)
-  @recipe_permalink = date.to_s + "-" + title.downcase.gsub(/\W/, '-')
+  @recipe_permalink = date.to_s + "-" + title.downcase.gsub(/\W/, '_')
 
   recipe = {
     :title        => title,
@@ -153,11 +153,11 @@ Given /^a "([^\"]*)" recipe from (.+)$/ do |title, date_str|
 end
 
 When /^I view the recipe$/ do
-  visit("/recipes/#{@permalink}")
+  visit("/recipes/#{@permalink.gsub(/-/, '/')}")
 end
 
 When /^I view the "([^\"]*)" recipe$/ do |title|
-  visit("/recipes/#{@recipe_permalink}")
+  visit("/recipes/#{@recipe_permalink.gsub(/-/, '/')}")
 end
 
 
