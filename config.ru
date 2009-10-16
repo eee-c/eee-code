@@ -4,6 +4,13 @@ require 'rubygems'
 require 'sinatra'
 require 'rack/cache'
 require 'image_science'
+require 'rack-rewrite'
+
+###
+# Rewrite
+use Rack::Rewrite do
+  r301 %r{(.+)\.html}, '$1'
+end
 
 ###
 # Cache
