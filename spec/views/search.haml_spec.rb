@@ -7,9 +7,9 @@ describe "search.haml" do
       'limit'      => 20,
       'total_rows' => 100,
       'rows' => [
-        { '_id' => 'id-one',   'title' => 'One',   'date' => '2009-04-15' },
-        { '_id' => 'id-two',   'title' => 'Two',   'date' => '2009-04-14' },
-        { '_id' => 'id-three', 'title' => 'Three', 'date' => '2009-04-13' },
+        { '_id' => '2009-04-15-one',   'title' => 'One',   'date' => '2009-04-15' },
+        { '_id' => '2009-04-14-two',   'title' => 'Two',   'date' => '2009-04-14' },
+        { '_id' => '2009-04-13-three', 'title' => 'Three', 'date' => '2009-04-13' },
       ]
     }
 
@@ -47,7 +47,7 @@ describe "search.haml" do
   it "should link the title to the recipe" do
     render("/views/search.haml")
     response.should have_selector("td > a",
-                                  :href => "/recipes/id-one",
+                                  :href => "/recipes/2009/04/15/one",
                                   :content => "One")
   end
 

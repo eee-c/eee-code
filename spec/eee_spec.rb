@@ -547,10 +547,11 @@ describe "GET /recipe.rss" do
       should_receive(:get).
       with(/2009-06-/).
       exactly(10).times.
-      and_return('{"title":"foo",' +
-                 '"date":"2009-06-17",' +
-                 '"summary":"foo summary",' +
-                 '"menu":[]}')
+      and_return('{"_id":"2009-06-17-foo",' +
+                  '"title":"foo",' +
+                  '"date":"2009-06-17",' +
+                  '"summary":"foo summary",' +
+                  '"menu":[]}')
 
     get "/recipes.rss"
   end

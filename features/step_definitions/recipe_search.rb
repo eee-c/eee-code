@@ -1,6 +1,6 @@
 Given /^a "(.+)" recipe with "chocolate chips" in it$/ do |title|
   date = Date.new(2009, 4, 12)
-  permalink = "id-#{title}"
+  permalink = date.to_s + "-" + title.downcase.gsub(/\W/, '_')
 
   @pancake_recipe = {
     :title => title,
@@ -24,7 +24,7 @@ end
 
 Given /^a "(.+)" recipe with "eggs" in it$/ do |title|
   date = Date.new(2009, 4, 12)
-  permalink = "id-#{title.gsub(/\W/, '-')}"
+  permalink = date.to_s + "-" + title.downcase.gsub(/\W/, '_')
 
   recipe = {
     :title => title,
@@ -46,7 +46,7 @@ end
 
 Given /^a "(.+)" recipe with a "(.+)" summary$/ do |title, keyword|
   date = Date.new(2009, 4, 12)
-  permalink = "id-#{title.gsub(/\W/, '-')}"
+  permalink = date.to_s + "-" + title.downcase.gsub(/\W/, '_')
 
   recipe = {
     :title => title,
@@ -65,8 +65,8 @@ Given /^a "(.+)" recipe with a "(.+)" summary$/ do |title, keyword|
 end
 
 Given /^a "(.+)" recipe with instructions "(.+)"$/ do |title, instructions|
-  date = Date.new(2009, 4, 16)
-  permalink = "id-#{title.gsub(/\W/, '-')}"
+  date = Date.new(2009, 4, 12)
+  permalink = date.to_s + "-" + title.downcase.gsub(/\W/, '_')
 
   recipe = {
     :title => title,
@@ -85,8 +85,8 @@ Given /^a "(.+)" recipe with instructions "(.+)"$/ do |title, instructions|
 end
 
 Given /^a "(.+)" recipe$/ do |title|
-  date = Date.new(2009, 4, 19)
-  permalink = "id-#{title.gsub(/\W/, '-')}"
+  date = Date.new(2009, 4, 12)
+  permalink = date.to_s + "-" + title.downcase.gsub(/\W/, '_')
 
   recipe = {
     :title => title,
@@ -106,7 +106,7 @@ end
 
 Given /^a "(.+)" recipe with "(.+)" in it and a summary of "(.+)"$/ do |title, ingredient, summary|
   date = Date.new(2009, 4, 21)
-  permalink = "id-#{title.gsub(/\W/, '-')}"
+  permalink = date.to_s + "-" + title.downcase.gsub(/\W/, '_')
 
   @pancake_recipe = {
     :title => title,
@@ -132,7 +132,7 @@ Given /^(\d+) (.+) recipes$/ do |count, keyword|
   date = Date.new(2009, 4, 22)
 
   (1..count.to_i).each do |i|
-    permalink = "id-#{i}-#{keyword.gsub(/\W/, '-')}"
+    permalink = date.to_s + "-" + keyword.downcase.gsub(/\W/, '_') + "_" + i.to_s
 
     recipe = {
       :title => "#{keyword} recipe #{i}",
@@ -156,7 +156,7 @@ Given /^(\d+) "([^\"]*)" recipes with ascending names, dates, preparation times,
   date = Date.new(2008, 4, 28)
 
   (1..count.to_i).each do |i|
-    permalink = "id-#{i}-#{keyword.gsub(/\W/, '-')}"
+    permalink = date.to_s + "-" + keyword.downcase.gsub(/\W/, '_') + "_" + i.to_s
 
     recipe = {
       :title     => "#{keyword} recipe #{i}",
@@ -179,7 +179,7 @@ Given /^(\d+) "([^\"]*)" meals?$/ do |count, keyword|
   date = Date.new(2008, 5, 12)
 
   (1..count.to_i).each do |i|
-    permalink = "id-#{date.to_s}"
+    permalink = (date + i).to_s
 
     meal = {
       :title       => "#{keyword} meal #{i}",
@@ -249,7 +249,7 @@ end
 
 Then /^I should see the "(.+)" recipe in the search results$/ do |title|
   response.should have_selector("a",
-                                :href => "/recipes/id-#{title.gsub(/\W/, '-')}",
+                                :href => "/recipes/2009/04/12/#{title.gsub(/\W/, '_')}",
                                 :content => title)
 end
 
