@@ -10,6 +10,7 @@ require 'rack-rewrite'
 # Rewrite
 use Rack::Rewrite do
   r301 %r{(.+)\.html}, '$1'
+  r301 %r{^/recipes/(\d{4})-(\d{2})-(\d{2})-(.+)}, '/recipes/$1/$2/$3/$4'
 end
 
 ###
