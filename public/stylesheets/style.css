@@ -209,6 +209,7 @@ ul#eee-categories li a.active { color: #dd0000; }
 .pagination {
   float: right;
   margin-top: 10px;
+  margin-bottom: 10px;
   font-size: 0.8em;
 }
 .pagination a {
@@ -301,9 +302,9 @@ ul#eee-categories li a.active { color: #dd0000; }
 .google .yellow { color: #f3c518; }
 .google .green { color: #30a72f; }
 #footer {
+  clear: both;
   text-align: center;
   border-top: 1px solid black;
-  margin-top: 12px;
   padding-top: 20px;
   font-size: 0.8em;
 }
