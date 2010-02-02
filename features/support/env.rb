@@ -16,7 +16,7 @@ require 'spec/expectations'
 require 'spec/mocks'
 
 # For easy management of design docs
-require 'couch_design_docs'
+require 'couch_docs'
 
 module WebRat
   class Session

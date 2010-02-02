@@ -1,12 +1,12 @@
 require File.expand_path(File.dirname(__FILE__) + '/spec_helper' )
-require 'couch_design_docs'
+require 'couch_docs'
 require 'pp'
 
 describe "eee" do
   before(:all) do
     RestClient.put @@db, { }
     # Upload the design documents with a super-easy gem :)
-    CouchDesignDocs.upload_dir(@@db, 'couch')
+    CouchDocs.upload_dir(@@db, 'couch')
   end
 
   after(:all) do
