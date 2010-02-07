@@ -86,23 +86,23 @@ end
 
 When /^I view the site.s homepage$/ do
   visit('/')
-  response.should be_ok
+  last_response.should be_ok
 end
 
 Then /^I should see the 10 most recent meals prominently displayed$/ do
-  response.should have_selector("h2", :count => 10)
-  response.should have_selector("h2", :content => "Meal 0")
-  response.should have_selector("h2", :content => "Meal 9")
-  response.should_not have_selector("h2", :content => "Meal 10")
+  response_body.should have_selector("h2", :count => 10)
+  response_body.should have_selector("h2", :content => "Meal 0")
+  response_body.should have_selector("h2", :content => "Meal 9")
+  response_body.should_not have_selector("h2", :content => "Meal 10")
 end
 
 Then /^the prominently displayed meals should include a thumbnail image$/ do
-  response.should have_selector(".meals img", :count => 10)
+  response_body.should have_selector(".meals img", :count => 10)
 end
 
 Then /^the prominently displayed meals should include the recipe titles$/ do
-  response.should have_selector(".menu-items",
-                                :content => "Recipe for Meal 1")
+  response_body.should have_selector(".menu-items",
+                                     :content => "Recipe for Meal 1")
 end
 
 When /^I click on the first meal$/ do
@@ -114,14 +114,14 @@ When /^I click the site logo$/ do
 end
 
 Then /^I should see the meal page$/ do
-  response.should have_selector("h1",
-                                :content => "Meal 0")
+  response_body.should have_selector("h1",
+                                     :content => "Meal 0")
 end
 
 Then /^the (\w+) category should be highlighted$/ do |category|
-  response.should have_selector("a",
-                                :class => "active",
-                                :content => category)
+  response_body.should have_selector("a",
+                                     :class => "active",
+                                     :content => category)
 end
 
 When /^I click on the recipe in the menu$/ do
@@ -150,14 +150,14 @@ When /^I click the "([^\"]*)" button$/ do |button_text|
 end
 
 Then /^I should see the recipe page$/ do
-  response.should have_selector("h1",
-                                :content => "Recipe for Meal ")
+  response_body.should have_selector("h1",
+                                     :content => "Recipe for Meal ")
 end
 
 Then /^I should see 5 Italian recipes$/ do
   # 5 result rows + 1 header row
-  response.should have_selector("tr",
-                                :count => 6)
+  response_body.should have_selector("tr",
+                                     :count => 6)
 end
 
 Then /^I should see the homepage$/ do

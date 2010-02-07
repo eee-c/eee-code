@@ -166,15 +166,15 @@ Then /^I should see an ingredient of "(.+)"$/ do |ingredient|
     gsub(/\s+/, "\\s+").
     gsub(/\(/, "\\(").
     gsub(/\)/, "\\)")
-  response.should contain(Regexp.new(matcher))
+  response_body.should contain(Regexp.new(matcher))
 end
 
 Then /^I should see 15 minutes of prep time$/ do
-  response.should contain(/Preparation Time:\s+15 minutes/)
+  response_body.should contain(/Preparation Time:\s+15 minutes/)
 end
 
 Then /^I should see that it requires 5 hours of non\-active cook time$/ do
-  response.should contain(/Inactive Time:\s+5 hours/)
+  response_body.should contain(/Inactive Time:\s+5 hours/)
 end
 
 Then /^I should see that it requires (.+) to prepare$/ do |tool_list|
@@ -182,7 +182,7 @@ Then /^I should see that it requires (.+) to prepare$/ do |tool_list|
     split(/\s*(,|and)\s*/).
     reject{|str| str == "," || str == "and"}
   tools.each do |tool|
-    response.should contain(tool.sub(/an? /, ''))
+    response_body.should contain(tool.sub(/an? /, ''))
   end
 end
 
@@ -190,25 +190,25 @@ Then /^I should see the site\-wide categories of (.+)$/ do |category_list|
   categories = category_list.
     split(/\s*(,|and)\s*/).
     reject{|str| str == "," || str == "and"}
-  response.should have_selector("#eee-categories") do |list|
+  response_body.should have_selector("#eee-categories") do |list|
     categories.each do |category|
-      response.should have_selector("a", :content => category)
+      response_body.should have_selector("a", :content => category)
     end
   end
 end
 
 Then /^the Salad and Vegetarian categories should be active$/ do
-  response.should have_selector("a", :class => "active", :content => "Salad")
-  response.should have_selector("a", :class => "active", :content => "Vegetarian")
-  response.should_not have_selector("a", :class => "active", :content => "Fish")
+  response_body.should have_selector("a", :class => "active", :content => "Salad")
+  response_body.should have_selector("a", :class => "active", :content => "Vegetarian")
+  response_body.should_not have_selector("a", :class => "active", :content => "Fish")
 end
 
 Then /^I should a nice summary of the dish$/ do
-  response.should have_selector("p", :content => "This dish is yummy") do |p|
+  response_body.should have_selector("p", :content => "This dish is yummy") do |p|
     p.should have_selector("strong", :content => "yummy")
   end
 end
 
 Then /^I should see detailed, easy\-to\-read instructions$/ do
-  response.should have_selector("p", :content => "While the shrimp are defrosting, we chop the vegetables.")
+  response_body.should have_selector("p", :content => "While the shrimp are defrosting, we chop the vegetables.")
 end

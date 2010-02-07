@@ -52,45 +52,45 @@ When /^I am asked for the homepage$/ do
 end
 
 Then /^there should be no link to "([^\"]*)"$/ do |title|
-  response.should_not have_selector("a", :content => title)
+  response_body.should_not have_selector("a", :content => title)
 end
 
 Then /^"([^\"]*)" should be shown$/ do |title|
-  response.should have_selector("h1", :content => title)
+  response_body.should have_selector("h1", :content => title)
 end
 
 Then /^there should be no next link$/ do
-  response.should_not have_selector("a", :content => "Recipe #4")
+  response_body.should_not have_selector("a", :content => "Recipe #4")
 end
 
 Then /^there should be a link to "([^\"]*)"$/ do |title|
-  response.should have_selector("a", :content => title)
+  response_body.should have_selector("a", :content => title)
 end
 
 Then /^"([^\"]*)" should be included in the search results$/ do |recipes_str|
   recipes = recipes_str.split(/\s*and\s*/)
   recipes.each do |recipe|
-    response.should have_selector("a", :content => recipe)
+    response_body.should have_selector("a", :content => recipe)
   end
 end
 
 Then /^"([^\"]*)" should not be included in the search results$/ do |recipes_str|
   recipes = recipes_str.split(/\s*and\s*/)
   recipes.each do |recipe|
-    response.should_not have_selector("a", :content => recipe)
+    response_body.should_not have_selector("a", :content => recipe)
   end
 end
 
 Then /^"([^\"]*)" should be included$/ do |titles_str|
   titles = titles_str.split(/\s*and\s*/)
   titles.each do |title|
-    response.should have_selector("a", :content => title)
+    response_body.should have_selector("a", :content => title)
   end
 end
 
 Then /^"([^\"]*)" should not be included$/ do |titles_str|
   titles = titles_str.split(/\s*and\s*/)
   titles.each do |title|
-    response.should_not have_selector("a", :content => title)
+    response_body.should_not have_selector("a", :content => title)
   end
 end

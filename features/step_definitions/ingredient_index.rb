@@ -45,23 +45,23 @@ When /^I visit the ingredients page$/ do
 end
 
 Then /^I should see the "([^\"]*)" ingredient$/ do |ingredient|
-  response.should have_selector(".ingredient",
+  response_body.should have_selector(".ingredient",
                                 :content => ingredient)
 end
 
 Then /^"([^\"]*)" recipes should include "([^\"]*)" and "([^\"]*)"$/ do |ingredient, arg2, arg3|
-  response.should have_selector(".recipes") do |span|
+  response_body.should have_selector(".recipes") do |span|
     span.should have_selector("a", :content => arg2)
     span.should have_selector("a", :content => arg3)
   end
 end
 
 Then /^"([^\"]*)" recipes should include only "([^\"]*)"$/ do |ingredient, recipe|
-  response.should have_xpath("//p[contains(span, '#{ingredient}')]/span[contains(., '#{recipe}')]")
-  response.should have_xpath("//p[contains(span, '#{ingredient}')]/span[count(a)=1]")
+  response_body.should have_xpath("//p[contains(span, '#{ingredient}')]/span[contains(., '#{recipe}')]")
+  response_body.should have_xpath("//p[contains(span, '#{ingredient}')]/span[count(a)=1]")
 end
 
 Then /^I should not see the "([^\"]*)" ingredient$/ do |ingredient|
-  response.should_not have_selector(".ingredient",
+  response_body.should_not have_selector(".ingredient",
                                     :content => ingredient)
 end

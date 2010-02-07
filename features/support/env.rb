@@ -25,18 +25,26 @@ module WebRat
 end
 
 
-# Webrat
+require 'rack/test'
 require 'webrat'
 Webrat.configure do |config|
-  config.mode = :sinatra
+  config.mode = :rack
 end
 
-World do
-  session = Webrat::SinatraSession.new
-  session.extend(Webrat::Matchers)
-  session.extend(Webrat::HaveTagMatcher)
-  session
+class MyWorld
+  include Rack::Test::Methods
+  include Webrat::Methods
+  include Webrat::Matchers
+
+  Webrat::Methods.delegate_to_session :response_code, :response_body
+
+  def app
+    Sinatra::Application
+  end
 end
+
+World {MyWorld.new}
+
 
 Before do
   # For mocking & stubbing in Cucumber
@@ -46,7 +54,7 @@ Before do
   RestClient.put @@db, { }
 
   # Upload the design documents with a super-easy gem :)
-  CouchDesignDocs.upload_dir(@@db, 'couch')
+  CouchDocs.upload_dir(@@db, 'couch')
 end
 
 After do

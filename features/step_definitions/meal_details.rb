@@ -43,17 +43,17 @@ end
 
 When /^I view the list of meals prepared in 2009$/ do
   visit("/meals/2009")
-  response.status.should == 200
+  response_code.should == 200
 end
 
 When /^I view the list of meals prepared in May of 2009$/ do
   visit("/meals/2009/05")
-  response.status.should == 200
+  response_code.should == 200
 end
 
 When /^I view the "([^\"]*)" meal$/ do |arg1|
   visit("/meals/#{@meal_permalink.gsub(/-/, '/')}")
-  response.status.should == 200
+  response_code.should == 200
 end
 
 When /^I follow the link to the list of meals in (.+)$/ do |date|
@@ -69,41 +69,41 @@ When /^I click "([^\"]*)"$/ do |text|
 end
 
 Then /^I should see the "([^\"]*)" title$/ do |title|
-  response.should have_selector("h1", :content => title)
+  response_body.should have_selector("h1", :content => title)
 end
 
 Then /^the "([^\"]*)" meal should be included in the list$/ do |title|
-  response.should have_selector("li a", :content => title)
+  response_body.should have_selector("li a", :content => title)
 end
 
 Then /^the "([^\"]*)" meal should not be included in the list$/ do |title|
-  response.should_not have_selector("a", :content => title)
+  response_body.should_not have_selector("a", :content => title)
 end
 
 Then /^I should see the "([^\"]*)" meal among the meals of this month$/ do |title|
-  response.should have_selector("h2", :content => title)
+  response_body.should have_selector("h2", :content => title)
 end
 
 Then /^I should not see the "([^\"]*)" meal among the meals of this month$/ do |title|
-  response.should_not have_selector("h2", :content => title)
+  response_body.should_not have_selector("h2", :content => title)
 end
 
 Then /^I should see a "(.+)" recipe link in the menu$/ do |recipe_title|
-  response.should have_selector("a", :content => recipe_title)
+  response_body.should have_selector("a", :content => recipe_title)
 end
 
 Then /^I should see a link to ([^\"]+)$/ do |date|
-  response.should have_selector("a", :content => date)
+  response_body.should have_selector("a", :content => date)
 end
 
 Then /^I should not see a link to ([^\"]+)$/ do |date|
-  response.should_not have_selector("a", :content => date)
+  response_body.should_not have_selector("a", :content => date)
 end
 
 Then /^I should see "([^\"]*)" in the list of meals$/ do |title|
-  response.should have_selector("a", :content => title)
+  response_body.should have_selector("a", :content => title)
 end
 
 Then /^I should see the "([^\"]*)" recipe$/ do |title|
-  response.should have_selector("h1", :content => title)
+  response_body.should have_selector("h1", :content => title)
 end

@@ -23,14 +23,14 @@ When /^I visit the "Hearty Pancake" recipe$/ do
 end
 
 Then /^I should see no alternate preparations$/ do
-  response.should_not contain('Alternate Preparations')
+  response_body.should_not contain('Alternate Preparations')
 end
 
 Then /^I should see a link to the "([^\"]*)" recipe$/ do |title|
-  response.should have_selector("a", :content => title)
+  response_body.should have_selector("a", :content => title)
 end
 
 Then /^I should not see a link to the "([^\"]*)" recipe$/ do |title|
-  response.should_not have_selector("#recipe-alternates a",
+  response_body.should_not have_selector("#recipe-alternates a",
                                     :content => title)
 end

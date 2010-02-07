@@ -248,100 +248,100 @@ When /^I click the "([^\"]*)" column header$/ do |link|
 end
 
 Then /^I should see the "(.+)" recipe in the search results$/ do |title|
-  response.should have_selector("a",
+  response_body.should have_selector("a",
                                 :href => "/recipes/2009/04/12/#{title.gsub(/\W/, '_')}",
                                 :content => title)
 end
 
 Then /^I should not see the "(.+)" recipe in the search results$/ do |title|
-  response.should_not have_selector("a", :content => title)
+  response_body.should_not have_selector("a", :content => title)
 end
 
 Then /^I should see (\d+) results$/ do |count|
-  response.should have_selector("table td a", :count => count.to_i)
+  response_body.should have_selector("table td a", :count => count.to_i)
 end
 
 Then /^I should see (\d) pages of results$/ do |pages|
-  response.should have_selector(".pagination a", :content => pages)
+  response_body.should have_selector(".pagination a", :content => pages)
 end
 
 Then /^I should not be able to go to a (.+) page$/ do |link_text|
-  response.should have_selector(".pagination span",
+  response_body.should have_selector(".pagination span",
                                 :content => link_text.capitalize())
 end
 
 Then /^I should be able to go to a (.+) page$/ do |link_text|
-  response.should have_selector(".pagination a",
+  response_body.should have_selector(".pagination a",
                                 :content => link_text.capitalize())
 end
 
 Then /^I should see page (.+)$/ do |page|
   @page = page.to_i
-  response.should have_selector(".pagination span.current",
+  response_body.should have_selector(".pagination span.current",
                                 :content => page)
 end
 
 Then /^the results should be ordered by name in ascending order$/ do
-  response.should have_selector("tr:nth-child(2) a",
+  response_body.should have_selector("tr:nth-child(2) a",
                                 :content => "delicious recipe 1")
-  response.should have_selector("tr:nth-child(3) a",
+  response_body.should have_selector("tr:nth-child(3) a",
                                 :content => "delicious recipe 10")
 end
 
 Then /^the results should be ordered by name in descending order$/ do
   if @page == 2
-    response.should have_selector("tr:nth-child(2) a",
+    response_body.should have_selector("tr:nth-child(2) a",
                                   :content => "delicious recipe 36")
-    response.should have_selector("tr:nth-child(3) a",
+    response_body.should have_selector("tr:nth-child(3) a",
                                   :content => "delicious recipe 35")
   else
-    response.should have_selector("tr:nth-child(2) a",
+    response_body.should have_selector("tr:nth-child(2) a",
                                   :content => "delicious recipe 9")
-    response.should have_selector("tr:nth-child(3) a",
+    response_body.should have_selector("tr:nth-child(3) a",
                                   :content => "delicious recipe 8")
   end
 end
 
 Then /^the results should be ordered by date in descending order$/ do
-    response.should have_selector("tr:nth-child(2) .date",
+    response_body.should have_selector("tr:nth-child(2) .date",
                                   :content => "2008-06-17")
-    response.should have_selector("tr:nth-child(3) .date",
+    response_body.should have_selector("tr:nth-child(3) .date",
                                   :content => "2008-06-16")
 end
 
 Then /^the results should be ordered by date in ascending order$/ do
-    response.should have_selector("tr:nth-child(2) .date",
+    response_body.should have_selector("tr:nth-child(2) .date",
                                   :content => "2008-04-29")
-    response.should have_selector("tr:nth-child(3) .date",
+    response_body.should have_selector("tr:nth-child(3) .date",
                                   :content => "2008-04-30")
 end
 
 Then /^the results should be ordered by preparation time in ascending order$/ do
-    response.should have_selector("tr:nth-child(2) .prep",
+    response_body.should have_selector("tr:nth-child(2) .prep",
                                   :content => "1")
-    response.should have_selector("tr:nth-child(3) .prep",
+    response_body.should have_selector("tr:nth-child(3) .prep",
                                   :content => "2")
 end
 
 Then /^the results should be ordered by the number of ingredients in ascending order$/ do
-    response.should have_selector("tr:nth-child(2) .ingredients",
+    response_body.should have_selector("tr:nth-child(2) .ingredients",
                                   :content => "ingredient 1")
-    response.should have_selector("tr:nth-child(3) .ingredients",
+    response_body.should have_selector("tr:nth-child(3) .ingredients",
                                   :content => "ingredient 1, ingredient 2")
 end
 
 Then /^I should see no results$/ do
-  response.should have_selector("p.no-results")
+  response_body.should have_selector("p.no-results")
 end
 
 Then /^no result headings$/ do
-  response.should_not have_selector("th")
+  response_body.should_not have_selector("th")
 end
 
 Then /^I should see an empty query string$/ do
-  response.should have_selector("input[@name=q][@value='']")
+  response_body.should have_selector("input[@name=q][@value='']")
 end
 
 Then /^I should see the search field for refining my search$/ do
-  response.should have_selector("input[@name=q][@value='#{@keyword}']")
+  response_body.should have_selector("input[@name=q][@value='#{@keyword}']")
 end
