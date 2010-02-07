@@ -161,23 +161,23 @@ Then /^I should see 5 Italian recipes$/ do
 end
 
 Then /^I should see the homepage$/ do
-  response.should have_selector(".meals h2", :count => 10)
+  response_body.should have_selector(".meals h2", :count => 10)
 end
 
 Then /^I should see no more pages of results$/ do
-  response.should have_selector(".inactive", :content => "Next »")
+  response_body.should have_selector(".inactive", :content => "Next »")
 end
 
 Then /^I should see a feedback form$/ do
-  response.should have_selector("h1", :content => "Feedback")
-  response.should have_selector("form")
+  response_body.should have_selector("h1", :content => "Feedback")
+  response_body.should have_selector("form")
 end
 
 Then /^I should see a thank you note$/ do
-  response.should have_selector("h1", :content => "Thank You")
+  response_body.should have_selector("h1", :content => "Thank You")
 end
 
 Then /^I should see a subject of "([^\"]*)"$/ do |subject|
-  response.should have_selector("input",
-                                :value => subject)
+  response_body.should have_selector("input",
+                                     :value => subject)
 end
