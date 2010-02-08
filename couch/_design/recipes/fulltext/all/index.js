@@ -8,8 +8,6 @@ function(rec) {
   }
 
   if (rec.type == 'Recipe' && rec.published) {
-    log.info("Adding: " + rec.title);
-
     var doc = new Document();
 
     doc.add(rec.summary);
