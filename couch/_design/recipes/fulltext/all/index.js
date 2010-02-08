@@ -8,6 +8,8 @@ function(rec) {
   }
 
   if (rec.type == 'Recipe' && rec.published) {
+    log.info("Adding: " + rec.title);
+
     var doc = new Document();
 
     doc.add(rec.summary);
@@ -31,12 +33,14 @@ function(rec) {
       }
     }
 
-    var ingredients = [];
-    for (var i=0; i<rec.preparations.length; i++) {
-      ingredients.push(rec.preparations[i]['ingredient']['name']);
+    if (rec.preparations) {
+      var ingredients = [];
+      for (var i=0; i<rec.preparations.length; i++) {
+	ingredients.push(rec.preparations[i]['ingredient']['name']);
+      }
+      doc.add(ingredients.join(', '));
+      doc.add(ingredients.join(', '), {"store":"yes", "field":"ingredient"});
     }
-    doc.add(ingredients.join(', '));
-    doc.add(ingredients.join(', '), {"store":"yes", "field":"ingredient"});
     var ingredient_count = doc['preparations'] ? doc['preparations'].length : 0;
     doc.add(zero_pad(ingredient_count, 5), {"field":"sort_ingredient", "index":"not_analyzed"});
 
