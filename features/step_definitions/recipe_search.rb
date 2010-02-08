@@ -141,7 +141,7 @@ Given /^(\d+) (.+) recipes$/ do |count, keyword|
       :preparations => [
         { 'ingredient' => { 'name' => 'ingredient' } }
       ],
-      :tag_names => [keyword.downcase],
+      :tag_names => ['foo', keyword.downcase, 'bar'],
       :type => 'Recipe',
       :published => true
     }
