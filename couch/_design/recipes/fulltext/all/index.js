@@ -26,9 +26,10 @@ function(rec) {
     doc.add(zero_pad(rec.prep_time, 5), {"field":"sort_prep", "index":"not_analyzed"});
 
     if (rec.tag_names) {
-      for (var i=0; i< rec.tag_names.length; i++) {
-	doc.add(rec.tag_names[i], {"field":"category"});
-      }
+      doc.add(rec.tag_names.join(' '), {"field":"category"});
+      // for (var i=0; i< rec.tag_names.length; i++) {
+      // 	doc.add(rec.tag_names[i], {"field":"category"});
+      // }
     }
 
     if (rec.preparations) {
