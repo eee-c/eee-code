@@ -223,9 +223,9 @@ _EOM
 end
 
 get '/ingredients' do
-  url = "#{@@db}/_design/recipes/_view/by_ingredients?group=true"
+  url = "#{@@db}/_design/recipes/_list/index-ingredients/by_ingredients"
   data = RestClient.get url
-  @ingredients = JSON.parse(data)['rows']
+  @ingredients = JSON.parse(data)
 
   @title = "Ingredient Index"
 
