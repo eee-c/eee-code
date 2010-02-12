@@ -15,8 +15,8 @@ module Rack
         filename = @options[:cache_dir] + req.path_info
 
         unless ::File.exists?(filename)
-          image = ThumbNailer.rack_image(@app, env)
-          ThumbNailer.mk_thumbnail(filename, image)
+          image = rack_image(@app, env)
+          mk_thumbnail(filename, image)
         end
 
         thumbnail = ::File.new(filename).read
@@ -27,7 +27,7 @@ module Rack
     end
 
     private
-    def self.rack_image(app, env)
+    def rack_image(app, env)
       http_code, headers, body = app.call(env)
 
       img_data = ''
@@ -38,7 +38,7 @@ module Rack
     end
 
 
-    def self.mk_thumbnail(filename, image_data)
+    def mk_thumbnail(filename, image_data)
       path = filename.sub(/\/[^\/]+$/, '')
       FileUtils.mkdir_p(path)
 

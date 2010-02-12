@@ -6,7 +6,7 @@ require 'webrat'
 def app
   target_app = mock("Target Rack Application", :call => [200, { }, "Target app"])
 
-  Rack::ThumbNailer.new(target_app)
+  @app ||= Rack::ThumbNailer.new(target_app)
 end
 
 describe "ThumbNailer" do
@@ -34,19 +34,18 @@ describe "ThumbNailer" do
 
         File.stub!(:new).and_return(file)
         File.stub!(:exists?).and_return(false)
-
-        Rack::ThumbNailer.stub!(:mk_thumbnail)
-        Rack::ThumbNailer.stub!(:rack_image).and_return("image data")
+        
+        app.stub!(:mk_thumbnail)
+        app.stub!(:rack_image).and_return("image data")
       end
 
       it "should pull the image from the target application" do
-        Rack::ThumbNailer.
-          should_receive(:rack_image)
+        app.should_receive(:rack_image)
         get "/foo.jpg", :thumbnail => 1
       end
 
       it "should generate a thumbnail" do
-        Rack::ThumbNailer.
+        app.
           should_receive(:mk_thumbnail).
           with("/var/cache/rack/thumbnails/foo.jpg", "image data")
         get "/foo.jpg", :thumbnail => 1
