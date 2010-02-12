@@ -7,10 +7,25 @@ describe "search.haml" do
       'limit'      => 20,
       'total_rows' => 100,
       'rows' => [
-        { '_id' => '2009-04-15-one',   'title' => 'One',   'date' => '2009-04-15' },
-        { '_id' => '2009-04-14-two',   'title' => 'Two',   'date' => '2009-04-14' },
-        { '_id' => '2009-04-13-three', 'title' => 'Three', 'date' => '2009-04-13' },
-      ]
+                 { 'id'     => '2009-04-15-one',
+                   'fields' => { 
+                     'title' => 'One',
+                     'date'  => '2009-04-15' 
+                   } 
+                 },
+                 { 'id' => '2009-04-14-two',
+                   'fields' => { 
+                     'title' => 'Two',
+                     'date'  => '2009-04-14' 
+                   }
+                 },
+                 { 'id' => '2009-04-13-three',
+                   'fields' => {
+                     'title' => 'Three',
+                     'date'  => '2009-04-13' 
+                   }
+                 },
+                ]
     }
 
     assigns[:query] = "foo"

@@ -304,7 +304,7 @@ describe "eee" do
 
     it "should retrieve search results from couchdb-lucene" do
       RestClient.should_receive(:get).
-        with(/_fti\?.*q=eggs/).
+        with(/_fti\/recipes\/all\?.*q=eggs/).
         and_return('{"total_rows":1,"skip":0,"limit":20,"rows":[]}')
 
       get "/recipes/search?q=eggs"
@@ -637,7 +637,7 @@ describe "GET /ingredients" do
   before(:each) do
     RestClient.
       stub!(:get).
-      and_return('{"rows": [] }')
+      and_return('[]')
   end
 
   it "should respond OK" do
@@ -649,7 +649,7 @@ describe "GET /ingredients" do
     RestClient.
       should_receive(:get).
       with(%r{by_ingredients}).
-      and_return('{"rows": [] }')
+      and_return('[]')
 
     get "/ingredients"
   end
