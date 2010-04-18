@@ -210,7 +210,7 @@ end
 
 
 Given /^a ([.\d]+) second wait/ do |seconds|
-  sleep seconds.to_f
+  #sleep seconds.to_f
 end
 
 When /^I search for "(.*)"$/ do |keyword|
