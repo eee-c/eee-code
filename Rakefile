@@ -6,6 +6,23 @@ rescue LoadError
   # do nothing
 end
 
+# require the hydra codebase
+require 'hydra'
+# require the hydra rake task helpers
+require 'hydra/tasks'
+
+# set up a new hydra testing task named 'hydra:spec' run with "rake hydra:spec"
+Hydra::TestTask.new('hydra:spec') do |t|
+  # add all files in the spec directory that end with "_spec.rb"
+  t.add_files 'spec/**/*_spec.rb'
+end
+
+# set up a new hydra testing task named 'hydra:cucumber' run with "rake hydra:cucumber"
+Hydra::TestTask.new('hydra:cucumber') do |t|
+  # add all files in the features directory that end with ".feature"
+  t.add_files 'features/**/*.feature'
+end
+
 task :default => [:test]
 
 desc "Run all tests"
