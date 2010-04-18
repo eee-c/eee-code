@@ -3,3 +3,5 @@
 This is the source code for the yet to be released CouchDB based version of http://eeecooks.com - a personal recipe and blogging site.
 
 More info on this project can be found at: http://japhr.blogspot.com/2009/03/my-chain.html
+
+Some gems that are used: couch_docs, sinatra, pony, RedCloth, rest-client, rspec, webrat, rack-test
