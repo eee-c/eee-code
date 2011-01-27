@@ -1,3 +1,4 @@
 hydra.yml
 seed/*
 webrat.log
+.bundle
