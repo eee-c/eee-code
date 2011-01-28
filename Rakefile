@@ -14,19 +14,19 @@ task :test => [:app_specs, :helper_specs, :view_specs]
 desc "Run the sinatra app specs"
 task :app_specs do
   $stderr.puts "\n==\nSinatra app spec"
-  system("spec", "./spec/eee_spec.rb")
+  system("rspec", "./spec/eee_spec.rb")
 end
 
 desc "Run the helper specs"
 task :helper_specs do
   $stderr.puts "\n==\nHelper specs"
-  system("spec", "./spec/eee_helpers_spec.rb")
+  system("rspec", "./spec/eee_helpers_spec.rb")
 end
 
 desc "Run the view specs"
 task :view_specs do
   $stderr.puts "\n==\nView specs"
-  system("spec ./spec/views/*.haml_spec.rb")
+  system("rspec ./spec/views/*.haml_spec.rb")
 end
 
 
