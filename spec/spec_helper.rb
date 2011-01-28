@@ -8,7 +8,7 @@ require 'rack/test'
 require 'webrat'
 require 'haml'
 
-Spec::Runner.configure do |config|
+RSpec.configure do |config|
   config.include Rack::Test::Methods
   config.include Webrat::Matchers
   config.include Eee::Helpers
