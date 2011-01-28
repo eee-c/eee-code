@@ -1,13 +1,10 @@
 #require 'pp'
-require 'eee.rb'
 require 'rubygems'
-require 'sinatra'
-require 'rack/cache'
-require 'image_science'
-require 'rack-rewrite'
+require 'bundler/setup'
 
 ###
 # Rewrite
+require 'rack-rewrite'
 use Rack::Rewrite do
   r301 %r{(.+)\.html}, '$1'
   r301 %r{^/recipes/(\d{4})-(\d{2})-(\d{2})-(.+)}, '/recipes/$1/$2/$3/$4'
@@ -15,7 +12,7 @@ end
 
 ###
 # Cache
-
+require 'rack/cache'
 use Rack::Cache,
   :verbose     => true,
   :metastore   => 'file:/var/cache/rack/meta',
@@ -29,6 +26,9 @@ use Rack::ThumbNailer
 
 ###
 # Sinatra App
+
+require 'sinatra'
+require 'eee.rb'
 
 root_dir = File.dirname(__FILE__)
 
