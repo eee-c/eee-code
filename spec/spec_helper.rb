@@ -1,17 +1,16 @@
 ENV['RACK_ENV'] = 'test'
 
 require 'eee'
-require 'spec'
-require 'spec/interop/test'
+require 'rspec'
+#require 'spec/interop/test'
 require 'rack/test'
 
 require 'webrat'
 require 'haml'
 
-Test::Unit::TestCase.send :include, Rack::Test::Methods
-
 Spec::Runner.configure do |config|
-  config.include Webrat::Matchers, :type => :views
+  config.include Rack::Test::Methods
+  config.include Webrat::Matchers
   config.include Eee::Helpers
 end
 
