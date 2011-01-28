@@ -1,6 +1,6 @@
-require 'spec'
+require 'rspec'
 require 'rack/test'
-require 'thumbnailer'
+require 'rack/thumbnailer'
 require 'webrat'
 
 def app
@@ -34,7 +34,7 @@ describe "ThumbNailer" do
 
         File.stub!(:new).and_return(file)
         File.stub!(:exists?).and_return(false)
-        
+
         app.stub!(:mk_thumbnail)
         app.stub!(:rack_image).and_return("image data")
       end
