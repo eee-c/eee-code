@@ -557,45 +557,43 @@ describe "GET /recipe.rss" do
   end
 end
 
-context "/mini" do
-  describe "GET /mini/" do
-    before(:each) do
-      RestClient.
-        stub!(:get).
-        with(/count_by_month/).
-        and_return('{"rows": [{"key":"2009-08","value":3}]}')
+describe "GET /mini/" do
+  before(:each) do
+    RestClient.
+      stub!(:get).
+      with(/count_by_month/).
+      and_return('{"rows": [{"key":"2009-08","value":3}]}')
 
-      RestClient.
-        stub!(:get).
-        with(/by_date_short/).
-        and_return('{ "rows": [{"value":{"date": "2009-08-08", "title": "Foo"}}] }')
-    end
+    RestClient.
+      stub!(:get).
+      with(/by_date_short/).
+      and_return('{ "rows": [{"value":{"date": "2009-08-08", "title": "Foo"}}] }')
+  end
 
-    it "should respond OK" do
-      get "/mini/"
-      last_response.should be_ok
-    end
+  it "should respond OK" do
+    get "/mini/"
+    last_response.should be_ok
+  end
 
-    it "should retrieve the most recent month with a meal" do
-      RestClient.
-        should_receive(:get).
-        with(/meals.+count_by_month/).
-        and_return('{"rows": [{"key":"2009-08","value":3}]}')
+  it "should retrieve the most recent month with a meal" do
+    RestClient.
+      should_receive(:get).
+      with(/meals.+count_by_month/).
+      and_return('{"rows": [{"key":"2009-08","value":3}]}')
 
-      get "/mini/"
-    end
+    get "/mini/"
+  end
 
-    it "should display the month" do
-      get "/mini/"
-      last_response.
-        should have_selector("h1", :content => "August 2009")
-    end
+  it "should display the month" do
+    get "/mini/"
+    last_response.
+      should have_selector("h1", :content => "August 2009")
+  end
 
-    it "should display requested month" do
-      get "/mini/2009/07"
-      last_response.
-        should have_selector("h1", :content => "July 2009")
-    end
+  it "should display requested month" do
+    get "/mini/2009/07"
+    last_response.
+      should have_selector("h1", :content => "July 2009")
   end
 end
 
