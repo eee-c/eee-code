@@ -56,6 +56,11 @@ describe "ThumbNailer" do
         last_response.body.should contain("Thumbnail")
       end
 
+      it "should choose reasonable content type" do
+        get "/foo.jpg", :thumbnail => 1
+        last_response.headers["Content-Type"].should == 'image/jpeg'
+      end
+
       context "and a previously generated thumbnail" do
         before(:each) do
           File.stub!(:exists?).and_return(true)

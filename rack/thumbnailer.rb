@@ -1,4 +1,5 @@
 require 'image_science'
+require 'mime/types'
 
 module Rack
   class ThumbNailer
@@ -20,7 +21,7 @@ module Rack
         end
 
         thumbnail = ::File.new(filename).read
-        [200, { }, thumbnail]
+        [200, { "Content-Type" => content_type(filename) }, thumbnail]
       else
         @app.call(env)
       end
@@ -37,6 +38,10 @@ module Rack
       img_data
     end
 
+    def content_type(filename)
+      type = MIME::Types.type_for(filename).first.to_s
+      (type && type != '') ? type : nil
+    end
 
     def mk_thumbnail(filename, image_data)
       path = filename.sub(/\/[^\/]+$/, '')
