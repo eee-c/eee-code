@@ -21,5 +21,6 @@ gem "thin", "1.2.2"
 
 group :test do
   gem "couch_docs", "1.3.1"
+  gem "webrat"
   gem "rspec"
 end

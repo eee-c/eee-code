@@ -27,6 +27,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
+    nokogiri (1.4.4)
     polyglot (0.3.1)
     pony (1.1)
       mail (> 2.0)
@@ -34,6 +35,8 @@ GEM
     rack-cache (1.0)
       rack (>= 0.4)
     rack-rewrite (1.0.2)
+    rack-test (0.5.7)
+      rack (>= 1.0)
     rest-client (1.6.1)
       mime-types (>= 1.16)
     rspec (2.4.0)
@@ -54,6 +57,10 @@ GEM
     tilt (1.2.2)
     treetop (1.4.9)
       polyglot (>= 0.3.1)
+    webrat (0.7.3)
+      nokogiri (>= 1.2.0)
+      rack (>= 1.0)
+      rack-test (>= 0.5.3)
 
 PLATFORMS
   ruby
@@ -74,3 +81,4 @@ DEPENDENCIES
   rspec
   sinatra
   thin (= 1.2.2)
+  webrat
