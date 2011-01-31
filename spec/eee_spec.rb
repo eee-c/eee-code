@@ -408,7 +408,9 @@ describe "eee" do
       get "/recipes/search?q=egg&page=2"
 
       last_response.status.should == 302
-      last_response.headers["Location"].should == "/recipes/search?q=egg"
+      last_response.
+        headers["Location"].
+        should =~ %r{/recipes/search\?q=egg}
     end
 
     it "should treat couchdb errors as no-results" do
