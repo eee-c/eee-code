@@ -11,6 +11,13 @@
       Home
     %div{"data-role" => "content"}
       %h1 Meals
+      %ul{"data-role" => "listview"}
+        - @meals.each do |meal|
+          - date = Date.parse(meal['date'])
+          %li
+            %a{:href => date.strftime("/meals/%Y/%m/%d")}
+              = meal['title']
+              = " ( " + date.strftime("%B %e") + ")"
 
     %div{"data-role" => "footer"}
-      Footer
+      EEE Cooks Footer
