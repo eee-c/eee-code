@@ -35,7 +35,7 @@ end
 
 get '/' do
   url = "/_design/meals/_view/by_date?limit=13&descending=true"
-  @meal_view = couch_get(url)['rows']
+  @meal_view = couch_get_rows(url)
 
   @meals = @meal_view.inject([]) do |memo, couch_rec|
     memo + [ couch_get("/#{couch_rec['id']}") ]
@@ -89,10 +89,10 @@ get %r{/meals/(\d+)/(\d+)} do |year, month|
   url = "/_design/meals/_view/by_date?" +
     "startkey=%22#{year}-#{month}-00%22&" +
     "endkey=%22#{year}-#{month}-99%22"
-  @meals = couch_get(url)['rows'].map{|r| r['value']}
+  @meals = couch_get_rows(url).map{|r| r['value']}
 
   url = "/_design/meals/_view/count_by_month?group=true"
-  @count_by_year = couch_get(url)['rows']
+  @count_by_year = couch_get_rows(url)
 
   @title = "Meals from #{year}-#{month}"
   @month = "#{year}-#{month}"
@@ -103,11 +103,11 @@ get %r{/meals/(\d+)} do |year|
   url = "/_design/meals/_view/by_date?" +
     "startkey=%22#{year}-00-00%22&" +
     "endkey=%22#{year}-99-99%22"
-  @meals = couch_get(url)['rows'].map{|r| r['value']}
+  @meals = couch_get_rows(url).map{|r| r['value']}
   @year  = year
 
   url = "/_design/meals/_view/count_by_year?group=true"
-  @count_by_year = couch_get(url)['rows']
+  @count_by_year = couch_get_rows(url)
 
   @title = "Meals from #{year}"
   haml :meal_by_year
@@ -115,13 +115,13 @@ end
 
 get %r{/mini/(.*)} do |date_str|
   url = "/_design/meals/_view/count_by_month?group=true"
-  @count_by_month = couch_get(url)['rows']
+  @count_by_month = couch_get_rows(url)
   @month = date_str == '' ? @count_by_month.last['key'] : date_str.sub(/\//, '-')
 
   url = "/_design/meals/_view/by_date_short?" +
     "startkey=%22#{@month}-00%22&" +
     "endkey=%22#{@month}-99%22"
-  @meals_by_date = couch_get(url)['rows'].inject({ }) do |memo, m|
+  @meals_by_date = couch_get_rows(url).inject({ }) do |memo, m|
     memo[m['value']['date']] = m['value']['title']
     memo
   end
@@ -167,7 +167,7 @@ get %r{/recipes/(\d+)/(\d+)/(\d+)/?(.*)} do |year, month, day, short_name|
   etag(@recipe['_rev'])
 
   url = "/_design/recipes/_view/by_date_short"
-  @recipes_by_date = couch_get(url)['rows']
+  @recipes_by_date = couch_get_rows(url)
 
   @url = request.url
 

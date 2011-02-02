@@ -8,6 +8,11 @@ module Eee
       JSON.parse(data)
     end
 
+    def couch_get_rows(path)
+      results = couch_get(path)
+      results.fetch('rows', [])
+    end
+
     def hours(minutes)
       h = minutes.to_i / 60
       m = minutes.to_i % 60
@@ -352,7 +357,7 @@ _EOM
 
     def rss_for_date_view(feed)
       url = "#{_db}/_design/#{feed}/_view/by_date?limit=10&descending=true"
-      view = couch_get(url)['rows']
+      view = couch_get_rows(url)
 
       rss = RSS::Maker.make("2.0") do |maker|
         maker.channel.title = "EEE Cooks: #{feed.capitalize}"
