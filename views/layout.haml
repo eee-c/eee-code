@@ -1,35 +1,37 @@
 %html
-  %title= ["EEE Cooks", @title].compact.join(": ")
-  %link{:rel => "stylesheet", :type => "text/css", :href => "/stylesheets/style.css"}
-  %link{:rel => "alternate", :type => "application/rss+xml", :title => "EEE Cooks RSS", :href => "/main.rss"}
-  %link{:rel => "alternate", :type => "application/rss+xml", :title => "EEE Cooks Recipe RSS", :href => "/recipes.rss"}
-%body
-  #header
-    #eee-header-logo
-      %a{:href => "/"}
-        %img{:alt => "Home", :src => "/images/eee_corner.png"}
+  %head
+    %title= ["EEE Cooks", @title].compact.join(": ")
+    %link{:rel => "stylesheet", :type => "text/css", :href => "/stylesheets/style.css"}
+    %link{:rel => "alternate", :type => "application/rss+xml", :title => "EEE Cooks RSS", :href => "/main.rss"}
+    %link{:rel => "alternate", :type => "application/rss+xml", :title => "EEE Cooks Recipe RSS", :href => "/recipes.rss"}
 
-  = yield
+  %body
+    #header
+      #eee-header-logo
+        %a{:href => "/"}
+          %img{:alt => "Home", :src => "/images/eee_corner.png"}
 
-  #footer
-    %div
-      %a{:href => '/'}= "Home"
-      |
-      %a{:href => '/feedback'}= "Contact"
-      |
-      %a{:href => '/recipes/search?q='}= "Recipe List"
-      |
-      %a{:href => '/ingredients'}= "Ingredient Index"
-      |
-      %a{:href => '/about'}= "About This Site"
+    = yield
 
-    %div
-      All content (images and text) Copyright © Robin and Chris Strom 2009.
+    #footer
+      %div
+        %a{:href => '/'}= "Home"
+        |
+        %a{:href => '/feedback'}= "Contact"
+        |
+        %a{:href => '/recipes/search?q='}= "Recipe List"
+        |
+        %a{:href => '/ingredients'}= "Ingredient Index"
+        |
+        %a{:href => '/about'}= "About This Site"
 
-    %div
-      This work is licensed under a
-      %a{:href => "http://creativecommons.org/licenses/by-nc/1.0/"}= "Creative Commons License"
+      %div
+        All content (images and text) Copyright © Robin and Chris Strom 2009.
 
-      %a{:href => "http://creativecommons.org/licenses/by-nc/1.0/"}
-        %img{:alt => "Creative Commons License",
-             :src => "/images/somerights.gif"}
+      %div
+        This work is licensed under a
+        %a{:href => "http://creativecommons.org/licenses/by-nc/1.0/"}= "Creative Commons License"
+
+        %a{:href => "http://creativecommons.org/licenses/by-nc/1.0/"}
+          %img{:alt => "Creative Commons License",
+               :src => "/images/somerights.gif"}
