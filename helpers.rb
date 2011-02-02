@@ -66,7 +66,7 @@ module Eee
     end
 
     def kid_nicknames
-      @@kid_kicknames ||= JSON.parse(RestClient.get("#{_db}/kids"))
+      @@kid_kicknames ||= couch_get("/kids")
     end
 
     def _db
@@ -76,7 +76,7 @@ module Eee
     def wiki_recipe(text)
       if text =~ /\[recipe:([-\/\w]+)/
         permalink = $1.gsub(/\//, '-')
-        JSON.parse(RestClient.get("#{_db}/#{permalink}"))
+        couch_get("/#{permalink}")
       end
     end
 
@@ -86,14 +86,14 @@ module Eee
 
     def recipe_link(link, title=nil)
       permalink = link.gsub(/\//, '-')
-      recipe = JSON.parse(RestClient.get("#{_db}/#{permalink}"))
+      recipe = couch_get("/#{permalink}")
       url = "/recipes/" + url_from_permalink(recipe['_id'])
       %Q|<a href="#{url}">#{title || recipe['title']}</a>|
     end
 
     def meal_link(link, title=nil)
       permalink = link.gsub(/\//, '-')
-      title ||= JSON.parse(RestClient.get("#{_db}/#{permalink}"))['title']
+      title ||= couch_get("/#{permalink}").fetch('title', '')
       %Q|<a href="/meals/#{link}">#{title}</a>|
     end
 
@@ -287,9 +287,8 @@ _EOM
     end
 
     def couch_recipe_update_of(permalink)
-      url = "#{_db}/_design/recipes/_view/update_of?key=%22#{permalink}%22"
-      data = RestClient.get url
-      results = JSON.parse(data)['rows']
+      url = "/_design/recipes/_view/update_of?key=%22#{permalink}%22"
+      results = couch_get_rows(url)
       results.first && results.first['value']
     end
 
@@ -310,9 +309,8 @@ _EOM
     end
 
     def couch_recipe_updated_by(permalink)
-      url = "#{_db}/_design/recipes/_view/updated_by?key=%22#{permalink}%22"
-      data = RestClient.get url
-      results = JSON.parse(data)['rows']
+      url = "/_design/recipes/_view/updated_by?key=%22#{permalink}%22"
+      results = couch_get_rows(url)
       results.first && results.first['value']
     end
 
@@ -330,9 +328,8 @@ _EOM
     end
 
     def couch_alternatives(permalink)
-      url = "#{_db}/_design/recipes/_view/alternatives?key=%22#{permalink}%22"
-      data = RestClient.get url
-      results = JSON.parse(data)['rows']
+      url = "/_design/recipes/_view/alternatives?key=%22#{permalink}%22"
+      results = couch_get_rows(url)
       results.first && results.first['value']
     end
 
