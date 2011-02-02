@@ -114,16 +114,14 @@ get %r{/meals/(\d+)} do |year|
 end
 
 get %r{/mini/(.*)} do |date_str|
-  url = "#{@@db}/_design/meals/_view/count_by_month?group=true"
-  data = RestClient.get url
-  @count_by_month = JSON.parse(data)['rows']
+  url = "/_design/meals/_view/count_by_month?group=true"
+  @count_by_month = couch_get(url)['rows']
   @month = date_str == '' ? @count_by_month.last['key'] : date_str.sub(/\//, '-')
 
-  url = "#{@@db}/_design/meals/_view/by_date_short?" +
+  url = "/_design/meals/_view/by_date_short?" +
     "startkey=%22#{@month}-00%22&" +
     "endkey=%22#{@month}-99%22"
-  data = RestClient.get url
-  @meals_by_date = JSON.parse(data)['rows'].inject({ }) do |memo, m|
+  @meals_by_date = couch_get(url)['rows'].inject({ }) do |memo, m|
     memo[m['value']['date']] = m['value']['title']
     memo
   end
@@ -138,7 +136,7 @@ get '/recipes/search' do
   page = params[:page].to_i
   skip = (page < 2) ? 0 : ((page - 1) * 20)
 
-  couchdb_url = "#{@@db}/_fti/recipes/all?limit=20" +
+  couchdb_url = "/_fti/recipes/all?limit=20" +
     "&q=#{Rack::Utils.escape(@query)}" +
     "&skip=#{skip}"
 
@@ -148,8 +146,7 @@ get '/recipes/search' do
   end
 
   begin
-    data = RestClient.get couchdb_url
-    @results = JSON.parse(data)
+    @results = couch_get(couchdb_url)
   rescue Exception
     #puts Rack::Utils.escape(@query)
     @query = ""
@@ -211,9 +208,8 @@ _EOM
 end
 
 get '/ingredients' do
-  url = "#{@@db}/_design/recipes/_list/index-ingredients/by_ingredients"
-  data = RestClient.get url
-  @ingredients = JSON.parse(data)
+  url = "/_design/recipes/_list/index-ingredients/by_ingredients"
+  @ingredients = couch_get(url)
 
   @title = "Ingredient Index"
 
@@ -222,8 +218,7 @@ end
 
 get %r{^/([\-\w]+)$} do |doc_id|
   begin
-    data = RestClient.get "#{@@db}/#{doc_id}"
-    @doc = JSON.parse(data)
+    @doc = couch_get("/#{doc_id}")
   rescue RestClient::ResourceNotFound
     pass
   end
