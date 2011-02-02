@@ -30,6 +30,10 @@ end
 if ENV['RACK_ENV'] != 'test'
   before do
     content_type 'text/html', :charset => 'UTF-8'
+
+    def request.is_mobile?
+      (self.host =~ /^m\./) ? true : false
+    end
   end
 end
 
@@ -43,7 +47,11 @@ get '/' do
 
   @older_meals = @meals.slice!(10,3) || []
 
-  haml :index
+  if request.is_mobile?
+    haml :index_m, :layout => false
+  else
+    haml :index
+  end
 end
 
 get '/main.rss' do
