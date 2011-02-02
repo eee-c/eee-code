@@ -2,6 +2,14 @@ require File.expand_path(File.dirname(__FILE__) + '/spec_helper' )
 require 'couch_docs'
 require 'pp'
 
+def sinatra_app
+  app = rack_mock_session.
+    instance_variable_get(:@app).
+    instance_variable_get(:@app)
+  app.stub!(:dup).and_return(app)
+  app
+end
+
 describe "eee" do
   before(:all) do
     RestClient.put @@db, { }
@@ -20,12 +28,12 @@ describe "eee" do
       @permalink = @date
 
       @meal = {
-        :title       => @title,
-        :date        => @date,
-        :serves      => 4,
-        :summary     => "meal summary",
-        :description => "meal description",
-        :menu        => ["meal menu item"]
+        'title'       => @title,
+        'date'        => @date,
+        'serves'      => 4,
+        'summary'     => "meal summary",
+        'description' => "meal description",
+        'menu'        => ["meal menu item"]
       }
 
       RestClient.put "#{@@db}/#{@permalink}",
@@ -33,12 +41,16 @@ describe "eee" do
         :content_type => 'application/json'
 
       RestClient.stub!(:get).and_return('{"rows": [] }')
+
+      @app = sinatra_app
+      @app.stub!(:couch_get).and_return({"rows" => [] })
     end
 
     after(:each) do
-      data = RestClient.proxied_by_rspec__get "#{@@db}/#{@permalink}"
+      #data = RestClient.proxied_by_rspec__get "#{@@db}/#{@permalink}"
+      RestClient.unstub(:get)
+      data = RestClient.get "#{@@db}/#{@permalink}?"
       meal = JSON.parse(data)
-
       RestClient.delete "#{@@db}/#{@permalink}?rev=#{meal['_rev']}"
     end
 
@@ -49,41 +61,41 @@ describe "eee" do
       end
 
       it "should request the most recent 13 meals from CouchDB" do
-        RestClient.
-          should_receive(:get).
+        @app.
+          should_receive(:couch_get).
           with(/by_date.+limit=13/).
-          and_return('{"rows": [] }')
+          and_return({"rows" => [] })
 
         get "/"
       end
 
       it "should pull back full details for the first 10 meals" do
-        RestClient.
-          stub!(:get).
-          and_return('{"rows": [' +
-                     '{"id":"2009-06-10","value":["2009-06-10","Foo"]},' +
-                     '{"id":"2009-06-09","value":["2009-06-09","Foo"]},' +
-                     '{"id":"2009-06-08","value":["2009-06-08","Foo"]},' +
-                     '{"id":"2009-06-07","value":["2009-06-07","Foo"]},' +
-                     '{"id":"2009-06-06","value":["2009-06-06","Foo"]},' +
-                     '{"id":"2009-06-05","value":["2009-06-05","Foo"]},' +
-                     '{"id":"2009-06-04","value":["2009-06-04","Foo"]},' +
-                     '{"id":"2009-06-03","value":["2009-06-03","Foo"]},' +
-                     '{"id":"2009-06-02","value":["2009-06-02","Foo"]},' +
-                     '{"id":"2009-06-01","value":["2009-06-01","Foo"]},' +
-                     '{"id":"2009-05-31","value":["2009-05-31","Foo"]},' +
-                     '{"id":"2009-05-30","value":["2009-05-30","Foo"]},' +
-                     '{"id":"2009-05-29","value":["2009-05-29","Foo"]}' +
-                     ']}')
+        @app.
+          stub!(:couch_get).
+          and_return({"rows" => [
+                     {"id" => "2009-06-10", "value" => ["2009-06-10","Foo"]},
+                     {"id" => "2009-06-09", "value" => ["2009-06-09","Foo"]},
+                     {"id" => "2009-06-08", "value" => ["2009-06-08","Foo"]},
+                     {"id" => "2009-06-07", "value" => ["2009-06-07","Foo"]},
+                     {"id" => "2009-06-06", "value" => ["2009-06-06","Foo"]},
+                     {"id" => "2009-06-05", "value" => ["2009-06-05","Foo"]},
+                     {"id" => "2009-06-04", "value" => ["2009-06-04","Foo"]},
+                     {"id" => "2009-06-03", "value" => ["2009-06-03","Foo"]},
+                     {"id" => "2009-06-02", "value" => ["2009-06-02","Foo"]},
+                     {"id" => "2009-06-01", "value" => ["2009-06-01","Foo"]},
+                     {"id" => "2009-05-31", "value" => ["2009-05-31","Foo"]},
+                     {"id" => "2009-05-30", "value" => ["2009-05-30","Foo"]},
+                     {"id" => "2009-05-29", "value" => ["2009-05-29","Foo"]}
+                     ]})
 
-        RestClient.
-          should_receive(:get).
+        @app.
+          should_receive(:couch_get).
           with(/2009-0/).
           exactly(13).times.
-          and_return('{"title":"foo",' +
-                      '"date":"2009-06-17",' +
-                      '"summary":"foo summary",' +
-                      '"menu":[]}')
+          and_return({"title" => "foo",
+                      "date" => "2009-06-17",
+                      "summary" => "foo summary",
+                      "menu" => []})
 
         get "/"
 
@@ -104,38 +116,38 @@ describe "eee" do
       end
 
       it "should request the 10 most recent meals from CouchDB" do
-        RestClient.
-          should_receive(:get).
+        @app.
+          should_receive(:couch_get).
           with(/by_date.+limit=10/).
-          and_return('{"rows": [] }')
+          and_return({"rows" => []})
 
         get "/main.rss"
       end
 
       it "should pull back full details for the 10 meals" do
-        RestClient.
-          stub!(:get).
-          and_return('{"rows": [' +
-                     '{"id":"2009-06-10","value":["2009-06-10","Foo"]},' +
-                     '{"id":"2009-06-09","value":["2009-06-09","Foo"]},' +
-                     '{"id":"2009-06-08","value":["2009-06-08","Foo"]},' +
-                     '{"id":"2009-06-07","value":["2009-06-07","Foo"]},' +
-                     '{"id":"2009-06-06","value":["2009-06-06","Foo"]},' +
-                     '{"id":"2009-06-05","value":["2009-06-05","Foo"]},' +
-                     '{"id":"2009-06-04","value":["2009-06-04","Foo"]},' +
-                     '{"id":"2009-06-03","value":["2009-06-03","Foo"]},' +
-                     '{"id":"2009-06-02","value":["2009-06-02","Foo"]},' +
-                     '{"id":"2009-06-01","value":["2009-06-01","Foo"]}' +
-                     ']}')
+        @app.
+          stub!(:couch_get).
+          and_return({"rows" =>  [
+                     {"id" => "2009-06-10","value" => ["2009-06-10","Foo"]},
+                     {"id" => "2009-06-09","value" => ["2009-06-09","Foo"]},
+                     {"id" => "2009-06-08","value" => ["2009-06-08","Foo"]},
+                     {"id" => "2009-06-07","value" => ["2009-06-07","Foo"]},
+                     {"id" => "2009-06-06","value" => ["2009-06-06","Foo"]},
+                     {"id" => "2009-06-05","value" => ["2009-06-05","Foo"]},
+                     {"id" => "2009-06-04","value" => ["2009-06-04","Foo"]},
+                     {"id" => "2009-06-03","value" => ["2009-06-03","Foo"]},
+                     {"id" => "2009-06-02","value" => ["2009-06-02","Foo"]},
+                     {"id" => "2009-06-01","value" => ["2009-06-01","Foo"]}
+                     ]})
 
-        RestClient.
-          should_receive(:get).
+        @app.
+          should_receive(:couch_get).
           with(/2009-06-/).
           exactly(10).times.
-          and_return('{"title":"foo",' +
-                      '"date":"2009-06-17",' +
-                      '"summary":"foo summary",' +
-                      '"menu":[]}')
+          and_return({"title" => "foo",
+                      "date" => "2009-06-17",
+                      "summary" => "foo summary",
+                      "menu" => []})
 
         get "/main.rss"
       end
@@ -149,20 +161,20 @@ describe "eee" do
       end
 
       it "should ask CouchDB for meal from year YYYY" do
-        RestClient.
-          should_receive(:get).
+        @app.
+          should_receive(:couch_get).
           with(%r{by_date.+startkey=.+2009-00-00.+endkey=.+2009-99-99}).
-          and_return('{"rows": [] }')
+          and_return({"rows" => [] })
 
         get "/meals/2009"
       end
 
       it "should ask CouchDB how many meals from all years" do
-        RestClient.
-          should_receive(:get).
+        @app.
+          should_receive(:couch_get).
           with(/meals.+count_by_year/).
-          and_return('{"rows": [{"key":"2008","value":3},
-                                {"key":"2009","value":3}]}')
+          and_return({"rows" => [{"key" => "2008", "value" => 3},
+                                 {"key" => "2009", "value" => 3}]})
 
         get "/meals/2009"
       end
@@ -175,20 +187,20 @@ describe "eee" do
       end
 
       it "should ask CouchDB for meals from year YYYY and month MM" do
-        RestClient.
-          should_receive(:get).
+        @app.
+          should_receive(:couch_get).
           with(%r{by_date.+startkey=.+2009-05-00.+endkey=.+2009-05-99}).
-          and_return('{"rows": [] }')
+          and_return({"rows" => [] })
 
         get "/meals/2009/05"
       end
 
       it "should ask CouchDB how many meals from all months" do
-        RestClient.
-          should_receive(:get).
+        @app.
+          should_receive(:couch_get).
           with(/meals.+count_by_month/).
-          and_return('{"rows": [{"key":"2009-04","value":3},
-                                {"key":"2009-05","value":3}]}')
+          and_return({"rows" => [{"key" => "2009-04", "value" => 3},
+                                 {"key" => "2009-05", "value" => 3}]})
 
         get "/meals/2009/05"
       end
@@ -196,31 +208,27 @@ describe "eee" do
 
     describe "GET /meals/YYYY/MM/DD" do
       before(:each) do
-        RestClient.
-          stub!(:get).
-          and_return(@meal.to_json)
+        @app.
+          stub!(:couch_get).
+          and_return(@meal)
       end
 
       it "should respond OK" do
-        RestClient.
-          should_receive(:get).
+        @app.
+          should_receive(:couch_get).
           with(/by_date/).
-          and_return('{"rows": [] }')
+          and_return({"rows" => [] })
 
         get "/meals/2009/05/13"
         last_response.should be_ok
       end
 
       it "should request the meal from CouchDB" do
-        RestClient.
-          should_receive(:get).
-          with(/by_date/).
-          and_return('{"rows": [] }')
+        @app.should_receive(:couch_get).with(/by_date/).and_return({'rows' => []})
 
-        RestClient.
-          should_receive(:get).
+        @app.should_receive(:couch_get).
           with(/2009-05-13/).
-          and_return(@meal.to_json)
+          and_return(@meal)
 
         get "/meals/2009/05/13"
       end
@@ -228,22 +236,27 @@ describe "eee" do
   end
 
   context "cached documents" do
+    before(:each) do
+      @app = sinatra_app
+      @app.stub!(:couch_get).and_return({"rows" => [] })
+    end
+
     describe 'GET /meals/2009/09/25' do
       it "should etag with the CouchDB document's revision" do
-        RestClient.
-          should_receive(:get).
+        @app.
+          should_receive(:couch_get).
           once.
-          and_return('{"_rev":1234}')
+          and_return({"_rev" => 1234})
 
         get "/meals/2009/09/25", { }, { 'HTTP_IF_NONE_MATCH' => '"1234"' }
       end
     end
     describe 'GET /recipes/YYYY/MM/DD/short_name' do
       it "should etag with the CouchDB document's revision" do
-        RestClient.
-          should_receive(:get).
+        @app.
+          should_receive(:couch_get).
           once.
-          and_return('{"_rev":1234}')
+          and_return({"_rev" => 1234})
 
         get "/recipes/2009/10/14", { }, { 'HTTP_IF_NONE_MATCH' => '"1234"' }
       end
@@ -505,7 +518,8 @@ end
 
 describe "GET /recipe.rss" do
   before(:each) do
-    RestClient.stub!(:get).and_return('{"rows": [] }')
+    @app = sinatra_app
+    @app.stub!(:couch_get).and_return({"rows" => [] })
   end
 
   it "should respond OK" do
@@ -521,39 +535,39 @@ describe "GET /recipe.rss" do
   end
 
   it "should request the 10 most recent meals from CouchDB" do
-    RestClient.
-      should_receive(:get).
+    @app.
+      should_receive(:couch_get).
       with(/by_date.+limit=10/).
-      and_return('{"rows": [] }')
+      and_return({"rows" => [] })
 
     get "/recipes.rss"
   end
 
   it "should pull back full details for the 10 meals" do
-    RestClient.
-      stub!(:get).
-      and_return('{"rows": [' +
-                 '{"id":"2009-06-10","value":["2009-06-10","Foo"]},' +
-                 '{"id":"2009-06-09","value":["2009-06-09","Foo"]},' +
-                 '{"id":"2009-06-08","value":["2009-06-08","Foo"]},' +
-                 '{"id":"2009-06-07","value":["2009-06-07","Foo"]},' +
-                 '{"id":"2009-06-06","value":["2009-06-06","Foo"]},' +
-                 '{"id":"2009-06-05","value":["2009-06-05","Foo"]},' +
-                 '{"id":"2009-06-04","value":["2009-06-04","Foo"]},' +
-                 '{"id":"2009-06-03","value":["2009-06-03","Foo"]},' +
-                 '{"id":"2009-06-02","value":["2009-06-02","Foo"]},' +
-                 '{"id":"2009-06-01","value":["2009-06-01","Foo"]}' +
-                 ']}')
+    @app.
+      stub!(:couch_get).
+      and_return({"rows" =>  [
+                 {"id" => "2009-06-10","value" => ["2009-06-10","Foo"]},
+                 {"id" => "2009-06-09","value" => ["2009-06-09","Foo"]},
+                 {"id" => "2009-06-08","value" => ["2009-06-08","Foo"]},
+                 {"id" => "2009-06-07","value" => ["2009-06-07","Foo"]},
+                 {"id" => "2009-06-06","value" => ["2009-06-06","Foo"]},
+                 {"id" => "2009-06-05","value" => ["2009-06-05","Foo"]},
+                 {"id" => "2009-06-04","value" => ["2009-06-04","Foo"]},
+                 {"id" => "2009-06-03","value" => ["2009-06-03","Foo"]},
+                 {"id" => "2009-06-02","value" => ["2009-06-02","Foo"]},
+                 {"id" => "2009-06-01","value" => ["2009-06-01","Foo"]}
+                 ]})
 
-    RestClient.
-      should_receive(:get).
+    @app.
+      should_receive(:couch_get).
       with(/2009-06-/).
       exactly(10).times.
-      and_return('{"_id":"2009-06-17-foo",' +
-                  '"title":"foo",' +
-                  '"date":"2009-06-17",' +
-                  '"summary":"foo summary",' +
-                  '"menu":[]}')
+      and_return({"_id" => "2009-06-17-foo",
+                  "title" => "foo",
+                  "date" => "2009-06-17",
+                  "summary" => "foo summary",
+                  "menu" => []})
 
     get "/recipes.rss"
   end

@@ -34,14 +34,11 @@ if ENV['RACK_ENV'] != 'test'
 end
 
 get '/' do
-  url = "#{@@db}/_design/meals/_view/by_date?limit=13&descending=true"
-  data = RestClient.get url
-  @meal_view = JSON.parse(data)['rows']
+  url = "/_design/meals/_view/by_date?limit=13&descending=true"
+  @meal_view = couch_get(url)['rows']
 
   @meals = @meal_view.inject([]) do |memo, couch_rec|
-    data = RestClient.get "#{@@db}/#{couch_rec['id']}"
-    meal = JSON.parse(data)
-    memo + [meal]
+    memo + [ couch_get("/#{couch_rec['id']}") ]
   end
 
   @older_meals = @meals.slice!(10,3) || []
@@ -75,13 +72,10 @@ end
 # end
 
 get %r{/meals/(\d+)/(\d+)/(\d+)} do |year, month, day|
-  data = RestClient.get "#{@@db}/#{year}-#{month}-#{day}"
-  @meal = JSON.parse(data)
+  @meal = couch_get "/#{year}-#{month}-#{day}"
   etag(@meal['_rev'])
 
-  url = "#{@@db}/_design/meals/_view/by_date_short"
-  data = RestClient.get url
-  @meals_by_date = JSON.parse(data)['rows']
+  @meals_by_date = couch_get("/_design/meals/_view/by_date_short")['rows'] || []
 
   @recipes = @meal['menu'].map { |m| wiki_recipe(m) }.compact
 
@@ -92,32 +86,28 @@ get %r{/meals/(\d+)/(\d+)/(\d+)} do |year, month, day|
 end
 
 get %r{/meals/(\d+)/(\d+)} do |year, month|
-  url = "#{@@db}/_design/meals/_view/by_date?" +
+  url = "/_design/meals/_view/by_date?" +
     "startkey=%22#{year}-#{month}-00%22&" +
     "endkey=%22#{year}-#{month}-99%22"
-  data = RestClient.get url
-  @meals = JSON.parse(data)['rows'].map{|r| r['value']}
-  @month = "#{year}-#{month}"
+  @meals = couch_get(url)['rows'].map{|r| r['value']}
 
-  url = "#{@@db}/_design/meals/_view/count_by_month?group=true"
-  data = RestClient.get url
-  @count_by_year = JSON.parse(data)['rows']
+  url = "/_design/meals/_view/count_by_month?group=true"
+  @count_by_year = couch_get(url)['rows']
 
   @title = "Meals from #{year}-#{month}"
+  @month = "#{year}-#{month}"
   haml :meal_by_month
 end
 
 get %r{/meals/(\d+)} do |year|
-  url = "#{@@db}/_design/meals/_view/by_date?" +
+  url = "/_design/meals/_view/by_date?" +
     "startkey=%22#{year}-00-00%22&" +
     "endkey=%22#{year}-99-99%22"
-  data = RestClient.get url
-  @meals = JSON.parse(data)['rows'].map{|r| r['value']}
+  @meals = couch_get(url)['rows'].map{|r| r['value']}
   @year  = year
 
-  url = "#{@@db}/_design/meals/_view/count_by_year?group=true"
-  data = RestClient.get url
-  @count_by_year = JSON.parse(data)['rows']
+  url = "/_design/meals/_view/count_by_year?group=true"
+  @count_by_year = couch_get(url)['rows']
 
   @title = "Meals from #{year}"
   haml :meal_by_year
@@ -176,13 +166,11 @@ get '/recipes/search' do
 end
 
 get %r{/recipes/(\d+)/(\d+)/(\d+)/?(.*)} do |year, month, day, short_name|
-  data = RestClient.get "#{@@db}/#{year}-#{month}-#{day}-#{short_name}"
-  @recipe = JSON.parse(data)
+  @recipe = couch_get("/#{year}-#{month}-#{day}-#{short_name}")
   etag(@recipe['_rev'])
 
-  url = "#{@@db}/_design/recipes/_view/by_date_short"
-  data = RestClient.get url
-  @recipes_by_date = JSON.parse(data)['rows']
+  url = "/_design/recipes/_view/by_date_short"
+  @recipes_by_date = couch_get(url)['rows']
 
   @url = request.url
 

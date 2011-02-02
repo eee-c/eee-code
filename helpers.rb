@@ -2,6 +2,12 @@ module Eee
   module Helpers
     require 'RedCloth'
 
+    def couch_get(path)
+      url = "#{_db}/#{path}"
+      data = RestClient.get url
+      JSON.parse(data)
+    end
+
     def hours(minutes)
       h = minutes.to_i / 60
       m = minutes.to_i % 60
@@ -346,8 +352,7 @@ _EOM
 
     def rss_for_date_view(feed)
       url = "#{_db}/_design/#{feed}/_view/by_date?limit=10&descending=true"
-      data = RestClient.get url
-      view = JSON.parse(data)['rows']
+      view = couch_get(url)['rows']
 
       rss = RSS::Maker.make("2.0") do |maker|
         maker.channel.title = "EEE Cooks: #{feed.capitalize}"
@@ -355,8 +360,7 @@ _EOM
         maker.channel.description = "#{feed.capitalize} from a Family Cookbook"
 
         view.each do |couch_rec|
-          data = RestClient.get "#{_db}/#{couch_rec['id']}"
-          record = JSON.parse(data)
+          record = couch_get "#{_db}/#{couch_rec['id']}"
           maker.items.new_item do |item|
             item.title = record['title']
             item.pubDate = Time.parse(record['date'])

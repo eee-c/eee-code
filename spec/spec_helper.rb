@@ -15,7 +15,7 @@ RSpec.configure do |config|
 end
 
 def app
-  Sinatra::Application
+  Sinatra::Application.new
 end
 
 # Renders the supplied template with Haml::Engine and assigns the
