@@ -12,6 +12,9 @@
     %div{"data-role" => "content"}
       %h1
         = @meal['title']
-      %p= wiki @meal['summary']
+      %p
+        = (image_link @meal, {:width => 200, :height => 150}, {:thumbnail => 1})
+      %p
+        = wiki @meal['summary']
     %div{"data-role" => "footer"}
       %h1 EEE Cooks Footer
