@@ -90,7 +90,12 @@ get %r{/meals/(\d+)/(\d+)/(\d+)} do |year, month, day|
   @url = request.url
 
   @title = @meal['title'] + ' (Meal)'
-  haml :meal
+
+  if request.is_mobile?
+    haml :meal_m, :layout => false
+  else
+    haml :meal
+  end
 end
 
 get %r{/meals/(\d+)/(\d+)} do |year, month|
