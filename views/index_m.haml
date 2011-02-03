@@ -1,0 +1,23 @@
+!!! 5
+%html
+  %head
+    %link{:rel => "stylesheet", :href => "http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.css"}
+    %script{:src => "http://code.jquery.com/jquery-1.4.4.min.js"}
+    %script{:src => "http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.js"}
+
+%body
+  %div{"data-role" => "page"}
+    %div{"data-role" => "header"}
+      %h1 Home
+    %div{"data-role" => "content"}
+      %h1 Meals
+      %ul{"data-role" => "listview"}
+        - @meals.each do |meal|
+          - date = Date.parse(meal['date'])
+          %li
+            %a{:href => date.strftime("/meals/%Y/%m/%d")}
+              = meal['title']
+              = " ( " + date.strftime("%B %e") + ")"
+
+    %div{"data-role" => "footer"}
+      %h1 EEE Cooks Footer
