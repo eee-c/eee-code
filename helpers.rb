@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 module Eee
   module Helpers
     require 'RedCloth'
@@ -76,7 +77,7 @@ module Eee
     def recipe_link(link, title=nil)
       permalink = link.gsub(/\//, '-')
       recipe = JSON.parse(RestClient.get("#{_db}/#{permalink}"))
-      url = "/recipes/" + url_from_permalink(recipe['_id'])
+      url = "/recipes/" + url_from_permalink(recipe['_id'] || recipe['id'])
       %Q|<a href="#{url}">#{title || recipe['title']}</a>|
     end
 
@@ -97,7 +98,7 @@ module Eee
 
       attrs = options.map{|kv| %Q|#{kv.first}="#{kv.last}"|}.join(" ")
       query = query_params.empty? ? "" : "?" + Rack::Utils.build_query(query_params)
-      %Q|<img #{attrs} src="/images/#{doc['_id']}/#{filename}#{query}"/>|
+      %Q|<img #{attrs} src="/images/#{doc['_id'] || doc['id']}/#{filename}#{query}"/>|
     end
 
     def pagination(query, results)

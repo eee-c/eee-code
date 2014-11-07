@@ -148,7 +148,8 @@ get '/recipes/search' do
   page = params[:page].to_i
   skip = (page < 2) ? 0 : ((page - 1) * 20)
 
-  couchdb_url = "#{@@db}/_fti?limit=20" +
+  couchdb_url = "#{@@db.sub('eee', '_fti/local/eee')}" +
+    "/_design/lucene/by_content?limit=20" +
     "&q=#{Rack::Utils.escape(@query)}" +
     "&skip=#{skip}"
 

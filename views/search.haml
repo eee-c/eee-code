@@ -16,12 +16,12 @@
   - @results['rows'].each_with_index do |result, i|
     %tr{:class => "row#{i % 2}"}
       %td
-        %a{:href => "/recipes/#{url_from_permalink(result['_id'])}"}= result['title']
+        %a{:href => "/recipes/#{url_from_permalink(result['id'])}"}= result['fields']['title']
       %td
-        %span.date= result['date']
+        %span.date= result['fields']['date']
       %td{:class => "numeric"}
-        %span.prep= result['prep_time'].to_i
+        %span.prep= result['fields']['prep_time'].to_i
       %td
-        %span.ingredients= wiki(result['ingredient'], false)
+        %span.ingredients= wiki(result['fields']['ingredient'], false)
 
 = pagination(@query, @results)
